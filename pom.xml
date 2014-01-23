@@ -10,14 +10,14 @@
 	<artifactId>owlconnector</artifactId>
 	<name>OWL technology connector</name>
 	<version>1.7-SNAPSHOT</version>
-	<!--  <build>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 			</plugin>
 		</plugins>
-	</build>-->
+	</build>
 	<dependencies>
 		<dependency>
 			<groupId>org.openflexo</groupId>
