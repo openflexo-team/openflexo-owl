@@ -19,6 +19,8 @@
  */
 package org.openflexo.technologyadapter.owl.gui;
 
+import javax.swing.ImageIcon;
+
 import org.openflexo.components.widget.OntologyBrowserModel;
 import org.openflexo.components.widget.OntologyView;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
@@ -42,6 +44,41 @@ public class OWLOntologyView extends OntologyView<OWLOntology> {
 	@Override
 	protected OntologyBrowserModel makeBrowserModel() {
 		return new OWLOntologyBrowserModel(getOntology());
+	}
+
+	@Override
+	public ImageIcon getOntologyClassIcon() {
+		return OWLIconLibrary.ONTOLOGY_CLASS_ICON;
+	}
+
+	@Override
+	public ImageIcon getOntologyIndividualIcon() {
+		return OWLIconLibrary.ONTOLOGY_INDIVIDUAL_ICON;
+	}
+
+	@Override
+	public ImageIcon getOntologyDataPropertyIcon() {
+		return OWLIconLibrary.ONTOLOGY_DATA_PROPERTY_ICON;
+	}
+
+	@Override
+	public ImageIcon getOntologyObjectPropertyIcon() {
+		return OWLIconLibrary.ONTOLOGY_OBJECT_PROPERTY_ICON;
+	}
+
+	@Override
+	public ImageIcon getOntologyAnnotationIcon() {
+		return OWLIconLibrary.ONTOLOGY_ANNOTATION_PROPERTY_ICON;
+	}
+
+	@Override
+	public boolean supportTechnologySpecificHiddenConcepts() {
+		return true;
+	}
+
+	@Override
+	public String technologySpecificHiddenConceptsLabel() {
+		return "show_OWL_RDF_concepts";
 	}
 
 }
