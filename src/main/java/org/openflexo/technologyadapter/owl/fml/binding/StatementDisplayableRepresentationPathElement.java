@@ -19,7 +19,7 @@
  *
  */
 
-package org.openflexo.technologyadapter.owl.viewpoint.binding;
+package org.openflexo.technologyadapter.owl.fml.binding;
 
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
@@ -29,45 +29,24 @@ import org.openflexo.antar.binding.BindingPathElement;
 import org.openflexo.antar.binding.SimplePathElement;
 import org.openflexo.antar.expr.NullReferenceException;
 import org.openflexo.antar.expr.TypeMismatchException;
-import org.openflexo.foundation.ontology.IFlexoOntologyIndividual;
-import org.openflexo.foundation.ontology.IndividualOfClass;
 import org.openflexo.localization.FlexoLocalization;
-import org.openflexo.technologyadapter.owl.model.OWLClass;
-import org.openflexo.technologyadapter.owl.model.OWLProperty;
 import org.openflexo.technologyadapter.owl.model.PropertyStatement;
 import org.openflexo.technologyadapter.owl.model.StatementWithProperty;
 
 /**
- * Implements 'object' path element applied on {@link StatementWithProperty}
+ * Implements 'displayableRepresentation' path element applied on {@link StatementWithProperty}
  * 
  * @author sylvain
  *
  */
-public class StatementSubjectPathElement extends SimplePathElement {
+public class StatementDisplayableRepresentationPathElement extends SimplePathElement {
 
-	private static final Logger logger = Logger.getLogger(StatementSubjectPathElement.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(StatementDisplayableRepresentationPathElement.class.getPackage().getName());
 
-	public static final String SUBJECT = "subject";
+	public static final String DISPLAYABLE_REPRESENTATION = "displayableRepresentation";
 
-	private OWLProperty property = null;
-
-	public StatementSubjectPathElement(BindingPathElement parent) {
-		super(parent, SUBJECT, null); // Type is dynamically retrieved
-		if (parent.getType() instanceof StatementWithProperty) {
-			property = ((StatementWithProperty) parent.getType()).getProperty();
-		} else {
-			logger.warning("Unexpected type: " + parent.getType());
-		}
-	}
-
-	@Override
-	public Type getType() {
-		if (property != null) {
-			if (property.getDomain() instanceof OWLClass) {
-				return IndividualOfClass.getIndividualOfClass((OWLClass) property.getDomain());
-			}
-		}
-		return IFlexoOntologyIndividual.class;
+	public StatementDisplayableRepresentationPathElement(BindingPathElement parent) {
+		super(parent, DISPLAYABLE_REPRESENTATION, String.class); // Type is dynamically retrieved
 	}
 
 	@Override
@@ -77,13 +56,13 @@ public class StatementSubjectPathElement extends SimplePathElement {
 
 	@Override
 	public String getTooltipText(Type resultingType) {
-		return FlexoLocalization.localizedForKey("owl_property_subject");
+		return FlexoLocalization.localizedForKey("owl_property");
 	}
 
 	@Override
 	public Object getBindingValue(Object target, BindingEvaluationContext context) throws TypeMismatchException, NullReferenceException {
 		if (target instanceof PropertyStatement) {
-			return ((PropertyStatement) target).getSubject();
+			return ((PropertyStatement) target).getDisplayableRepresentation();
 		}
 		logger.warning("Please implement me, target=" + target + " context=" + context);
 		return null;

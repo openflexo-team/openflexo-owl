@@ -1,6 +1,6 @@
-package org.openflexo.technologyadapter.owl.viewpoint;
+package org.openflexo.technologyadapter.owl.fml;
 
-import org.openflexo.foundation.viewpoint.PropertyRole;
+import org.openflexo.foundation.fml.PropertyRole;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;

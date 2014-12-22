@@ -19,7 +19,7 @@
  *
  */
 
-package org.openflexo.technologyadapter.owl.viewpoint.binding;
+package org.openflexo.technologyadapter.owl.fml.binding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +31,11 @@ import org.openflexo.antar.binding.DataBinding;
 import org.openflexo.antar.binding.Function;
 import org.openflexo.antar.binding.FunctionPathElement;
 import org.openflexo.antar.binding.SimplePathElement;
+import org.openflexo.foundation.fml.TechnologySpecificCustomType;
 import org.openflexo.foundation.ontology.IndividualOfClass;
 import org.openflexo.foundation.ontology.SubClassOfClass;
 import org.openflexo.foundation.ontology.SubPropertyOfProperty;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterBindingFactory;
-import org.openflexo.foundation.viewpoint.TechnologySpecificCustomType;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLDataProperty;
 import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;

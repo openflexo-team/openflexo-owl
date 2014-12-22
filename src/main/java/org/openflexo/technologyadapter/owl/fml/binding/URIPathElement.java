@@ -19,7 +19,7 @@
  *
  */
 
-package org.openflexo.technologyadapter.owl.viewpoint.binding;
+package org.openflexo.technologyadapter.owl.fml.binding;
 
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
@@ -30,23 +30,14 @@ import org.openflexo.antar.binding.SimplePathElement;
 import org.openflexo.antar.expr.NullReferenceException;
 import org.openflexo.antar.expr.TypeMismatchException;
 import org.openflexo.localization.FlexoLocalization;
-import org.openflexo.technologyadapter.owl.model.PropertyStatement;
-import org.openflexo.technologyadapter.owl.model.StatementWithProperty;
+import org.openflexo.technologyadapter.owl.model.OWLConcept;
 
-/**
- * Implements 'displayableRepresentation' path element applied on {@link StatementWithProperty}
- * 
- * @author sylvain
- *
- */
-public class StatementDisplayableRepresentationPathElement extends SimplePathElement {
+public class URIPathElement extends SimplePathElement {
 
-	private static final Logger logger = Logger.getLogger(StatementDisplayableRepresentationPathElement.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(URIPathElement.class.getPackage().getName());
 
-	public static final String DISPLAYABLE_REPRESENTATION = "displayableRepresentation";
-
-	public StatementDisplayableRepresentationPathElement(BindingPathElement parent) {
-		super(parent, DISPLAYABLE_REPRESENTATION, String.class); // Type is dynamically retrieved
+	public URIPathElement(BindingPathElement parent) {
+		super(parent, "uri", String.class);
 	}
 
 	@Override
@@ -56,13 +47,13 @@ public class StatementDisplayableRepresentationPathElement extends SimplePathEle
 
 	@Override
 	public String getTooltipText(Type resultingType) {
-		return FlexoLocalization.localizedForKey("owl_property");
+		return FlexoLocalization.localizedForKey("owl_concept_uri");
 	}
 
 	@Override
 	public Object getBindingValue(Object target, BindingEvaluationContext context) throws TypeMismatchException, NullReferenceException {
-		if (target instanceof PropertyStatement) {
-			return ((PropertyStatement) target).getDisplayableRepresentation();
+		if (target instanceof OWLConcept) {
+			return ((OWLConcept) target).getURI();
 		}
 		logger.warning("Please implement me, target=" + target + " context=" + context);
 		return null;

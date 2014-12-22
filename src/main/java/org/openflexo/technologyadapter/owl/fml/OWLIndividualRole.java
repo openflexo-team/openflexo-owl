@@ -19,9 +19,9 @@
  *
  */
 
-package org.openflexo.technologyadapter.owl.viewpoint;
+package org.openflexo.technologyadapter.owl.fml;
 
-import org.openflexo.foundation.viewpoint.IndividualRole;
+import org.openflexo.foundation.fml.IndividualRole;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.XMLElement;

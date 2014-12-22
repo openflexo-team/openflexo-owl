@@ -19,7 +19,7 @@
  *
  */
 
-package org.openflexo.technologyadapter.owl.viewpoint.binding;
+package org.openflexo.technologyadapter.owl.fml.binding;
 
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
@@ -30,14 +30,41 @@ import org.openflexo.antar.binding.SimplePathElement;
 import org.openflexo.antar.expr.NullReferenceException;
 import org.openflexo.antar.expr.TypeMismatchException;
 import org.openflexo.localization.FlexoLocalization;
-import org.openflexo.technologyadapter.owl.model.OWLConcept;
+import org.openflexo.technologyadapter.owl.model.DataPropertyStatement;
+import org.openflexo.technologyadapter.owl.model.OWLDataProperty;
+import org.openflexo.technologyadapter.owl.model.StatementWithProperty;
 
-public class URIPathElement extends SimplePathElement {
+/**
+ * Implements 'value' path element applied on {@link StatementWithProperty} for any property statement using an {@link OWLDataProperty}
+ * 
+ * @author sylvain
+ *
+ */
+public class StatementValuePathElement extends SimplePathElement {
 
-	private static final Logger logger = Logger.getLogger(URIPathElement.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(StatementValuePathElement.class.getPackage().getName());
 
-	public URIPathElement(BindingPathElement parent) {
-		super(parent, "uri", String.class);
+	public static final String VALUE = "value";
+
+	private OWLDataProperty property = null;
+
+	public StatementValuePathElement(BindingPathElement parent) {
+		super(parent, VALUE, null); // Type is dynamically retrieved
+		if (parent.getType() instanceof StatementWithProperty) {
+			property = (OWLDataProperty) ((StatementWithProperty) parent.getType()).getProperty();
+		} else {
+			logger.warning("Unexpected type: " + parent.getType());
+		}
+	}
+
+	@Override
+	public Type getType() {
+		if (property != null) {
+			if (property.getDataType() != null) {
+				return property.getDataType().getAccessedType();
+			}
+		}
+		return Object.class;
 	}
 
 	@Override
@@ -47,13 +74,13 @@ public class URIPathElement extends SimplePathElement {
 
 	@Override
 	public String getTooltipText(Type resultingType) {
-		return FlexoLocalization.localizedForKey("owl_concept_uri");
+		return FlexoLocalization.localizedForKey("owl_property_value");
 	}
 
 	@Override
 	public Object getBindingValue(Object target, BindingEvaluationContext context) throws TypeMismatchException, NullReferenceException {
-		if (target instanceof OWLConcept) {
-			return ((OWLConcept) target).getURI();
+		if (target instanceof DataPropertyStatement) {
+			return ((DataPropertyStatement) target).getValue();
 		}
 		logger.warning("Please implement me, target=" + target + " context=" + context);
 		return null;

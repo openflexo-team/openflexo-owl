@@ -1,8 +1,8 @@
-package org.openflexo.technologyadapter.owl.viewpoint;
+package org.openflexo.technologyadapter.owl.fml;
 
 import java.util.logging.Logger;
 
-import org.openflexo.foundation.view.ActorReference;
+import org.openflexo.foundation.fmlrt.ActorReference;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
