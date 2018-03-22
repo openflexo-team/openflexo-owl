@@ -1,5 +1,5 @@
 dependencies {
-  compile project(":owlconnector")
+  compile project(":owl-ta")
 
   // openflexo dep
   compile flexoUi()
@@ -12,7 +12,7 @@ dependencies {
   testCompile flexoUiTest()
 
   // Test resource center
-  testRuntime project(':owlconnector-test-rc')
+  testRuntime project(':owl-ta-test-rc')
 }
 task nonuiTest(type: Test) {
   ignoreFailures = true

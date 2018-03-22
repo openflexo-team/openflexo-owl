@@ -10,10 +10,10 @@ dependencies {
     testCompile flexoFoundationTest()
 
 	// This resource center must always be present at run-time
-    runtime project(':owlconnector-rc')
+    runtime project(':owl-ta-rc')
 
 	// Test resource center
-    testRuntime project(':owlconnector-test-rc')
+    testRuntime project(':owl-ta-test-rc')
 
 }
 tasks.withType(Test) {
