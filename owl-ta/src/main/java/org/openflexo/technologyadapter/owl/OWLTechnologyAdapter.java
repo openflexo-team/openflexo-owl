@@ -76,7 +76,7 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResourceFactory;
 @DeclareModelSlots({ OWLModelSlot.class })
 @DeclareTechnologySpecificTypes({ StatementWithProperty.class })
 @DeclareResourceTypes({ OWLOntologyResourceFactory.class })
-public class OWLTechnologyAdapter extends TechnologyAdapter {
+public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter> {
 
 	private static final Logger logger = Logger.getLogger(OWLTechnologyAdapter.class.getPackage().getName());
 

@@ -177,11 +177,6 @@ public class OWLOntologyLibrary extends FlexoOntologyTechnologyContextManager<OW
 		}
 	}
 
-	@Override
-	public OWLTechnologyAdapter getTechnologyAdapter() {
-		return super.getTechnologyAdapter();
-	}
-
 	public OWLDataType getDataType(String dataTypeURI) {
 		OWLDataType returned = dataTypes.get(dataTypeURI);
 		if (returned == null) {
