@@ -224,7 +224,7 @@ public class OWLOntologyLibrary extends FlexoOntologyTechnologyContextManager<OW
 		FlexoResource<OWLOntology> ontologyResource = ontologies.get(ontologyURI);
 		if (ontologyResource != null) {
 			try {
-				return ontologyResource.getResourceData(null);
+				return ontologyResource.getResourceData();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

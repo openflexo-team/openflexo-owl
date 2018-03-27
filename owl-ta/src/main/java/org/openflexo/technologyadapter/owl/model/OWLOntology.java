@@ -98,7 +98,6 @@ import org.openflexo.foundation.ontology.dm.OntologyObjectRenamed;
 import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.foundation.technologyadapter.FlexoMetaModel;
 import org.openflexo.foundation.technologyadapter.FlexoModel;
-import org.openflexo.foundation.utils.FlexoProgress;
 import org.openflexo.rm.Resource;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.model.action.CreateDataProperty;
@@ -1583,13 +1582,9 @@ public class OWLOntology extends OWLObject
 		return this;
 	}
 
-	public void save(FlexoProgress progress) throws SaveResourceException {
-		// saveToFile(getAlternativeLocalFile());
-		getResource().save(progress);
-	}
-
 	public void save() throws SaveResourceException {
-		save(null);
+		// saveToFile(getAlternativeLocalFile());
+		getResource().save();
 	}
 
 	public boolean getIsReadOnly() {

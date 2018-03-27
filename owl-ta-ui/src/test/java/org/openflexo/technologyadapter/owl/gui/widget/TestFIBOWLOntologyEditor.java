@@ -140,7 +140,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 
 		OWLOntologyResource skosResource = ontologyRepository.getResource("http://www.w3.org/2004/02/skos/core");
 		try {
-			skosResource.loadResourceData(null);
+			skosResource.loadResourceData();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -165,7 +165,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 				.getResource(FLEXO_CONCEPT_ONTOLOGY_URI, OWLOntology.class);
 
 		try {
-			flexoConceptResource.loadResourceData(null);
+			flexoConceptResource.loadResourceData();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -190,7 +190,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 				.getResource("http://www.thalesgroup.com/ViewPoints/sepel-ng/MappingSpecification.owl", OWLOntology.class);
 
 		try {
-			sepelResource.loadResourceData(null);
+			sepelResource.loadResourceData();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -214,7 +214,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 		OWLOntologyResource o5Resource = (OWLOntologyResource) serviceManager.getResourceManager()
 				.getResource("http://www.openflexo.org/test/O5.owl", OWLOntology.class);
 		try {
-			o5Resource.loadResourceData(null);
+			o5Resource.loadResourceData();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			fail(e.getMessage());

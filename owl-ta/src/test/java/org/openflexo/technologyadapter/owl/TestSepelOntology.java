@@ -123,7 +123,7 @@ public class TestSepelOntology extends OpenflexoTestCase {
 		// assertNotNull(ontologyRepository);
 
 		try {
-			mappingSpecificationResource.loadResourceData(null);
+			mappingSpecificationResource.loadResourceData();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -144,7 +144,7 @@ public class TestSepelOntology extends OpenflexoTestCase {
 				.getResourceWithURI("http://www.thalesgroup.com/ontologies/sepel-ng/SEPELInputModel1.owl");
 
 		try {
-			inputModel1Resource.loadResourceData(null);
+			inputModel1Resource.loadResourceData();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			fail(e.getMessage());

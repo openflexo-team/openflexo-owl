@@ -112,7 +112,7 @@ public class TestFIBOWLOntologyBrowserOnSKOSOntology extends OpenflexoTestCaseWi
 
 		for (FlexoResourceCenter<?> rc : serviceManager.getResourceCenterService().getResourceCenters()) {
 			System.out.println("> rc: " + rc.getDefaultBaseURI() + " " + rc.getBaseArtefact());
-			for (FlexoResource<?> r : rc.getAllResources(null)) {
+			for (FlexoResource<?> r : rc.getAllResources()) {
 				System.out.println(" >>> " + r.getURI());
 			}
 		}
@@ -131,7 +131,7 @@ public class TestFIBOWLOntologyBrowserOnSKOSOntology extends OpenflexoTestCaseWi
 		System.out.println("Try to load ontology resource " + ontologyResource);
 
 		try {
-			ontologyResource.loadResourceData(null);
+			ontologyResource.loadResourceData();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			fail(e.getMessage());

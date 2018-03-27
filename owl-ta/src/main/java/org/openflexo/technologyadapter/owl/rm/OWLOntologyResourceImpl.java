@@ -55,7 +55,6 @@ import org.openflexo.foundation.resource.SaveResourcePermissionDeniedException;
 import org.openflexo.foundation.technologyadapter.FlexoMetaModelResource;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
-import org.openflexo.toolbox.IProgress;
 
 /**
  * Represents the resource associated to a {@link OWLOntology}
@@ -79,8 +78,7 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 	 * @throws FlexoException
 	 */
 	@Override
-	public OWLOntology loadResourceData(IProgress progress)
-			throws ResourceLoadingCancelledException, FileNotFoundException, FlexoException {
+	public OWLOntology loadResourceData() throws ResourceLoadingCancelledException, FileNotFoundException, FlexoException {
 		OWLOntology returned = new OWLOntology(getURI(), getIODelegate().getSerializationArtefactAsResource(), getOntologyLibrary(),
 				getTechnologyAdapter());
 		returned.setResource(this);
@@ -94,10 +92,10 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 	 * @throws SaveResourceException
 	 */
 	@Override
-	public void save(IProgress progress) throws SaveResourceException {
+	public void save() throws SaveResourceException {
 		OWLOntology resourceData;
 		try {
-			resourceData = getResourceData(progress);
+			resourceData = getResourceData();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			throw new SaveResourceException(getIODelegate());
@@ -130,7 +128,7 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 	private void _writeToFile() throws SaveResourceException {
 		System.out.println("Saving OWL ontology to " + getIODelegate().getSerializationArtefact());
 		try {
-			OWLOntology ontology = getResourceData(null);
+			OWLOntology ontology = getResourceData();
 			OntModel ontModel = ontology.getOntModel();
 			ontModel.setNsPrefix("base", ontology.getURI());
 			try (OutputStream out = getIODelegate().getSerializationArtefactAsResource().openOutputStream()) {
@@ -174,7 +172,7 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 	@Override
 	public OWLOntology getModelData() {
 		try {
-			return getResourceData(null);
+			return getResourceData();
 		} catch (ResourceLoadingCancelledException e) {
 			e.printStackTrace();
 			return null;

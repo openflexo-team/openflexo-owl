@@ -270,7 +270,7 @@ public class TestOWLBindingModelManagement extends OpenflexoProjectAtRunTimeTest
 		System.out.println("FlexoConcept A = " + flexoConceptA);
 		assertNotNull(flexoConceptA);
 
-		((VirtualModelResource) virtualModel1.getResource()).save(null);
+		((VirtualModelResource) virtualModel1.getResource()).save();
 
 		System.out.println("Saved: " + ((VirtualModelResource) virtualModel1.getResource()).getIODelegate().toString());
 

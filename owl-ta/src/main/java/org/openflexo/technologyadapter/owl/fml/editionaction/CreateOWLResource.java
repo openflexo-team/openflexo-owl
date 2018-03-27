@@ -103,7 +103,7 @@ public interface CreateOWLResource extends AbstractCreateResource<OWLModelSlot, 
 						".owl", true);
 				System.out.println("Return new ontology resource: " + newResource);
 
-				OWLOntology ontology = newResource.getResourceData(null);
+				OWLOntology ontology = newResource.getResourceData();
 
 				System.out.println("Return " + ontology);
 				return ontology;

@@ -82,7 +82,7 @@ public class TestPizza extends OpenflexoTestCase {
 
 		for (FlexoResourceCenter<?> rc : serviceManager.getResourceCenterService().getResourceCenters()) {
 			System.out.println("> rc: " + rc.getDefaultBaseURI() + " " + rc.getBaseArtefact());
-			for (FlexoResource<?> r : rc.getAllResources(null)) {
+			for (FlexoResource<?> r : rc.getAllResources()) {
 				System.out.println(" >>> " + r.getURI());
 			}
 		}

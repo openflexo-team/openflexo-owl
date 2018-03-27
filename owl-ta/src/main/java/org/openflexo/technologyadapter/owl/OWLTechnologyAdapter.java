@@ -281,7 +281,7 @@ public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter
 			OWLOntology ontology = returned.getModel();
 			if (metaModel != null) {
 				try {
-					ontology.importOntology(metaModel.getResourceData(null));
+					ontology.importOntology(metaModel.getResourceData());
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -297,7 +297,7 @@ public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter
 				}
 			}
 			try {
-				returned.save(null);
+				returned.save();
 			} catch (Exception e1) {
 				// Warns about the exception
 				if (logger.isLoggable(Level.WARNING)) {

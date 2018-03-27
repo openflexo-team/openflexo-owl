@@ -102,7 +102,7 @@ public class TestFIBOWLOntologyBrowser extends OpenflexoTestCaseWithGUI {
 		System.out.println("Try to load ontology resource " + ontologyResource);
 
 		try {
-			ontologyResource.loadResourceData(null);
+			ontologyResource.loadResourceData();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
