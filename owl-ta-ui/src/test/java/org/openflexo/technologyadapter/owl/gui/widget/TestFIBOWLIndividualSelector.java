@@ -56,7 +56,6 @@ import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.gina.test.OpenflexoTestCaseWithGUI;
 import org.openflexo.gina.test.SwingGraphicalContextDelegate;
-import org.openflexo.rm.ResourceLocator;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.gui.FIBOWLIndividualSelector;
 import org.openflexo.technologyadapter.owl.gui.OWLOntologyBrowserModel;
@@ -93,8 +92,7 @@ public class TestFIBOWLIndividualSelector extends OpenflexoTestCaseWithGUI {
 
 	@BeforeClass
 	public static void setupClass() {
-		// Unused Resource rsc =
-		ResourceLocator.locateResource("/org.openflexo.owlconnector/TestResourceCenter");
+		// ResourceLocator.locateResource("/org.openflexo.owlconnector/TestResourceCenter");
 		instanciateTestServiceManager(OWLTechnologyAdapter.class);
 		owlAdapter = serviceManager.getTechnologyAdapterService().getTechnologyAdapter(OWLTechnologyAdapter.class);
 		ontologyLibrary = (OWLOntologyLibrary) serviceManager.getTechnologyAdapterService().getTechnologyContextManager(owlAdapter);

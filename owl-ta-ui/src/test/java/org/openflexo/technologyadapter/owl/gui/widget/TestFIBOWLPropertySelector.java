@@ -56,14 +56,12 @@ import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.gina.test.OpenflexoTestCaseWithGUI;
 import org.openflexo.gina.test.SwingGraphicalContextDelegate;
-import org.openflexo.rm.ResourceLocator;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.gui.FIBOWLPropertySelector;
 import org.openflexo.technologyadapter.owl.gui.OWLOntologyBrowserModel;
 import org.openflexo.technologyadapter.owl.model.OWL2URIDefinitions;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLDataProperty;
-import org.openflexo.technologyadapter.owl.model.OWLIndividual;
 import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 import org.openflexo.technologyadapter.owl.model.OWLOntologyLibrary;
@@ -87,14 +85,12 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 	private static OWLOntologyResource ontologyResource;
 
 	private static OWLOntology skosOntology, owlOntology;
-	private static OWLClass thing, collection, concept, conceptScheme, list;
-	private static OWLObjectProperty altLabel, hiddenLabel, prefLabel, hasTopConcept, inScheme, topConceptOf, member, memberList;
-	private static OWLObjectProperty note, changeNote, definition, editorialNote, example, historyNote, scopeNote;
-	private static OWLObjectProperty semanticRelation, broaderTransitive, broader, broadMatch, mappingRelation, closeMatch, exactMatch,
-			narrowMatch, relatedMatch, narrowerTransitive, narrower, related;
+	private static OWLClass thing, collection, concept, conceptScheme;
+	private static OWLObjectProperty altLabel, hiddenLabel, prefLabel, hasTopConcept, inScheme, topConceptOf;
+	private static OWLObjectProperty note;
+	private static OWLObjectProperty semanticRelation;
 	private static OWLDataProperty label, notation, comment;
-	private static OWLIndividual coreIndividual;
-	private static OWLClass resource, namedIndividual, nothing;
+	private static OWLClass resource;
 	private static OWLObjectProperty topObjectProperty, bottomObjectProperty;
 	private static OWLDataProperty bottomDataProperty, topDataProperty;
 	private static OWLObjectProperty differentFrom, sameAs;
@@ -106,8 +102,7 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 
 	@BeforeClass
 	public static void setupClass() {
-		// Unused Resource rsc =
-		ResourceLocator.locateResource("/org.openflexo.owlconnector/TestResourceCenter");
+		// ResourceLocator.locateResource("/org.openflexo.owlconnector/TestResourceCenter");
 		instanciateTestServiceManager(OWLTechnologyAdapter.class);
 		owlAdapter = serviceManager.getTechnologyAdapterService().getTechnologyAdapter(OWLTechnologyAdapter.class);
 		ontologyLibrary = (OWLOntologyLibrary) serviceManager.getTechnologyAdapterService().getTechnologyContextManager(owlAdapter);
@@ -159,7 +154,7 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 		assertNotNull(collection = skosOntology.getClass(skosOntology.getURI() + "#" + "Collection"));
 		assertNotNull(concept = skosOntology.getClass(skosOntology.getURI() + "#" + "Concept"));
 		assertNotNull(conceptScheme = skosOntology.getClass(skosOntology.getURI() + "#" + "ConceptScheme"));
-		assertNotNull(list = skosOntology.getClass(RDFURIDefinitions.RDF_ONTOLOGY_URI + "#" + "List"));
+		assertNotNull(skosOntology.getClass(RDFURIDefinitions.RDF_ONTOLOGY_URI + "#" + "List"));
 
 		assertNotNull(altLabel = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "altLabel"));
 		assertNotNull(hiddenLabel = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "hiddenLabel"));
@@ -167,39 +162,39 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 		assertNotNull(hasTopConcept = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "hasTopConcept"));
 		assertNotNull(inScheme = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "inScheme"));
 		assertNotNull(topConceptOf = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "topConceptOf"));
-		assertNotNull(member = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "member"));
-		assertNotNull(memberList = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "memberList"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "member"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "memberList"));
 
 		assertNotNull(note = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "note"));
-		assertNotNull(changeNote = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "changeNote"));
-		assertNotNull(definition = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "definition"));
-		assertNotNull(editorialNote = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "editorialNote"));
-		assertNotNull(example = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "example"));
-		assertNotNull(historyNote = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "historyNote"));
-		assertNotNull(scopeNote = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "scopeNote"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "changeNote"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "definition"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "editorialNote"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "example"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "historyNote"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "scopeNote"));
 
 		assertNotNull(semanticRelation = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "semanticRelation"));
-		assertNotNull(broaderTransitive = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "broaderTransitive"));
-		assertNotNull(broader = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "broader"));
-		assertNotNull(broadMatch = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "broadMatch"));
-		assertNotNull(mappingRelation = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "mappingRelation"));
-		assertNotNull(closeMatch = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "closeMatch"));
-		assertNotNull(exactMatch = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "exactMatch"));
-		assertNotNull(narrowMatch = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "narrowMatch"));
-		assertNotNull(relatedMatch = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "relatedMatch"));
-		assertNotNull(narrowerTransitive = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "narrowerTransitive"));
-		assertNotNull(narrower = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "narrower"));
-		assertNotNull(related = skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "related"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "broaderTransitive"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "broader"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "broadMatch"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "mappingRelation"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "closeMatch"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "exactMatch"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "narrowMatch"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "relatedMatch"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "narrowerTransitive"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "narrower"));
+		assertNotNull(skosOntology.getObjectProperty(skosOntology.getURI() + "#" + "related"));
 
 		assertNotNull(label = owlOntology.getDataProperty(RDFSURIDefinitions.RDFS_ONTOLOGY_URI + "#" + "label"));
 		assertNotNull(notation = skosOntology.getDataProperty(skosOntology.getURI() + "#" + "notation"));
 		assertNotNull(comment = owlOntology.getDataProperty(RDFSURIDefinitions.RDFS_ONTOLOGY_URI + "#" + "comment"));
 
-		assertNotNull(coreIndividual = skosOntology.getIndividual(skosOntology.getURI()));
+		assertNotNull(skosOntology.getIndividual(skosOntology.getURI()));
 
 		assertNotNull(resource = owlOntology.getClass(RDFSURIDefinitions.RDFS_ONTOLOGY_URI + "#" + "Resource"));
-		assertNotNull(namedIndividual = owlOntology.getClass(OWL2URIDefinitions.OWL_ONTOLOGY_URI + "#" + "NamedIndividual"));
-		assertNotNull(nothing = owlOntology.getClass(OWL2URIDefinitions.OWL_ONTOLOGY_URI + "#" + "Nothing"));
+		assertNotNull(owlOntology.getClass(OWL2URIDefinitions.OWL_ONTOLOGY_URI + "#" + "NamedIndividual"));
+		assertNotNull(owlOntology.getClass(OWL2URIDefinitions.OWL_ONTOLOGY_URI + "#" + "Nothing"));
 
 		assertNotNull(topObjectProperty = owlOntology.getObjectProperty(OWL2URIDefinitions.OWL_ONTOLOGY_URI + "#" + "topObjectProperty"));
 		assertNotNull(
