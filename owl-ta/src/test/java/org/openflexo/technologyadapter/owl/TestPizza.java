@@ -66,7 +66,7 @@ public class TestPizza extends OpenflexoTestCase {
 	private static OWLTechnologyAdapter owlAdapter;
 	private static OWLOntologyLibrary ontologyLibrary;
 
-	public static final String FLEXO_CONCEPT_ONTOLOGY_URI = "http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl";
+	private static final String FLEXO_CONCEPT_ONTOLOGY_URI = "http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl";
 
 	/**
 	 * Instanciate test ResourceCenter
@@ -100,7 +100,7 @@ public class TestPizza extends OpenflexoTestCase {
 		// ResourceLocator.locateResource("TestResourceCenter/Ontologies/Tests/PizzaOntology.owl");
 		// File myOntologyFile = ((FileResourceImpl) myOntology).getFile();
 
-		OWLOntology hop = ontologyLibrary.getOntology("http://www.denali.be/flexo/ontologies/PizzaOntology/PizzaOntology.owl");
+		OWLOntology hop = ontologyLibrary.getOntology("http://www.openflexo.org/flexo/ontologies/PizzaOntology/PizzaOntology.owl");
 
 		System.out.println("Found: " + hop);
 
@@ -170,7 +170,7 @@ public class TestPizza extends OpenflexoTestCase {
 		String ONTOLOGY_C = URI;
 		String ONTOLOGY_A = FLEXO_CONCEPT_ONTOLOGY_URI;
 		String ONTOLOGY_B = "http://www.openflexo.org/test/Family.owl";
-		String ONTOLOGY_D = "http://www.agilebirds.com/openflexo/ViewPoints/BasicOntology.owl";
+		String ONTOLOGY_D = "http://www.openflexo.org/openflexo/ViewPoints/BasicOntology.owl";
 
 		String SOURCE = "@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n"
 				+ "@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#>.\n"

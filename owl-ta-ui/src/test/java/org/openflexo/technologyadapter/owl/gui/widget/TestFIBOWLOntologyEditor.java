@@ -78,7 +78,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 	private static OWLOntologyLibrary ontologyLibrary;
 	private static ResourceRepository<OWLOntologyResource, ?> ontologyRepository;
 
-	public static final String FLEXO_CONCEPT_ONTOLOGY_URI = "http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl";
+	public static final String FLEXO_CONCEPT_ONTOLOGY_URI = "http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl";
 
 	@BeforeClass
 	public static void setupClass() {

@@ -125,7 +125,7 @@ public class TestOWLBindingModelManagement extends OpenflexoProjectAtRunTimeTest
 
 	static private String OWL_MODEL_SLOT_NAME = "owlmodel";
 
-	public static final String BASIC_ONTOLOGY_URI = "http://www.agilebirds.com/openflexo/ViewPoints/BasicOntology.owl";
+	static private final String BASIC_ONTOLOGY_URI = "http://www.openflexo.org/openflexo/ViewPoints/BasicOntology.owl";
 
 	static private OWLClass basicConcept;
 

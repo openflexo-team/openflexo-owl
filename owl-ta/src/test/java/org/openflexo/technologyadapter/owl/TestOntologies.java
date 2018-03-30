@@ -74,7 +74,7 @@ public class TestOntologies extends OpenflexoTestCase {
 	private static OWLTechnologyAdapter owlAdapter;
 	private static OWLOntologyLibrary ontologyLibrary;
 
-	public static final String FLEXO_CONCEPT_ONTOLOGY_URI = "http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl";
+	public static final String FLEXO_CONCEPT_ONTOLOGY_URI = "http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl";
 
 	/**
 	 * Instanciate test ResourceCenter
@@ -599,7 +599,7 @@ public class TestOntologies extends OpenflexoTestCase {
 	@TestOrder(15)
 	public void test14TestBasicOntologEditor() {
 		log("test14TestBasicOntologEditor()");
-		OWLOntology ontology = ontologyLibrary.getOntology("http://www.agilebirds.com/openflexo/ViewPoints/BasicOntology.owl");
+		OWLOntology ontology = ontologyLibrary.getOntology("http://www.openflexo.org/openflexo/ViewPoints/BasicOntology.owl");
 		assertNotNull(ontology);
 
 		ontology.loadWhenUnloaded();
