@@ -8,7 +8,7 @@
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY TestActivities "http://www.openflexo.org/test/TestActivities.owl#" >
-    <!ENTITY FlexoConceptsOntology "http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl#" >
+    <!ENTITY FlexoConceptsOntology "http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl#" >
 ]>
 
 
@@ -20,9 +20,9 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:TestActivities="http://www.openflexo.org/test/TestActivities.owl#"
-     xmlns:FlexoConceptsOntology="http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl#">
+     xmlns:FlexoConceptsOntology="http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl#">
     <owl:Ontology rdf:about="">
-        <owl:imports rdf:resource="http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl"/>
+        <owl:imports rdf:resource="http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl"/>
     </owl:Ontology>
     
 
@@ -38,7 +38,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl#inRelationWith -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl#inRelationWith -->
 
     <owl:ObjectProperty rdf:about="&FlexoConceptsOntology;inRelationWith"/>
     
@@ -65,13 +65,13 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl#FlexoActivity -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl#FlexoActivity -->
 
     <owl:Class rdf:about="&FlexoConceptsOntology;FlexoActivity"/>
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl#FlexoRole -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl#FlexoRole -->
 
     <owl:Class rdf:about="&FlexoConceptsOntology;FlexoRole"/>
     

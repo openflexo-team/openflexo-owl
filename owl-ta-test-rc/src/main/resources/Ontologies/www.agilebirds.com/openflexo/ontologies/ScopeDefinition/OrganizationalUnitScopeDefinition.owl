@@ -7,24 +7,24 @@
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-    <!ENTITY FlexoConceptsOntology "http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl#" >
-    <!ENTITY FLXOrganizationalStructure "http://www.agilebirds.com/openflexo/ontologies/FlexoMethodology/FLXOrganizationalStructure.owl#" >
-    <!ENTITY OrganizationalUnitScopeDefinition "http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#" >
+    <!ENTITY FlexoConceptsOntology "http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl#" >
+    <!ENTITY FLXOrganizationalStructure "http://www.openflexo.org/openflexo/ontologies/FlexoMethodology/FLXOrganizationalStructure.owl#" >
+    <!ENTITY OrganizationalUnitScopeDefinition "http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#" >
 ]>
 
 
-<rdf:RDF xmlns="http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#"
-     xml:base="http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl"
+<rdf:RDF xmlns="http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#"
+     xml:base="http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
-     xmlns:FLXOrganizationalStructure="http://www.agilebirds.com/openflexo/ontologies/FlexoMethodology/FLXOrganizationalStructure.owl#"
+     xmlns:FLXOrganizationalStructure="http://www.openflexo.org/openflexo/ontologies/FlexoMethodology/FLXOrganizationalStructure.owl#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:OrganizationalUnitScopeDefinition="http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#"
-     xmlns:FlexoConceptsOntology="http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl#">
+     xmlns:OrganizationalUnitScopeDefinition="http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#"
+     xmlns:FlexoConceptsOntology="http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl#">
     <owl:Ontology rdf:about="">
-        <owl:imports rdf:resource="http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl"/>
+        <owl:imports rdf:resource="http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl"/>
     </owl:Ontology>
     
 
@@ -52,13 +52,13 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl#inRelationWith -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl#inRelationWith -->
 
     <owl:ObjectProperty rdf:about="&FlexoConceptsOntology;inRelationWith"/>
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#containsPosition -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#containsPosition -->
 
     <owl:ObjectProperty rdf:about="#containsPosition">
         <rdfs:subPropertyOf rdf:resource="&FlexoConceptsOntology;inRelationWith"/>
@@ -69,7 +69,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasCollaborator -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasCollaborator -->
 
     <owl:ObjectProperty rdf:about="#hasCollaborator">
         <rdfs:subPropertyOf rdf:resource="&FlexoConceptsOntology;inRelationWith"/>
@@ -79,7 +79,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasManager -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasManager -->
 
     <owl:ObjectProperty rdf:about="#hasManager">
         <rdfs:subPropertyOf rdf:resource="&FlexoConceptsOntology;inRelationWith"/>
@@ -90,7 +90,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasMission -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasMission -->
 
     <owl:ObjectProperty rdf:about="#hasMission">
         <rdfs:subPropertyOf rdf:resource="&FlexoConceptsOntology;inRelationWith"/>
@@ -99,7 +99,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasObjective -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasObjective -->
 
     <owl:ObjectProperty rdf:about="#hasObjective">
         <rdfs:subPropertyOf rdf:resource="&FlexoConceptsOntology;inRelationWith"/>
@@ -108,7 +108,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasOrgUnitMission -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasOrgUnitMission -->
 
     <owl:ObjectProperty rdf:about="#hasOrgUnitMission">
         <rdfs:domain rdf:resource="#OrganizationalUnit"/>
@@ -118,7 +118,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasParentOrgUnit -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasParentOrgUnit -->
 
     <owl:ObjectProperty rdf:about="#hasParentOrgUnit">
         <rdfs:subPropertyOf rdf:resource="&FlexoConceptsOntology;inRelationWith"/>
@@ -128,7 +128,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasPosition -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasPosition -->
 
     <owl:ObjectProperty rdf:about="#hasPosition">
         <rdfs:subPropertyOf rdf:resource="&FlexoConceptsOntology;inRelationWith"/>
@@ -138,7 +138,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasPositionMission -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasPositionMission -->
 
     <owl:ObjectProperty rdf:about="#hasPositionMission">
         <rdfs:domain rdf:resource="#Position"/>
@@ -148,7 +148,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasSubOrgUnit -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasSubOrgUnit -->
 
     <owl:ObjectProperty rdf:about="#hasSubOrgUnit">
         <rdfs:subPropertyOf rdf:resource="&FlexoConceptsOntology;inRelationWith"/>
@@ -159,7 +159,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasTask -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#hasTask -->
 
     <owl:ObjectProperty rdf:about="#hasTask">
         <rdfs:subPropertyOf rdf:resource="&FlexoConceptsOntology;inRelationWith"/>
@@ -169,7 +169,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#isInvolvedInOrganizationUnit -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#isInvolvedInOrganizationUnit -->
 
     <owl:ObjectProperty rdf:about="#isInvolvedInOrganizationUnit">
         <rdfs:subPropertyOf rdf:resource="&FlexoConceptsOntology;inRelationWith"/>
@@ -190,7 +190,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#description -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#description -->
 
     <owl:DatatypeProperty rdf:about="#description">
         <rdfs:range rdf:resource="&xsd;string"/>
@@ -198,7 +198,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#firstName -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#firstName -->
 
     <owl:DatatypeProperty rdf:about="#firstName">
         <rdfs:domain rdf:resource="#Actor"/>
@@ -207,7 +207,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#lastName -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#lastName -->
 
     <owl:DatatypeProperty rdf:about="#lastName">
         <rdfs:domain rdf:resource="#Actor"/>
@@ -216,7 +216,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#missionDescription -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#missionDescription -->
 
     <owl:DatatypeProperty rdf:about="#missionDescription">
         <rdfs:domain rdf:resource="#Mission"/>
@@ -225,7 +225,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#missionName -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#missionName -->
 
     <owl:DatatypeProperty rdf:about="#missionName">
         <rdfs:domain rdf:resource="#Mission"/>
@@ -234,7 +234,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#name -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#name -->
 
     <owl:DatatypeProperty rdf:about="#name">
         <rdfs:range rdf:resource="&xsd;string"/>
@@ -242,7 +242,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#objectiveDescription -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#objectiveDescription -->
 
     <owl:DatatypeProperty rdf:about="#objectiveDescription">
         <rdfs:domain rdf:resource="#Objective"/>
@@ -251,7 +251,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#objectiveName -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#objectiveName -->
 
     <owl:DatatypeProperty rdf:about="#objectiveName">
         <rdfs:domain rdf:resource="#Objective"/>
@@ -260,7 +260,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#organizationUnitDescription -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#organizationUnitDescription -->
 
     <owl:DatatypeProperty rdf:about="#organizationUnitDescription">
         <rdfs:domain rdf:resource="#OrganizationalUnit"/>
@@ -269,7 +269,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#organizationUnitName -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#organizationUnitName -->
 
     <owl:DatatypeProperty rdf:about="#organizationUnitName">
         <rdfs:domain rdf:resource="#OrganizationalUnit"/>
@@ -278,7 +278,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#positionDescription -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#positionDescription -->
 
     <owl:DatatypeProperty rdf:about="#positionDescription">
         <rdfs:domain rdf:resource="#Position"/>
@@ -287,7 +287,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#positionName -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#positionName -->
 
     <owl:DatatypeProperty rdf:about="#positionName">
         <rdfs:domain rdf:resource="#Position"/>
@@ -296,7 +296,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#taskDescription -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#taskDescription -->
 
     <owl:DatatypeProperty rdf:about="#taskDescription">
         <rdfs:domain rdf:resource="#Task"/>
@@ -305,7 +305,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#taskName -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#taskName -->
 
     <owl:DatatypeProperty rdf:about="#taskName">
         <rdfs:domain rdf:resource="#Task"/>
@@ -325,13 +325,13 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl#FlexoConcept -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/FlexoConceptsOntology.owl#FlexoConcept -->
 
     <owl:Class rdf:about="&FlexoConceptsOntology;FlexoConcept"/>
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#Actor -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#Actor -->
 
     <owl:Class rdf:about="#Actor">
         <rdfs:label xml:lang="en"
@@ -363,7 +363,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#Mission -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#Mission -->
 
     <owl:Class rdf:about="#Mission">
         <rdfs:subClassOf rdf:resource="#OrganizationalConcept"/>
@@ -385,7 +385,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#Objective -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#Objective -->
 
     <owl:Class rdf:about="#Objective">
         <rdfs:label xml:lang="en"
@@ -414,7 +414,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#OrganizationalConcept -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#OrganizationalConcept -->
 
     <owl:Class rdf:about="#OrganizationalConcept">
         <rdfs:subClassOf rdf:resource="&FlexoConceptsOntology;FlexoConcept"/>
@@ -422,7 +422,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#OrganizationalUnit -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#OrganizationalUnit -->
 
     <owl:Class rdf:about="#OrganizationalUnit">
         <rdfs:label xml:lang="en"
@@ -482,7 +482,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#OrganizationalUnitMission -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#OrganizationalUnitMission -->
 
     <owl:Class rdf:about="#OrganizationalUnitMission">
         <rdfs:label xml:lang="en"
@@ -494,7 +494,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#Position -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#Position -->
 
     <owl:Class rdf:about="#Position">
         <rdfs:label xml:lang="en"
@@ -539,7 +539,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#PositionMission -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#PositionMission -->
 
     <owl:Class rdf:about="#PositionMission">
         <rdfs:label xml:lang="en"
@@ -551,7 +551,7 @@
     
 
 
-    <!-- http://www.agilebirds.com/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#Task -->
+    <!-- http://www.openflexo.org/openflexo/ontologies/ScopeDefinition/OrganizationalUnitScopeDefinition.owl#Task -->
 
     <owl:Class rdf:about="#Task">
         <rdfs:label xml:lang="en"
