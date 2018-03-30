@@ -57,6 +57,7 @@ import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
+import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLConcept;
 import org.openflexo.technologyadapter.owl.model.OWLIndividual;
@@ -68,10 +69,11 @@ import org.openflexo.technologyadapter.owl.model.OWLProperty;
 @ImplementationClass(AddOWLIndividual.AddOWLIndividualImpl.class)
 @XMLElement
 @FML("AddOWLIndividual")
-public interface AddOWLIndividual extends AddIndividual<OWLModelSlot, OWLOntology, OWLIndividual>, OWLAction<OWLIndividual> {
+public interface AddOWLIndividual
+		extends AddIndividual<OWLModelSlot, OWLOntology, OWLIndividual, OWLTechnologyAdapter>, OWLAction<OWLIndividual> {
 
-	public static abstract class AddOWLIndividualImpl extends AddIndividualImpl<OWLModelSlot, OWLOntology, OWLIndividual>
-			implements AddOWLIndividual {
+	public static abstract class AddOWLIndividualImpl
+			extends AddIndividualImpl<OWLModelSlot, OWLOntology, OWLIndividual, OWLTechnologyAdapter> implements AddOWLIndividual {
 
 		private static final Logger logger = Logger.getLogger(AddOWLIndividual.class.getPackage().getName());
 

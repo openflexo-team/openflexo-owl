@@ -51,6 +51,7 @@ import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
+import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 
@@ -58,9 +59,10 @@ import org.openflexo.technologyadapter.owl.model.OWLOntology;
 @ImplementationClass(AddOWLClass.AddOWLClassImpl.class)
 @XMLElement
 @FML("AddOWLClass")
-public interface AddOWLClass extends AddClass<OWLModelSlot, OWLOntology, OWLClass>, OWLAction<OWLClass> {
+public interface AddOWLClass extends AddClass<OWLModelSlot, OWLOntology, OWLClass, OWLTechnologyAdapter>, OWLAction<OWLClass> {
 
-	public static abstract class AddOWLClassImpl extends AddClassImpl<OWLModelSlot, OWLOntology, OWLClass> implements AddOWLClass {
+	public static abstract class AddOWLClassImpl extends AddClassImpl<OWLModelSlot, OWLOntology, OWLClass, OWLTechnologyAdapter>
+			implements AddOWLClass {
 
 		private static final Logger logger = Logger.getLogger(AddOWLClass.class.getPackage().getName());
 
@@ -72,7 +74,7 @@ public interface AddOWLClass extends AddClass<OWLModelSlot, OWLOntology, OWLClas
 
 		@Override
 		public OWLClass getOntologyClass() {
-			return (OWLClass) super.getOntologyClass();
+			return super.getOntologyClass();
 		}
 
 		@Override
