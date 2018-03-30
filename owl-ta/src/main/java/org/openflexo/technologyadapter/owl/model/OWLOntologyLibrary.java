@@ -93,18 +93,6 @@ public class OWLOntologyLibrary extends FlexoOntologyTechnologyContextManager<OW
 
 	private static final Logger logger = Logger.getLogger(OWLOntologyLibrary.class.getPackage().getName());
 
-	// public static final String FLEXO_CONCEPT_ONTOLOGY_URI =
-	// "http://www.agilebirds.com/openflexo/ontologies/FlexoConceptsOntology.owl";
-
-	// public static final String OPENFLEXO_DESCRIPTION_URI =
-	// FLEXO_CONCEPT_ONTOLOGY_URI + "#openflexoDescription";
-	// public static final String BUSINESS_DESCRIPTION_URI =
-	// FLEXO_CONCEPT_ONTOLOGY_URI + "#businessDescription";
-	// public static final String TECHNICAL_DESCRIPTION_URI =
-	// FLEXO_CONCEPT_ONTOLOGY_URI + "#technicalDescription";
-	// public static final String USER_MANUAL_DESCRIPTION_URI =
-	// FLEXO_CONCEPT_ONTOLOGY_URI + "#userManualDescription";
-
 	private final SimpleGraphMaker graphMaker;
 
 	private final Map<String, OWLOntologyResource> ontologies;
