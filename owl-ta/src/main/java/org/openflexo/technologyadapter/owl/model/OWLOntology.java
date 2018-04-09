@@ -222,15 +222,6 @@ public class OWLOntology extends OWLObject
 		return null;
 	}
 
-	/*public static void main(String[] args) throws MalformedURLException, LocatorNotFoundException {
-	
-		FileSystemResourceLocatorImpl rl = new FileSystemResourceLocatorImpl();
-	
-		FileResourceImpl ontoResource1 = new FileResourceImpl(rl, new File(
-				"/Users/sylvain/GIT/openflexo-technology-adapters/owlconnector-rc/src/main/resources/Ontologies/www.w3.org/1999/02/22-rdf-syntax-ns.owl"));
-		System.out.println("URI: " + findOntologyURI(ontoResource1));
-	}*/
-
 	private static String getBaseAttribute(Element elt) {
 		if (elt != null) {
 			for (Attribute at : elt.getAttributes()) {
