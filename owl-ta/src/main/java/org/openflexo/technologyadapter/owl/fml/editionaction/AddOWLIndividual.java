@@ -124,13 +124,10 @@ public interface AddOWLIndividual
 				try {
 					father = (OWLClass) getDynamicType().getBindingValue(evaluationContext);
 				} catch (TypeMismatchException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (NullReferenceException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

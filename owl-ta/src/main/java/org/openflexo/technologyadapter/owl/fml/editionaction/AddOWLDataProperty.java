@@ -76,13 +76,10 @@ public interface AddOWLDataProperty extends AddDataProperty<OWLModelSlot, OWLOnt
 					try {
 						father = (OWLClass) getDynamicType().getBindingValue(evaluationContext);
 					} catch (TypeMismatchException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (NullReferenceException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

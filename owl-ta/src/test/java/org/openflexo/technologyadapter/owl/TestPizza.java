@@ -121,7 +121,6 @@ public class TestPizza extends OpenflexoTestCase {
 			createdFile = File.createTempFile("MyPizza", ".owl");
 			// createdFile = new File(myOntologyFile.getParent(), f.getName());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

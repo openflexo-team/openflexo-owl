@@ -1189,7 +1189,6 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 
 	@Override
 	public <T> T accept(IFlexoOntologyConceptVisitor<T> visitor) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

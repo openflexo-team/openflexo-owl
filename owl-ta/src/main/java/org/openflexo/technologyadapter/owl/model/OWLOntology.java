@@ -1616,7 +1616,6 @@ public class OWLOntology extends OWLObject
 			try {
 				importOntology(object.getFlexoOntology());
 			} catch (OntologyNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -2091,19 +2090,16 @@ public class OWLOntology extends OWLObject
 
 	@Override
 	public OWLOntology getMetaModel() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isReadOnly() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public String getDisplayableDescription() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

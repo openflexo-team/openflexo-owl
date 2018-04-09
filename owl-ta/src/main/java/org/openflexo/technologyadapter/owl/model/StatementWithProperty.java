@@ -115,19 +115,16 @@ public class StatementWithProperty implements TechnologySpecificType<OWLTechnolo
 
 	@Override
 	public String getSerializationRepresentation() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isResolved() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void resolve(CustomTypeFactory<?> factory) {
-		// TODO Auto-generated method stub
 
 	}
 

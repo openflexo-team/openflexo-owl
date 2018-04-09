@@ -908,7 +908,6 @@ public class TestOntologies extends OpenflexoTestCase {
 	 * o.getAlternativeLocalFile().toURL().toString());
 	 * ontModel.getDocumentManager().addAltEntry(o.getURI(),
 	 * o.getAlternativeLocalFile().toURL().toString()); } catch
-	 * (MalformedURLException e) { // TODO Auto-generated catch block
 	 * e.printStackTrace(); } }
 	 * 
 	 * if (rdfsOWLOntologyFile != null) { logger.fine("RDFS local file: " +

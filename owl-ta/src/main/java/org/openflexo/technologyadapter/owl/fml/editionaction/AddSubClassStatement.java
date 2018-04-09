@@ -89,13 +89,11 @@ public interface AddSubClassStatement extends AddStatement<SubClassStatement> {
 
 		@Override
 		public IFlexoOntologyStructuralProperty getProperty() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public void setProperty(IFlexoOntologyStructuralProperty aProperty) {
-			// TODO Auto-generated method stub
 		}
 
 		public OWLConcept<?> getPropertyFather(RunTimeEvaluationContext evaluationContext) {
