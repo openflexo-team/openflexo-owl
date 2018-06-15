@@ -91,7 +91,7 @@ public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter
 	}
 
 	@Override
-	public String getLocalizationDirectory() {
+	protected String getLocalizationDirectory() {
 		return "FlexoLocalization/OWLTechnologyAdapter";
 	}
 
