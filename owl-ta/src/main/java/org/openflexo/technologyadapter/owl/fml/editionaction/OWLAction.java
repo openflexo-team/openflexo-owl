@@ -39,7 +39,7 @@
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
 import org.openflexo.foundation.fml.editionaction.TechnologySpecificActionDefiningReceiver;
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
 import org.openflexo.technologyadapter.owl.model.OWLObject;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;

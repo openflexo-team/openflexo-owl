@@ -44,17 +44,17 @@ import java.util.logging.Logger;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.annotations.DefineValidationRule;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.annotations.XMLElement;
-import org.openflexo.model.validation.ValidationError;
-import org.openflexo.model.validation.ValidationIssue;
-import org.openflexo.model.validation.ValidationRule;
+import org.openflexo.pamela.annotations.DefineValidationRule;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.pamela.validation.ValidationError;
+import org.openflexo.pamela.validation.ValidationIssue;
+import org.openflexo.pamela.validation.ValidationRule;
 import org.openflexo.technologyadapter.owl.OWLModelSlot.OWLModelSlotImpl;
 import org.openflexo.technologyadapter.owl.model.DataPropertyStatement;
 import org.openflexo.technologyadapter.owl.model.OWLDataProperty;
@@ -133,7 +133,7 @@ public interface DataPropertyStatementRole extends StatementRole<DataPropertySta
 
 		@Override
 		public DataPropertyStatementActorReference makeActorReference(DataPropertyStatement object, FlexoConceptInstance epi) {
-			org.openflexo.model.factory.ModelFactory factory = OWLModelSlotImpl.getModelFactory();
+			org.openflexo.pamela.factory.ModelFactory factory = OWLModelSlotImpl.getModelFactory();
 			DataPropertyStatementActorReference returned = factory.newInstance(DataPropertyStatementActorReference.class);
 			returned.setFlexoRole(this);
 			returned.setFlexoConceptInstance(epi);

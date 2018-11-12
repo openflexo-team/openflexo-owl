@@ -44,19 +44,19 @@ import java.util.logging.Logger;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.annotations.DefineValidationRule;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.annotations.XMLElement;
-import org.openflexo.model.validation.ValidationIssue;
-import org.openflexo.model.validation.ValidationRule;
-import org.openflexo.model.validation.ValidationWarning;
+import org.openflexo.pamela.annotations.DefineValidationRule;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.pamela.validation.ValidationIssue;
+import org.openflexo.pamela.validation.ValidationRule;
+import org.openflexo.pamela.validation.ValidationWarning;
 import org.openflexo.technologyadapter.owl.OWLModelSlot.OWLModelSlotImpl;
 import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
 import org.openflexo.technologyadapter.owl.model.ObjectPropertyStatement;
@@ -136,7 +136,7 @@ public interface ObjectPropertyStatementRole extends StatementRole<ObjectPropert
 
 		@Override
 		public ObjectPropertyStatementActorReference makeActorReference(ObjectPropertyStatement object, FlexoConceptInstance epi) {
-			org.openflexo.model.factory.ModelFactory factory = OWLModelSlotImpl.getModelFactory();
+			org.openflexo.pamela.factory.ModelFactory factory = OWLModelSlotImpl.getModelFactory();
 			ObjectPropertyStatementActorReference returned = factory.newInstance(ObjectPropertyStatementActorReference.class);
 			returned.setFlexoRole(this);
 			returned.setFlexoConceptInstance(epi);

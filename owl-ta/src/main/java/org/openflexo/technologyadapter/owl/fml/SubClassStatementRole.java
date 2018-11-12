@@ -44,9 +44,9 @@ import java.util.logging.Logger;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLModelSlot.OWLModelSlotImpl;
 import org.openflexo.technologyadapter.owl.model.SubClassStatement;
 
@@ -76,7 +76,7 @@ public interface SubClassStatementRole extends StatementRole<SubClassStatement> 
 
 		@Override
 		public SubClassStatementActorReference makeActorReference(SubClassStatement object, FlexoConceptInstance epi) {
-			org.openflexo.model.factory.ModelFactory factory = OWLModelSlotImpl.getModelFactory();
+			org.openflexo.pamela.factory.ModelFactory factory = OWLModelSlotImpl.getModelFactory();
 			SubClassStatementActorReference returned = factory.newInstance(SubClassStatementActorReference.class);
 			returned.setFlexoRole(this);
 			returned.setFlexoConceptInstance(epi);

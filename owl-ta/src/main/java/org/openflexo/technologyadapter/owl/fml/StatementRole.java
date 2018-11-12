@@ -41,8 +41,8 @@ package org.openflexo.technologyadapter.owl.fml;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.ontology.fml.OntologicObjectRole;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.model.OWLStatement;
 
