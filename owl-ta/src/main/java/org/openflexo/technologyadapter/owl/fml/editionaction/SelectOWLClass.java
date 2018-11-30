@@ -38,16 +38,11 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.openflexo.foundation.fml.annotations.FML;
+import org.openflexo.foundation.fml.editionaction.AbstractFetchRequest;
 import org.openflexo.foundation.fml.editionaction.FetchRequest;
-import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
-import org.openflexo.foundation.ontology.IFlexoOntologyClass;
-import org.openflexo.foundation.ontology.fml.editionaction.SelectClass;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.XMLElement;
@@ -56,53 +51,15 @@ import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 
 /**
- * OWL technology - specific {@link FetchRequest} allowing to retrieve a selection of some {@link OWLClass} subclass of a given
+ * OWL technology - specific {@link AbstractFetchRequest} allowing to retrieve a selection of some {@link OWLClass} subclass of a given
  * {@link OWLClass} matching some conditions<br>
  * 
  * @author sylvain
  */
 @ModelEntity
-@ImplementationClass(SelectOWLClass.SelectOWLClassImpl.class)
+@ImplementationClass(SelectOWLClass.AbstractSelectOWLClassImpl.class)
 @XMLElement
-@FML("SelectOWLIndividual")
-public interface SelectOWLClass extends SelectClass<OWLModelSlot, OWLOntology, OWLClass> {
+@FML("SelectOWLClass")
+public interface SelectOWLClass extends AbstractSelectOWLClass<List<OWLClass>>, FetchRequest<OWLModelSlot, OWLOntology, OWLClass> {
 
-	public static abstract class SelectOWLClassImpl extends SelectClassImpl<OWLModelSlot, OWLOntology, OWLClass> implements SelectOWLClass {
-
-		private static final Logger logger = Logger.getLogger(SelectOWLClass.class.getPackage().getName());
-
-		@Override
-		public Type getFetchedType() {
-			if (getParentClass() != null) {
-				return super.getFetchedType();
-			}
-			return OWLClass.class;
-		}
-
-		@Override
-		public List<OWLClass> execute(RunTimeEvaluationContext evaluationContext) {
-
-			// TODO: improve perfs !
-
-			OWLOntology ontology = getReceiver(evaluationContext);
-
-			System.out.println("On cherche tous les sousclasses de " + getParentClass() + " dans " + ontology);
-
-			List<OWLClass> selectedClasses = new ArrayList<>();
-			IFlexoOntologyClass parentClass = getParentClass();
-			for (OWLClass c : ontology.getAccessibleClasses()) {
-				if (parentClass == null || parentClass.isSuperClassOf(c)) {
-					selectedClasses.add(c);
-				}
-			}
-
-			List<OWLClass> returned = filterWithConditions(selectedClasses, evaluationContext);
-
-			System.out.println("SelectOWLClass, without filtering =" + selectedClasses + " after filtering=" + returned);
-
-			return returned;
-
-		}
-
-	}
 }

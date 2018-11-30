@@ -38,11 +38,9 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
-import java.util.List;
-
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.editionaction.AbstractFetchRequest;
-import org.openflexo.foundation.fml.editionaction.FetchRequest;
+import org.openflexo.foundation.fml.editionaction.UniqueFetchRequest;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.XMLElement;
@@ -52,15 +50,15 @@ import org.openflexo.technologyadapter.owl.model.OWLIndividual;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 
 /**
- * OWL technology - specific {@link AbstractFetchRequest} allowing to retrieve a selection of some {@link OWLIndividual} of a given
- * {@link OWLClass} matching some conditions and a given type.<br>
+ * OWL technology - specific {@link AbstractFetchRequest} allowing to retrieve a unique {@link OWLIndividual} of a given {@link OWLClass}
+ * matching some conditions and a given type.<br>
  * 
  * @author sylvain
  */
 @ModelEntity
-@ImplementationClass(SelectOWLIndividual.SelectOWLIndividualImpl.class)
+@ImplementationClass(SelectUniqueOWLIndividual.SelectOWLIndividualImpl.class)
 @XMLElement
 @FML("SelectOWLIndividual")
-public interface SelectOWLIndividual
-		extends AbstractSelectOWLIndividual<List<OWLIndividual>>, FetchRequest<OWLModelSlot, OWLOntology, OWLIndividual> {
+public interface SelectUniqueOWLIndividual
+		extends AbstractSelectOWLIndividual<OWLIndividual>, UniqueFetchRequest<OWLModelSlot, OWLOntology, OWLIndividual> {
 }

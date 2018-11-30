@@ -38,14 +38,17 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
-import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.editionaction.AbstractFetchRequest;
-import org.openflexo.foundation.fml.editionaction.FetchRequest;
+import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
+import org.openflexo.foundation.ontology.IFlexoOntologyClass;
+import org.openflexo.foundation.ontology.fml.editionaction.AbstractSelectIndividual;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLIndividual;
@@ -57,10 +60,61 @@ import org.openflexo.technologyadapter.owl.model.OWLOntology;
  * 
  * @author sylvain
  */
-@ModelEntity
-@ImplementationClass(SelectOWLIndividual.SelectOWLIndividualImpl.class)
-@XMLElement
-@FML("SelectOWLIndividual")
-public interface SelectOWLIndividual
-		extends AbstractSelectOWLIndividual<List<OWLIndividual>>, FetchRequest<OWLModelSlot, OWLOntology, OWLIndividual> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(AbstractSelectOWLIndividual.SelectOWLIndividualImpl.class)
+public interface AbstractSelectOWLIndividual<AT> extends AbstractSelectIndividual<OWLModelSlot, OWLOntology, OWLIndividual, AT> {
+
+	public static abstract class SelectOWLIndividualImpl<AT>
+			extends AbstractSelectIndividualImpl<OWLModelSlot, OWLOntology, OWLIndividual, AT> implements AbstractSelectOWLIndividual<AT> {
+
+		private static final Logger logger = Logger.getLogger(AbstractSelectOWLIndividual.class.getPackage().getName());
+
+		@Override
+		public Type getFetchedType() {
+			if (getType() != null) {
+				return super.getFetchedType();
+			}
+			return OWLClass.class;
+		}
+
+		@Override
+		public List<OWLIndividual> performExecute(RunTimeEvaluationContext evaluationContext) {
+
+			// TODO: improve perfs !
+
+			OWLOntology ontology = getReceiver(evaluationContext);
+
+			// System.out.println("On cherche tous les individuals de " + ontology);
+			// System.out.println("type=" + getType());
+
+			List<OWLIndividual> selectedIndividuals = new ArrayList<>();
+			IFlexoOntologyClass flexoOntologyClass = getType();
+			for (OWLIndividual i : ontology.getAccessibleIndividuals()) {
+				boolean takeIt = false;
+				if (flexoOntologyClass == null) {
+					takeIt = true;
+				}
+				else {
+					// System.out.println("les types de i: " + i.getTypes());
+					for (OWLClass t : i.getTypes()) {
+						if (flexoOntologyClass.isSuperClassOf(t)) {
+							takeIt = true;
+							break;
+						}
+					}
+				}
+				if (takeIt) {
+					selectedIndividuals.add(i);
+				}
+			}
+
+			List<OWLIndividual> returned = filterWithConditions(selectedIndividuals, evaluationContext);
+
+			// System.out.println("SelectOWLIndividual, without filtering =" + selectedIndividuals + " after filtering=" + returned);
+
+			return returned;
+
+		}
+
+	}
 }

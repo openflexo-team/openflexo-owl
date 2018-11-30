@@ -86,6 +86,8 @@ import org.openflexo.technologyadapter.owl.fml.editionaction.AddSubClassStatemen
 import org.openflexo.technologyadapter.owl.fml.editionaction.CreateOWLResource;
 import org.openflexo.technologyadapter.owl.fml.editionaction.SelectOWLClass;
 import org.openflexo.technologyadapter.owl.fml.editionaction.SelectOWLIndividual;
+import org.openflexo.technologyadapter.owl.fml.editionaction.SelectUniqueOWLClass;
+import org.openflexo.technologyadapter.owl.fml.editionaction.SelectUniqueOWLIndividual;
 import org.openflexo.technologyadapter.owl.model.OWLObject;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
@@ -101,7 +103,7 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 		OWLPropertyRole.class, DataPropertyStatementRole.class, ObjectPropertyStatementRole.class, SubClassStatementRole.class })
 @DeclareEditionActions({ CreateOWLResource.class, AddOWLIndividual.class, AddOWLClass.class, AddDataPropertyStatement.class,
 		AddObjectPropertyStatement.class, AddRestrictionStatement.class, AddSubClassStatement.class })
-@DeclareFetchRequests({ SelectOWLClass.class, SelectOWLIndividual.class })
+@DeclareFetchRequests({ SelectOWLClass.class, SelectOWLIndividual.class, SelectUniqueOWLClass.class, SelectUniqueOWLIndividual.class })
 @DeclareActorReferences({ ConceptActorReference.class })
 @ModelEntity
 @ImplementationClass(OWLModelSlot.OWLModelSlotImpl.class)
