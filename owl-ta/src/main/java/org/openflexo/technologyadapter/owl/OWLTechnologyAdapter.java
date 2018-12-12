@@ -47,7 +47,7 @@ import java.util.logging.Logger;
 import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.FlexoProject;
 import org.openflexo.foundation.fml.annotations.DeclareModelSlots;
-import org.openflexo.foundation.fml.annotations.DeclareResourceTypes;
+import org.openflexo.foundation.fml.annotations.DeclareResourceFactory;
 import org.openflexo.foundation.fml.annotations.DeclareTechnologySpecificTypes;
 import org.openflexo.foundation.ontology.technologyadapter.FlexoOntologyTechnologyContextManager;
 import org.openflexo.foundation.resource.FlexoResource;
@@ -75,7 +75,7 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResourceFactory;
  */
 @DeclareModelSlots({ OWLModelSlot.class })
 @DeclareTechnologySpecificTypes({ StatementWithProperty.class })
-@DeclareResourceTypes({ OWLOntologyResourceFactory.class })
+@DeclareResourceFactory({ OWLOntologyResourceFactory.class })
 public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter> {
 
 	private static final Logger logger = Logger.getLogger(OWLTechnologyAdapter.class.getPackage().getName());
