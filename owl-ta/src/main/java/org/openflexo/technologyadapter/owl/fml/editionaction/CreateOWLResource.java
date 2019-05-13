@@ -99,8 +99,7 @@ public interface CreateOWLResource extends AbstractCreateResource<OWLModelSlot, 
 
 			OWLOntologyResource newResource;
 			try {
-				newResource = createResource(owlTA, OWLOntologyResourceFactory.class, rc, resourceName, resourceURI, getRelativePath(),
-						".owl", true);
+				newResource = createResource(owlTA, OWLOntologyResourceFactory.class, evaluationContext, ".owl", true);
 				System.out.println("Return new ontology resource: " + newResource);
 
 				OWLOntology ontology = newResource.getResourceData();
