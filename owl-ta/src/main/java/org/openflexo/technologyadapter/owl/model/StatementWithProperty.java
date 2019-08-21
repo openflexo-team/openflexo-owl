@@ -40,7 +40,6 @@ package org.openflexo.technologyadapter.owl.model;
 
 import java.lang.reflect.Type;
 
-import org.openflexo.connie.type.CustomTypeFactory;
 import org.openflexo.foundation.fml.TechnologySpecificType;
 import org.openflexo.foundation.ontology.IFlexoOntologyStructuralProperty;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
@@ -124,7 +123,7 @@ public class StatementWithProperty implements TechnologySpecificType<OWLTechnolo
 	}
 
 	@Override
-	public void resolve(CustomTypeFactory<?> factory) {
+	public void resolve() {
 
 	}
 
