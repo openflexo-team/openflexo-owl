@@ -49,6 +49,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
@@ -62,6 +63,7 @@ import org.openflexo.technologyadapter.owl.model.OWLOntologyLibrary;
 import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
+import org.openflexo.test.UITest;
 
 /**
  * Test the structural and behavioural features of FIBOWLOntologyBrowser
@@ -102,6 +104,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(1)
+	@Category(UITest.class)
 	public void instanciateWidgetOnRDFOntology() {
 
 		OWLOntology rdfOntology = ontologyLibrary.getRDFOntology();
@@ -113,6 +116,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(2)
+	@Category(UITest.class)
 	public void instanciateWidgetOnRDFSOntology() {
 
 		OWLOntology rdfsOntology = ontologyLibrary.getRDFSOntology();
@@ -124,6 +128,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(3)
+	@Category(UITest.class)
 	public void instanciateWidgetOnOWLOntology() {
 
 		OWLOntology owlOntology = ontologyLibrary.getOWLOntology();
@@ -135,6 +140,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(4)
+	@Category(UITest.class)
 	public void instanciateWidgetOnSKOSOntology() {
 
 		OWLOntologyResource skosResource = ontologyRepository.getResource("http://www.w3.org/2004/02/skos/core");
@@ -158,6 +164,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(5)
+	@Category(UITest.class)
 	public void instanciateWidgetOnFlexoConceptOntology() {
 
 		OWLOntologyResource flexoConceptResource = (OWLOntologyResource) serviceManager.getResourceManager()
@@ -183,6 +190,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(6)
+	@Category(UITest.class)
 	public void instanciateWidgetOnSEPELOntology() {
 
 		OWLOntologyResource sepelResource = (OWLOntologyResource) serviceManager.getResourceManager()
@@ -208,6 +216,7 @@ public class TestFIBOWLOntologyEditor extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(7)
+	@Category(UITest.class)
 	public void instanciateWidgetOnO5Ontology() {
 
 		OWLOntologyResource o5Resource = (OWLOntologyResource) serviceManager.getResourceManager()

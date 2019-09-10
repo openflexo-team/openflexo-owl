@@ -48,6 +48,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
@@ -59,6 +60,7 @@ import org.openflexo.technologyadapter.owl.model.OWLOntology;
 import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
+import org.openflexo.test.UITest;
 
 /**
  * Test the structural and behavioural features of FIBOWLOntologyBrowser
@@ -82,6 +84,7 @@ public class TestFIBOWLOntologyBrowser extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(1)
+	@Category(UITest.class)
 	public void test1RetrieveOntology() {
 
 		OWLTechnologyAdapter owlTA = serviceManager.getTechnologyAdapterService().getTechnologyAdapter(OWLTechnologyAdapter.class);
@@ -117,6 +120,7 @@ public class TestFIBOWLOntologyBrowser extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(2)
+	@Category(UITest.class)
 	public void test2InstanciateWidget() {
 
 		FIBOWLOntologyBrowser browser = new FIBOWLOntologyBrowser(ontologyResource.getLoadedResourceData());
