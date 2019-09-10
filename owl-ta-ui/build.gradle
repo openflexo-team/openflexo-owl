@@ -14,23 +14,3 @@ dependencies {
   // Test resource center
   testRuntime project(':owl-ta-test-rc')
 }
-// task nonuiTest(type: Test) {
-//   ignoreFailures = true
-//   exclude '**/TestFIBOWLClassSelector.class'
-//   exclude '**/TestFIBOWLIndividualSelector.class'
-//   exclude '**/TestFIBOWLOntologyBrowser.class'
-//   exclude '**/TestFIBOWLOntologyBrowserOnSKOSOntology.class'
-//   exclude '**/TestFIBOWLOntologyEditor.class'
-//   exclude '**/TestFIBOWLOntologyEditorOnArchimate.class'
-//   exclude '**/TestFIBOWLOntologyEditorOnSKOSOntology.class'
-//   exclude '**/TestFIBOWLPropertySelector*'
-//   jvmArgs += ["-Djava.awt.headless=true"]
-// }
-// 
-// task uiTest(type: Test,dependsOn: 'nonuiTest') {
-//   ignoreFailures = true
-//   include '**/TestFIBOWLPropertySelector.class'
-// }
-// 
-// task test(overwrite: true,dependsOn: 'uiTest') {
-// }
