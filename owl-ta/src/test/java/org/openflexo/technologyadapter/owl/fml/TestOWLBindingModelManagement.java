@@ -174,14 +174,14 @@ public class TestOWLBindingModelManagement extends OpenflexoProjectAtRunTimeTest
 
 		CompilationUnitResource viewPointResource = factory.makeTopLevelCompilationUnitResource(VIEWPOINT_NAME, VIEWPOINT_URI,
 				fmlTechnologyAdapter.getGlobalRepository(resourceCenter).getRootFolder(), true);
-		viewPoint = viewPointResource.getLoadedResourceData();
+		viewPoint = viewPointResource.getLoadedResourceData().getVirtualModel();
 
 		// viewPoint = ViewPointImpl.newViewPoint("TestViewPoint",
 		// "http://openflexo.org/test/TestViewPoint",
 		// resourceCenter.getDirectory(),
 		// serviceManager.getViewPointLibrary(), resourceCenter);
-		assertTrue(ResourceLocator.retrieveResourceAsFile(((CompilationUnitResource) viewPoint.getResource()).getDirectory()).exists());
-		assertTrue(((CompilationUnitResource) viewPoint.getResource()).getIODelegate().exists());
+		assertTrue(ResourceLocator.retrieveResourceAsFile(viewPoint.getResource().getDirectory()).exists());
+		assertTrue(viewPoint.getResource().getIODelegate().exists());
 
 		assertNotNull(viewPoint.getBindingModel());
 		assertEquals(1, viewPoint.getBindingModel().getBindingVariablesCount());
@@ -201,12 +201,13 @@ public class TestOWLBindingModelManagement extends OpenflexoProjectAtRunTimeTest
 		FMLTechnologyAdapter fmlTechnologyAdapter = serviceManager.getTechnologyAdapterService()
 				.getTechnologyAdapter(FMLTechnologyAdapter.class);
 		CompilationUnitResourceFactory factory = fmlTechnologyAdapter.getCompilationUnitResourceFactory();
-		CompilationUnitResource newVMResource = factory.makeContainedCompilationUnitResource("VM1", viewPoint.getVirtualModelResource(), true);
-		virtualModel1 = newVMResource.getLoadedResourceData();
+		CompilationUnitResource newVMResource = factory.makeContainedCompilationUnitResource("VM1", viewPoint.getCompilationUnitResource(),
+				true);
+		virtualModel1 = newVMResource.getLoadedResourceData().getVirtualModel();
 
 		// virtualModel1 = VirtualModelImpl.newVirtualModel("VM1", viewPoint);
-		assertTrue(ResourceLocator.retrieveResourceAsFile(((CompilationUnitResource) virtualModel1.getResource()).getDirectory()).exists());
-		assertTrue(((CompilationUnitResource) virtualModel1.getResource()).getIODelegate().exists());
+		assertTrue(ResourceLocator.retrieveResourceAsFile(virtualModel1.getResource().getDirectory()).exists());
+		assertTrue(virtualModel1.getResource().getIODelegate().exists());
 
 		assertNotNull(virtualModel1.getBindingModel());
 		assertNotNull(virtualModel1.getBindingModel().bindingVariableNamed(VirtualModelBindingModel.THIS_PROPERTY));
@@ -270,9 +271,9 @@ public class TestOWLBindingModelManagement extends OpenflexoProjectAtRunTimeTest
 		System.out.println("FlexoConcept A = " + flexoConceptA);
 		assertNotNull(flexoConceptA);
 
-		((CompilationUnitResource) virtualModel1.getResource()).save();
+		virtualModel1.getResource().save();
 
-		System.out.println("Saved: " + ((CompilationUnitResource) virtualModel1.getResource()).getIODelegate().toString());
+		System.out.println("Saved: " + virtualModel1.getResource().getIODelegate().toString());
 
 		System.out.println("FlexoConcept BindingModel = " + flexoConceptA.getBindingModel());
 
