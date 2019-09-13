@@ -51,6 +51,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
@@ -70,6 +71,7 @@ import org.openflexo.technologyadapter.owl.model.RDFURIDefinitions;
 import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
+import org.openflexo.test.UITest;
 
 /**
  * Test the structural and behavioural features of FIBOWLPropertySelector
@@ -111,6 +113,7 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(1)
+	@Category(UITest.class)
 	public void testRetrieveOntology() {
 
 		OWLTechnologyAdapter owlTA = serviceManager.getTechnologyAdapterService().getTechnologyAdapter(OWLTechnologyAdapter.class);
@@ -208,6 +211,7 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(2)
+	@Category(UITest.class)
 	public void testInstanciateWidget() {
 
 		selector = new FIBOWLPropertySelector(null);
@@ -224,6 +228,7 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(3)
+	@Category(UITest.class)
 	public void checkInitialStructure() {
 
 		OWLOntologyBrowserModel obm = selector.getModel();
@@ -244,6 +249,7 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(4)
+	@Category(UITest.class)
 	public void selectConceptDomain() {
 
 		selector.setDomain(concept);
@@ -262,6 +268,7 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(5)
+	@Category(UITest.class)
 	public void selectConceptSchemeDomain() {
 
 		selector.setDomain(conceptScheme);
@@ -280,6 +287,7 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(6)
+	@Category(UITest.class)
 	public void selectThingDomain() {
 
 		selector.setDomain(thing);
@@ -295,6 +303,7 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(7)
+	@Category(UITest.class)
 	public void setShowOWLAndRDFConcepts() {
 
 		selector.setShowOWLAndRDFConcepts(true);
@@ -318,6 +327,7 @@ public class TestFIBOWLPropertySelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(8)
+	@Category(UITest.class)
 	public void setShowDataPropertyOnly() {
 
 		selector.setSelectDataProperties(true);

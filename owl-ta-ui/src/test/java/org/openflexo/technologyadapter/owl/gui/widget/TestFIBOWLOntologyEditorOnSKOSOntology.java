@@ -52,6 +52,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
@@ -73,6 +74,7 @@ import org.openflexo.technologyadapter.owl.model.RDFURIDefinitions;
 import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
+import org.openflexo.test.UITest;
 
 /**
  * Test the structural and behavioural features of FIBOWLOntologyBrowser
@@ -105,6 +107,7 @@ public class TestFIBOWLOntologyEditorOnSKOSOntology extends OpenflexoTestCaseWit
 
 	@Test
 	@TestOrder(1)
+	@Category(UITest.class)
 	public void test1RetrieveOntology() {
 
 		OWLTechnologyAdapter owlTA = serviceManager.getTechnologyAdapterService().getTechnologyAdapter(OWLTechnologyAdapter.class);
@@ -215,6 +218,7 @@ public class TestFIBOWLOntologyEditorOnSKOSOntology extends OpenflexoTestCaseWit
 
 	@Test
 	@TestOrder(2)
+	@Category(UITest.class)
 	public void test2InstanciateWidget() {
 
 		editor = new FIBOWLOntologyEditor(ontologyResource.getLoadedResourceData(), null);
@@ -224,6 +228,7 @@ public class TestFIBOWLOntologyEditorOnSKOSOntology extends OpenflexoTestCaseWit
 
 	@Test
 	@TestOrder(3)
+	@Category(UITest.class)
 	public void checkInitialStructure() {
 
 		OWLOntologyBrowserModel obm = editor.getModel();
@@ -274,6 +279,7 @@ public class TestFIBOWLOntologyEditorOnSKOSOntology extends OpenflexoTestCaseWit
 
 	@Test
 	@TestOrder(4)
+	@Category(UITest.class)
 	public void showOWLRDFConceptAndCheckStructure() {
 
 		editor.setShowOWLAndRDFConcepts(true);
@@ -334,6 +340,7 @@ public class TestFIBOWLOntologyEditorOnSKOSOntology extends OpenflexoTestCaseWit
 
 	@Test
 	@TestOrder(5)
+	@Category(UITest.class)
 	public void setStrictModeAndCheckStructure() {
 
 		editor.setShowOWLAndRDFConcepts(false);
@@ -384,6 +391,7 @@ public class TestFIBOWLOntologyEditorOnSKOSOntology extends OpenflexoTestCaseWit
 
 	@Test
 	@TestOrder(6)
+	@Category(UITest.class)
 	public void hideObjectPropertiesAndCheckStructure() {
 
 		editor.setShowObjectProperties(false);
@@ -408,6 +416,7 @@ public class TestFIBOWLOntologyEditorOnSKOSOntology extends OpenflexoTestCaseWit
 
 	@Test
 	@TestOrder(7)
+	@Category(UITest.class)
 	public void hideDataPropertiesAndCheckStructure() {
 
 		editor.setShowDataProperties(false);
@@ -458,6 +467,7 @@ public class TestFIBOWLOntologyEditorOnSKOSOntology extends OpenflexoTestCaseWit
 
 	@Test
 	@TestOrder(8)
+	@Category(UITest.class)
 	public void hideAnnotationPropertiesAndCheckStructure() {
 
 		editor.setShowAnnotationProperties(false);
@@ -481,6 +491,7 @@ public class TestFIBOWLOntologyEditorOnSKOSOntology extends OpenflexoTestCaseWit
 
 	@Test
 	@TestOrder(9)
+	@Category(UITest.class)
 	public void doNotStorePropertiesAndCheckStructure() {
 
 		editor.setDisplayPropertiesInClasses(false);
@@ -534,6 +545,7 @@ public class TestFIBOWLOntologyEditorOnSKOSOntology extends OpenflexoTestCaseWit
 
 	@Test
 	@TestOrder(10)
+	@Category(UITest.class)
 	public void setNonHierarchicAndCheckStructure() {
 
 		editor.setStrictMode(false);

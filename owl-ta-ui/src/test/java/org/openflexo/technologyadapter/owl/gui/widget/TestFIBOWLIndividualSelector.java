@@ -51,6 +51,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
@@ -67,6 +68,7 @@ import org.openflexo.technologyadapter.owl.model.RDFURIDefinitions;
 import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
+import org.openflexo.test.UITest;
 
 /**
  * Test the structural and behavioural features of FIBOWLPropertySelector
@@ -101,6 +103,7 @@ public class TestFIBOWLIndividualSelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(1)
+	@Category(UITest.class)
 	public void test1RetrieveOntology() {
 
 		OWLTechnologyAdapter owlTA = serviceManager.getTechnologyAdapterService().getTechnologyAdapter(OWLTechnologyAdapter.class);
@@ -152,6 +155,7 @@ public class TestFIBOWLIndividualSelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(2)
+	@Category(UITest.class)
 	public void test2InstanciateWidget() {
 
 		selector = new FIBOWLIndividualSelector(null);
@@ -166,6 +170,7 @@ public class TestFIBOWLIndividualSelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(3)
+	@Category(UITest.class)
 	public void checkInitialStructure() {
 
 		OWLOntologyBrowserModel obm = selector.getModel();
@@ -180,6 +185,7 @@ public class TestFIBOWLIndividualSelector extends OpenflexoTestCaseWithGUI {
 
 	@Test
 	@TestOrder(4)
+	@Category(UITest.class)
 	public void setType() {
 
 		selector.setType(concept);
