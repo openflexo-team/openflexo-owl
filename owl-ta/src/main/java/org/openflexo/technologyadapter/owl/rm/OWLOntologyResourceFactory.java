@@ -59,7 +59,7 @@ public class OWLOntologyResourceFactory
 	}
 
 	@Override
-	protected <I> OWLOntologyResource registerResource(OWLOntologyResource resource, FlexoResourceCenter<I> resourceCenter) {
+	public <I> OWLOntologyResource registerResource(OWLOntologyResource resource, FlexoResourceCenter<I> resourceCenter) {
 		super.registerResource(resource, resourceCenter);
 
 		resource.setOntologyLibrary(getTechnologyAdapter(resourceCenter.getServiceManager()).getOntologyLibrary());
