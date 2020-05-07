@@ -64,6 +64,7 @@ import org.openflexo.connie.type.PrimitiveType;
 import org.openflexo.foundation.DefaultFlexoEditor;
 import org.openflexo.foundation.FlexoEditor;
 import org.openflexo.foundation.FlexoProject;
+import org.openflexo.foundation.InvalidNameException;
 import org.openflexo.foundation.fml.FMLTechnologyAdapter;
 import org.openflexo.foundation.fml.FlexoConcept;
 import org.openflexo.foundation.fml.FlexoConceptInstanceType;
@@ -221,10 +222,12 @@ public class TestOWLBindingModelManagement extends OpenflexoProjectAtRunTimeTest
 
 	/**
 	 * Test {@link OWLModelSlot} creation, check {@link BindingModel}
+	 * 
+	 * @throws InvalidNameException
 	 */
 	@Test
 	@TestOrder(4)
-	public void testCreateOWLModelSlot() {
+	public void testCreateOWLModelSlot() throws InvalidNameException {
 
 		AddUseDeclaration useDeclarationAction = AddUseDeclaration.actionType.makeNewAction(virtualModel1, null, editor);
 		useDeclarationAction.setModelSlotClass(OWLModelSlot.class);
@@ -306,7 +309,7 @@ public class TestOWLBindingModelManagement extends OpenflexoProjectAtRunTimeTest
 
 	@Test
 	@TestOrder(6)
-	public void testOWLIndividualRoleBindingModelManagement() {
+	public void testOWLIndividualRoleBindingModelManagement() throws InvalidNameException {
 
 		CreatePrimitiveRole createPR1 = CreatePrimitiveRole.actionType.makeNewAction(flexoConceptA, null, editor);
 		createPR1.setRoleName("aStringInA");
