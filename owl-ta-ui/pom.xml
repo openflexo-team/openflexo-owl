@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.openflexo</groupId>
-		<artifactId>openflexo-technology-adapters-ui</artifactId>
-		<version>1.9.0-SNAPSHOT</version>
+		<artifactId>openflexo-owl</artifactId>
+		<version>2.0.0</version>
 	</parent>
-	<artifactId>owlconnector-ui</artifactId>
+	<artifactId>owl-ta-ui</artifactId>
 	<name>OWL technology connector UI</name>
   <build>
 		<plugins>
@@ -19,7 +19,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.openflexo</groupId>
-			<artifactId>owlconnector</artifactId>
+			<artifactId>owl-ta</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -36,6 +36,7 @@
 			<groupId>org.openflexo</groupId>
 			<artifactId>flexo-ontology-ui</artifactId>
 			<scope>compile</scope>
+			<version>${project.version}</version>
 		</dependency>
 		<!--  <dependency>
 			<groupId>org.openflexo</groupId>
@@ -46,6 +47,7 @@
 		<dependency>
 			<groupId>org.openflexo</groupId>
 			<artifactId>fml-technologyadapter-ui</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<!--  <dependency>
 			<groupId>org.openflexo</groupId>
