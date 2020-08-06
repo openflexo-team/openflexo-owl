@@ -1,18 +1,16 @@
 dependencies {
   // openflexo dep
-  compile flexoFoundation()
-  compile flexoOntology()
+  implementation flexoFoundation()
+  api flexoOntology()
   // external dep
-  compile 'org.apache.jena:jena-core:3.1.0'
+  api 'org.apache.jena:jena-core:3.1.0'
 
   // testing dep
-    testCompile testUtils()
-    testCompile flexoFoundationTest()
+  testImplementation flexoFoundationTest()
 
-	// This resource center must always be present at run-time
-    runtime project(':owl-ta-rc')
+  // This resource center must always be present at run-time
+  runtimeOnly project(':owl-ta-rc')
 
-	// Test resource center
-    testRuntime project(':owl-ta-test-rc')
-
+  // Test resource center
+  testRuntimeOnly project(':owl-ta-test-rc')
 }

@@ -1,16 +1,17 @@
 dependencies {
-  compile project(":owl-ta")
+  implementation project(":owl-ta")
 
   // openflexo dep
-  compile flexoUi()
-  compile flexoOntologyUi()
+  implementation flexoUi()
+  implementation flexoOntologyUi()
 
-  runtime fmlTechnologyAdapterUi()
+  runtimeOnly fmlTechnologyAdapterUi()
 
   // external dep
   // testing dep
-  testCompile flexoUiTest()
+  testImplementation flexoUiTest()
+  testImplementation flexoFoundationTest()
 
   // Test resource center
-  testRuntime project(':owl-ta-test-rc')
+  testRuntimeOnly project(':owl-ta-test-rc')
 }
