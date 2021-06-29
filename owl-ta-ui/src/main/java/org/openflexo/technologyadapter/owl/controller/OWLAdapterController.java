@@ -43,15 +43,19 @@ import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 
+import org.openflexo.connie.type.CustomType;
 import org.openflexo.foundation.fml.FlexoRole;
 import org.openflexo.foundation.fml.editionaction.EditionAction;
 import org.openflexo.foundation.ontology.IFlexoOntology;
 import org.openflexo.foundation.technologyadapter.TechnologyObject;
+import org.openflexo.gina.controller.CustomTypeEditor;
 import org.openflexo.gina.utils.InspectorGroup;
 import org.openflexo.icon.IconFactory;
 import org.openflexo.icon.IconLibrary;
+import org.openflexo.ontology.components.widget.ObjectIndividualTypeEditor;
 import org.openflexo.ontology.components.widget.OntologyBrowserModel;
 import org.openflexo.ontology.controller.FlexoOntologyTechnologyAdapterController;
+import org.openflexo.technologyadapter.owl.OWLIndividualType;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.fml.DataPropertyStatementRole;
 import org.openflexo.technologyadapter.owl.fml.OWLClassRole;
@@ -308,4 +312,15 @@ public class OWLAdapterController extends FlexoOntologyTechnologyAdapterControll
 		logger.warning("Unexpected " + context);
 		return null;
 	}
+
+	@Override
+	protected CustomTypeEditor<?> makeCustomTypeEditor(Class<? extends CustomType> typeClass) {
+		if (typeClass.equals(OWLIndividualType.class)) {
+			// return new EMFObjectIndividualTypeEditor(getServiceManager());
+			return new ObjectIndividualTypeEditor<OWLTechnologyAdapter, OWLIndividual, OWLClass, OWLIndividualType>(getServiceManager(),
+					OWLTechnologyAdapter.class, OWLIndividualType.class, OWLClass.class, "OWL individual");
+		}
+		return super.makeCustomTypeEditor(typeClass);
+	}
+
 }

@@ -53,6 +53,7 @@ import org.openflexo.foundation.ontology.IndividualOfClass;
 import org.openflexo.foundation.ontology.SubClassOfClass;
 import org.openflexo.foundation.ontology.SubPropertyOfProperty;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterBindingFactory;
+import org.openflexo.technologyadapter.owl.OWLIndividualType;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLDataProperty;
 import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
@@ -83,8 +84,8 @@ public final class OWLBindingFactory extends TechnologyAdapterBindingFactory {
 
 	@Override
 	public boolean handleType(TechnologySpecificType<?> technologySpecificType) {
-		if ((technologySpecificType instanceof IndividualOfClass)
-				&& ((IndividualOfClass<?>) technologySpecificType).getOntologyClass() instanceof OWLClass) {
+		if ((technologySpecificType instanceof OWLIndividualType)
+				&& ((OWLIndividualType) technologySpecificType).getOntologyClass() instanceof OWLClass) {
 			return true;
 		}
 		if ((technologySpecificType instanceof SubClassOfClass)
@@ -104,13 +105,13 @@ public final class OWLBindingFactory extends TechnologyAdapterBindingFactory {
 	@Override
 	public List<? extends SimplePathElement> getAccessibleSimplePathElements(IBindingPathElement element) {
 
-		if (element.getType() instanceof IndividualOfClass) {
-			IndividualOfClass<?> parentType = (IndividualOfClass<?>) element.getType();
+		if (element.getType() instanceof OWLIndividualType) {
+			OWLIndividualType parentType = (OWLIndividualType) element.getType();
 			List<SimplePathElement> returned = new ArrayList<>();
 			returned.add(new URIPathElement(element));
 			returned.add(new URINamePathElement(element));
 			if (parentType.getOntologyClass() instanceof OWLClass) {
-				for (OWLProperty p : searchProperties((OWLClass) parentType.getOntologyClass())) {
+				for (OWLProperty p : searchProperties(parentType.getOntologyClass())) {
 					returned.add(getSimplePathElement(p, element));
 				}
 			}

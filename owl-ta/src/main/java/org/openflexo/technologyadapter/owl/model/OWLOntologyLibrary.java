@@ -64,12 +64,14 @@ import org.apache.jena.shared.AlreadyExistsException;
 import org.apache.jena.shared.DoesNotExistException;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.ontology.IFlexoOntologyClass;
 import org.openflexo.foundation.ontology.OntologyUtils;
 import org.openflexo.foundation.ontology.technologyadapter.FlexoOntologyTechnologyContextManager;
 import org.openflexo.foundation.resource.FlexoResource;
 import org.openflexo.foundation.resource.FlexoResourceCenterService;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterResource;
+import org.openflexo.technologyadapter.owl.OWLIndividualType;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 import org.openflexo.toolbox.JavaUtils;
@@ -436,4 +438,8 @@ public class OWLOntologyLibrary extends FlexoOntologyTechnologyContextManager<OW
 	public void onRemoval(RemovalNotification<OWLOntology, Set<OWLOntology>> notification) {
 	}
 
+	@Override
+	public OWLIndividualType makeIndividualOfClass(IFlexoOntologyClass<OWLTechnologyAdapter> anOntologyClass) {
+		return new OWLIndividualType((OWLClass) anOntologyClass);
+	}
 }
