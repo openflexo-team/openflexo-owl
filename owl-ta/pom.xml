@@ -21,7 +21,7 @@
 		</plugins>
 	</build>
 	<properties>
-		<jena-core.version>2.13.0</jena-core.version>
+		<jena-core.version>4.2.0</jena-core.version>
 	</properties>
 	<dependencies>
 		<!--  <dependency>
