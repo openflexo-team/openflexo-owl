@@ -38,7 +38,6 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
@@ -127,7 +126,7 @@ public interface AddOWLIndividual
 					e.printStackTrace();
 				} catch (NullReferenceException e) {
 					e.printStackTrace();
-				} catch (InvocationTargetException e) {
+				} catch (ReflectiveOperationException e) {
 					e.printStackTrace();
 				}
 			}
@@ -142,7 +141,7 @@ public interface AddOWLIndividual
 				e1.printStackTrace();
 			} catch (NullReferenceException e1) {
 				e1.printStackTrace();
-			} catch (InvocationTargetException e) {
+			} catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
 			// System.out.println("individualName="+individualName);

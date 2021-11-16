@@ -39,6 +39,7 @@
 
 package org.openflexo.technologyadapter.owl.model;
 
+import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import org.apache.jena.ontology.OntProperty;
@@ -71,6 +72,14 @@ public class OWLDataProperty extends OWLProperty
 
 	public OWLDataType getDataType() {
 		return getRange();
+	}
+
+	@Override
+	public Type getType() {
+		if (getDataType() != null) {
+			return getDataType().getAccessedType();
+		}
+		return Object.class;
 	}
 
 	@Override

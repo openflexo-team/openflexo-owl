@@ -41,20 +41,21 @@ package org.openflexo.technologyadapter.owl.fml.binding;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
+import org.openflexo.connie.Bindable;
 import org.openflexo.connie.BindingEvaluationContext;
 import org.openflexo.connie.binding.IBindingPathElement;
-import org.openflexo.connie.binding.SimplePathElement;
+import org.openflexo.connie.binding.SimplePathElementImpl;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.technologyadapter.owl.model.OWLConcept;
 
-public class URINamePathElement extends SimplePathElement {
+public class URINamePathElement extends SimplePathElementImpl {
 
 	private static final Logger logger = Logger.getLogger(URINamePathElement.class.getPackage().getName());
 
-	public URINamePathElement(IBindingPathElement parent) {
-		super(parent, "uriName", String.class);
+	public URINamePathElement(IBindingPathElement parent, Bindable bindable) {
+		super(parent, "uriName", String.class, bindable);
 	}
 
 	@Override
@@ -84,6 +85,16 @@ public class URINamePathElement extends SimplePathElement {
 			return;
 		}
 		logger.warning("Please implement me, target=" + target + " context=" + context);
+	}
+
+	@Override
+	public boolean isResolved() {
+		return true;
+	}
+
+	@Override
+	public void resolve() {
+		// Not applicable
 	}
 
 }

@@ -41,9 +41,10 @@ package org.openflexo.technologyadapter.owl.fml.binding;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
+import org.openflexo.connie.Bindable;
 import org.openflexo.connie.BindingEvaluationContext;
 import org.openflexo.connie.binding.IBindingPathElement;
-import org.openflexo.connie.binding.SimplePathElement;
+import org.openflexo.connie.binding.SimplePathElementImpl;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.localization.FlexoLocalization;
@@ -56,14 +57,14 @@ import org.openflexo.technologyadapter.owl.model.StatementWithProperty;
  * @author sylvain
  *
  */
-public class StatementDisplayableRepresentationPathElement extends SimplePathElement {
+public class StatementDisplayableRepresentationPathElement extends SimplePathElementImpl {
 
 	private static final Logger logger = Logger.getLogger(StatementDisplayableRepresentationPathElement.class.getPackage().getName());
 
 	public static final String DISPLAYABLE_REPRESENTATION = "displayableRepresentation";
 
-	public StatementDisplayableRepresentationPathElement(IBindingPathElement parent) {
-		super(parent, DISPLAYABLE_REPRESENTATION, String.class); // Type is dynamically retrieved
+	public StatementDisplayableRepresentationPathElement(IBindingPathElement parent, Bindable bindable) {
+		super(parent, DISPLAYABLE_REPRESENTATION, String.class, bindable); // Type is dynamically retrieved
 	}
 
 	@Override
@@ -89,6 +90,16 @@ public class StatementDisplayableRepresentationPathElement extends SimplePathEle
 	public void setBindingValue(Object value, Object target, BindingEvaluationContext context)
 			throws TypeMismatchException, NullReferenceException {
 		logger.warning("Please implement me, target=" + target + " context=" + context);
+	}
+
+	@Override
+	public boolean isResolved() {
+		return true;
+	}
+
+	@Override
+	public void resolve() {
+		// Not applicable
 	}
 
 }

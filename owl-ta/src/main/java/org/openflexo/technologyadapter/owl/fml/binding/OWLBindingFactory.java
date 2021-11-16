@@ -43,8 +43,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import org.openflexo.connie.DataBinding;
-import org.openflexo.connie.binding.Function;
+import org.openflexo.connie.Bindable;
 import org.openflexo.connie.binding.FunctionPathElement;
 import org.openflexo.connie.binding.IBindingPathElement;
 import org.openflexo.connie.binding.SimplePathElement;
@@ -73,9 +72,9 @@ public final class OWLBindingFactory extends TechnologyAdapterBindingFactory {
 	}
 
 	@Override
-	protected SimplePathElement makeSimplePathElement(Object object, IBindingPathElement parent) {
+	protected SimplePathElement<?> makeSimplePathElement(Object object, IBindingPathElement parent, Bindable bindable) {
 		if ((parent.getType() instanceof IndividualOfClass) && (object instanceof OWLProperty)) {
-			return PropertyStatementPathElement.makePropertyStatementPathElement(parent, (OWLProperty) object);
+			return PropertyStatementPathElement.makePropertyStatementPathElement(parent, (OWLProperty) object, bindable);
 		}
 		logger.warning("Unexpected " + object);
 		return null;
@@ -102,16 +101,16 @@ public final class OWLBindingFactory extends TechnologyAdapterBindingFactory {
 	}
 
 	@Override
-	public List<? extends SimplePathElement> getAccessibleSimplePathElements(IBindingPathElement element) {
+	public List<? extends SimplePathElement<?>> getAccessibleSimplePathElements(IBindingPathElement element, Bindable bindable) {
 
 		if (element.getType() instanceof IndividualOfClass) {
 			IndividualOfClass<?> parentType = (IndividualOfClass<?>) element.getType();
-			List<SimplePathElement> returned = new ArrayList<>();
-			returned.add(new URIPathElement(element));
-			returned.add(new URINamePathElement(element));
+			List<SimplePathElement<?>> returned = new ArrayList<>();
+			returned.add(new URIPathElement(element, bindable));
+			returned.add(new URINamePathElement(element, bindable));
 			if (parentType.getOntologyClass() instanceof OWLClass) {
 				for (OWLProperty p : searchProperties((OWLClass) parentType.getOntologyClass())) {
-					returned.add(getSimplePathElement(p, element));
+					returned.add(getSimplePathElement(p, element, bindable));
 				}
 			}
 			return returned;
@@ -119,45 +118,40 @@ public final class OWLBindingFactory extends TechnologyAdapterBindingFactory {
 		else if (element.getType() instanceof StatementWithProperty) {
 
 			StatementWithProperty eltType = (StatementWithProperty) element.getType();
-			List<SimplePathElement> returned = new ArrayList<>();
-			returned.add(new URIPathElement(element));
-			returned.add(new StatementPropertyPathElement(element));
-			returned.add(new StatementSubjectPathElement(element));
+			List<SimplePathElement<?>> returned = new ArrayList<>();
+			returned.add(new URIPathElement(element, bindable));
+			returned.add(new StatementPropertyPathElement(element, bindable));
+			returned.add(new StatementSubjectPathElement(element, bindable));
 			OWLProperty property = eltType.getProperty();
 			if (property instanceof OWLObjectProperty) {
-				returned.add(new StatementObjectPathElement(element));
+				returned.add(new StatementObjectPathElement(element, bindable));
 			}
 			else if (property instanceof OWLDataProperty) {
-				returned.add(new StatementValuePathElement(element));
+				returned.add(new StatementValuePathElement(element, bindable));
 			}
-			returned.add(new StatementDisplayableRepresentationPathElement(element));
+			returned.add(new StatementDisplayableRepresentationPathElement(element, bindable));
 			return returned;
 
 		}
 
-		return super.getAccessibleSimplePathElements(element);
+		return super.getAccessibleSimplePathElements(element, bindable);
 
 	}
 
 	@Override
-	public List<? extends FunctionPathElement> getAccessibleFunctionPathElements(IBindingPathElement parent) {
-		return super.getAccessibleFunctionPathElements(parent);
+	public List<? extends FunctionPathElement<?>> getAccessibleFunctionPathElements(IBindingPathElement parent, Bindable bindable) {
+		return super.getAccessibleFunctionPathElements(parent, bindable);
 	}
 
 	@Override
-	public SimplePathElement makeSimplePathElement(IBindingPathElement parent, String propertyName) {
+	public SimplePathElement<?> makeSimplePathElement(IBindingPathElement parent, String propertyName, Bindable bindable) {
 		// We want to avoid code duplication, so iterate on all accessible simple path element and choose the right one
-		for (SimplePathElement e : getAccessibleSimplePathElements(parent)) {
+		for (SimplePathElement<?> e : getAccessibleSimplePathElements(parent, bindable)) {
 			if (e.getLabel().equals(propertyName)) {
 				return e;
 			}
 		}
-		return super.makeSimplePathElement(parent, propertyName);
-	}
-
-	@Override
-	public FunctionPathElement makeFunctionPathElement(IBindingPathElement father, Function function, List<DataBinding<?>> args) {
-		return super.makeFunctionPathElement(father, function, args);
+		return super.makeSimplePathElement(parent, propertyName, bindable);
 	}
 
 	private static List<OWLProperty> searchProperties(OWLClass owlClass) {
