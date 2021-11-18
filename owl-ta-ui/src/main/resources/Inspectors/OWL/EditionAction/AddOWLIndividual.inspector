@@ -73,7 +73,7 @@
 				<CustomColumn
 					componentClassName="org.openflexo.technologyadapter.owl.gui.FIBOWLPropertySelector"
 					customRendering="false" disableTerminateEditOnFocusLost="false"
-					data="($org.openflexo.technologyadapter.owl.model.OWLProperty)iterator.ontologyProperty"
+					data="(org.openflexo.technologyadapter.owl.model.OWLProperty)iterator.ontologyProperty"
 					format="object.name" title="property" columnWidth="80" resizable="true"
 					displayTitle="true" color="" bgColor="" tooltip=""
 					valueChangedAction="">
@@ -138,7 +138,7 @@
 				<CustomColumn
 					componentClassName="org.openflexo.technologyadapter.owl.gui.FIBOWLPropertySelector"
 					customRendering="false" disableTerminateEditOnFocusLost="false"
-					data="($org.openflexo.technologyadapter.owl.model.OWLProperty)iterator.ontologyProperty"
+					data="(org.openflexo.technologyadapter.owl.model.OWLProperty)iterator.ontologyProperty"
 					format="object.name" title="property" columnWidth="80" resizable="true"
 					displayTitle="true" color="" bgColor="" tooltip=""
 					valueChangedAction="">
