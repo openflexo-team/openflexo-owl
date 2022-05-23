@@ -41,9 +41,10 @@ package org.openflexo.technologyadapter.owl.fml.binding;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
+import org.openflexo.connie.Bindable;
 import org.openflexo.connie.BindingEvaluationContext;
 import org.openflexo.connie.binding.IBindingPathElement;
-import org.openflexo.connie.binding.SimplePathElement;
+import org.openflexo.connie.binding.SimplePathElementImpl;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.localization.FlexoLocalization;
@@ -58,7 +59,7 @@ import org.openflexo.technologyadapter.owl.model.StatementWithProperty;
  * @author sylvain
  *
  */
-public class StatementValuePathElement extends SimplePathElement {
+public class StatementValuePathElement extends SimplePathElementImpl {
 
 	private static final Logger logger = Logger.getLogger(StatementValuePathElement.class.getPackage().getName());
 
@@ -66,8 +67,8 @@ public class StatementValuePathElement extends SimplePathElement {
 
 	private OWLDataProperty property = null;
 
-	public StatementValuePathElement(IBindingPathElement parent) {
-		super(parent, VALUE, null); // Type is dynamically retrieved
+	public StatementValuePathElement(IBindingPathElement parent, Bindable bindable) {
+		super(parent, VALUE, null, bindable); // Type is dynamically retrieved
 		if (parent.getType() instanceof StatementWithProperty) {
 			property = (OWLDataProperty) ((StatementWithProperty) parent.getType()).getProperty();
 		}
@@ -116,6 +117,16 @@ public class StatementValuePathElement extends SimplePathElement {
 	public void setBindingValue(Object value, Object target, BindingEvaluationContext context)
 			throws TypeMismatchException, NullReferenceException {
 		logger.warning("Please implement me, target=" + target + " context=" + context);
+	}
+
+	@Override
+	public boolean isResolved() {
+		return true;
+	}
+
+	@Override
+	public void resolve() {
+		// Not applicable
 	}
 
 }

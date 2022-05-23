@@ -38,7 +38,6 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.exception.NullReferenceException;
@@ -93,7 +92,7 @@ public interface AddOWLClass extends AddClass<OWLModelSlot, OWLOntology, OWLClas
 				e1.printStackTrace();
 			} catch (NullReferenceException e1) {
 				e1.printStackTrace();
-			} catch (InvocationTargetException e) {
+			} catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
 			OWLClass newClass = null;

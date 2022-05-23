@@ -38,7 +38,6 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
@@ -103,7 +102,7 @@ public interface AddSubClassStatement extends AddStatement<SubClassStatement> {
 				e.printStackTrace();
 			} catch (NullReferenceException e) {
 				e.printStackTrace();
-			} catch (InvocationTargetException e) {
+			} catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
 			return null;
@@ -143,7 +142,8 @@ public interface AddSubClassStatement extends AddStatement<SubClassStatement> {
 			if (father instanceof OWLClass) {
 				if (subject instanceof OWLClass) {
 					return ((OWLClass) subject).addToSuperClasses((OWLClass) father);
-				} else if (subject instanceof OWLIndividual) {
+				}
+				else if (subject instanceof OWLIndividual) {
 					return ((OWLIndividual) subject).addToTypes((OWLClass) father);
 				}
 			}

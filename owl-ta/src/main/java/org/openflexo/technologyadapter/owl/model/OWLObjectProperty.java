@@ -39,10 +39,12 @@
 
 package org.openflexo.technologyadapter.owl.model;
 
+import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import org.apache.jena.ontology.OntProperty;
 import org.openflexo.foundation.ontology.IFlexoOntologyObjectProperty;
+import org.openflexo.foundation.ontology.IndividualOfClass;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 
 public class OWLObjectProperty extends OWLProperty
@@ -77,6 +79,11 @@ public class OWLObjectProperty extends OWLProperty
 	@Override
 	public OWLClass getRange() {
 		return (OWLClass) super.getRange();
+	}
+
+	@Override
+	public Type getType() {
+		return IndividualOfClass.getIndividualOfClass(getRange());
 	}
 
 	@Override

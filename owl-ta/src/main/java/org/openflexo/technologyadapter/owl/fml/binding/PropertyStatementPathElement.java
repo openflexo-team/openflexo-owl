@@ -41,9 +41,10 @@ package org.openflexo.technologyadapter.owl.fml.binding;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
+import org.openflexo.connie.Bindable;
 import org.openflexo.connie.BindingEvaluationContext;
 import org.openflexo.connie.binding.IBindingPathElement;
-import org.openflexo.connie.binding.SimplePathElement;
+import org.openflexo.connie.binding.SimplePathElementImpl;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.ontology.IndividualOfClass;
@@ -58,22 +59,26 @@ import org.openflexo.technologyadapter.owl.model.OWLProperty;
  * @author sylvain
  *
  */
-public abstract class PropertyStatementPathElement extends SimplePathElement {
+public abstract class PropertyStatementPathElement<P extends OWLProperty> extends SimplePathElementImpl<OWLProperty> {
 
 	private static final Logger logger = Logger.getLogger(PropertyStatementPathElement.class.getPackage().getName());
 
-	private final OWLProperty property;
+	private final P property;
 
-	public static PropertyStatementPathElement makePropertyStatementPathElement(IBindingPathElement aParent, OWLProperty property) {
+	@SuppressWarnings("unchecked")
+	public static <P extends OWLProperty> PropertyStatementPathElement<P> makePropertyStatementPathElement(IBindingPathElement aParent,
+			P property, Bindable bindable) {
 		if (property instanceof OWLDataProperty) {
-			return new DataPropertyStatementPathElement(aParent, (OWLDataProperty) property);
+			return (PropertyStatementPathElement<P>) new DataPropertyStatementPathElement(aParent, (OWLDataProperty) property, bindable);
 		}
 		else if (property instanceof OWLObjectProperty) {
 			if (((OWLObjectProperty) property).isLiteralRange()) {
-				return new ObjectPropertyStatementAccessingLiteralPathElement(aParent, (OWLObjectProperty) property);
+				return (PropertyStatementPathElement<P>) new ObjectPropertyStatementAccessingLiteralPathElement(aParent,
+						(OWLObjectProperty) property, bindable);
 			}
 			else {
-				return new ObjectPropertyStatementAccessingObjectPathElement(aParent, (OWLObjectProperty) property);
+				return (PropertyStatementPathElement<P>) new ObjectPropertyStatementAccessingObjectPathElement(aParent,
+						(OWLObjectProperty) property, bindable);
 			}
 		}
 		else {
@@ -82,12 +87,13 @@ public abstract class PropertyStatementPathElement extends SimplePathElement {
 		}
 	}
 
-	private PropertyStatementPathElement(IBindingPathElement parent, OWLProperty property) {
-		super(parent, property.getName(), OWLIndividual.class);
+	private PropertyStatementPathElement(IBindingPathElement parent, P property, Bindable bindable) {
+		super(parent, property.getName(), OWLIndividual.class, bindable);
 		this.property = property;
 	}
 
-	public OWLProperty getProperty() {
+	@Override
+	public P getProperty() {
 		return property;
 	}
 
@@ -101,20 +107,25 @@ public abstract class PropertyStatementPathElement extends SimplePathElement {
 		return property.getDisplayableDescription();
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return getClass().getSimpleName() + ": " + getLabel() + "[" + property + "]";
+	}*/
+
+	@Override
+	public boolean isResolved() {
+		return getProperty() != null;
 	}
 
-	public static class DataPropertyStatementPathElement extends PropertyStatementPathElement {
+	@Override
+	public void resolve() {
+		// TODO
+	}
 
-		private DataPropertyStatementPathElement(IBindingPathElement parent, OWLDataProperty property) {
-			super(parent, property);
-		}
+	public static class DataPropertyStatementPathElement extends PropertyStatementPathElement<OWLDataProperty> {
 
-		@Override
-		public OWLDataProperty getProperty() {
-			return (OWLDataProperty) super.getProperty();
+		private DataPropertyStatementPathElement(IBindingPathElement parent, OWLDataProperty property, Bindable bindable) {
+			super(parent, property, bindable);
 		}
 
 		@Override
@@ -149,15 +160,11 @@ public abstract class PropertyStatementPathElement extends SimplePathElement {
 		}
 	}
 
-	public static class ObjectPropertyStatementAccessingObjectPathElement extends PropertyStatementPathElement {
+	public static class ObjectPropertyStatementAccessingObjectPathElement extends PropertyStatementPathElement<OWLObjectProperty> {
 
-		private ObjectPropertyStatementAccessingObjectPathElement(IBindingPathElement parent, OWLObjectProperty property) {
-			super(parent, property);
-		}
-
-		@Override
-		public OWLObjectProperty getProperty() {
-			return (OWLObjectProperty) super.getProperty();
+		private ObjectPropertyStatementAccessingObjectPathElement(IBindingPathElement parent, OWLObjectProperty property,
+				Bindable bindable) {
+			super(parent, property, bindable);
 		}
 
 		@Override
@@ -185,10 +192,11 @@ public abstract class PropertyStatementPathElement extends SimplePathElement {
 		}
 	}
 
-	public static class ObjectPropertyStatementAccessingLiteralPathElement extends PropertyStatementPathElement {
+	public static class ObjectPropertyStatementAccessingLiteralPathElement extends PropertyStatementPathElement<OWLObjectProperty> {
 
-		private ObjectPropertyStatementAccessingLiteralPathElement(IBindingPathElement parent, OWLObjectProperty property) {
-			super(parent, property);
+		private ObjectPropertyStatementAccessingLiteralPathElement(IBindingPathElement parent, OWLObjectProperty property,
+				Bindable bindable) {
+			super(parent, property, bindable);
 		}
 
 		@Override

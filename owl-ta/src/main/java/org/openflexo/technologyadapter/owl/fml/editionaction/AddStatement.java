@@ -38,7 +38,6 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
@@ -96,7 +95,7 @@ public abstract interface AddStatement<S extends OWLStatement>
 				e.printStackTrace();
 			} catch (NullReferenceException e) {
 				e.printStackTrace();
-			} catch (InvocationTargetException e) {
+			} catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
 			return null;
