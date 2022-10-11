@@ -57,7 +57,9 @@ import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapter;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterInitializationException;
+import org.openflexo.foundation.technologyadapter.TechnologyAdapterService;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.technologyadapter.owl.OWLIndividualType.OWLIndividualTypeFactory;
 import org.openflexo.technologyadapter.owl.fml.binding.OWLBindingFactory;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 import org.openflexo.technologyadapter.owl.model.OWLOntology.OntologyNotFoundException;
@@ -74,7 +76,7 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResourceFactory;
  * 
  */
 @DeclareModelSlots({ OWLModelSlot.class })
-@DeclareTechnologySpecificTypes({ StatementWithProperty.class })
+@DeclareTechnologySpecificTypes({ OWLIndividualType.class, StatementWithProperty.class })
 @DeclareResourceFactories({ OWLOntologyResourceFactory.class })
 public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter> {
 
@@ -385,5 +387,19 @@ public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter
 			getOWLOntologyRepository(resourceCenter).getRepositoryFolder(folder, true);
 		}
 	}*/
+
+	@Override
+	public void initTechnologySpecificTypes(TechnologyAdapterService taService) {
+		taService.registerTypeClass(OWLIndividualType.class, getOWLIndividualTypeFactory());
+	}
+
+	private OWLIndividualTypeFactory owlIndividualTypeFactory;
+
+	public OWLIndividualTypeFactory getOWLIndividualTypeFactory() {
+		if (owlIndividualTypeFactory == null) {
+			owlIndividualTypeFactory = new OWLIndividualTypeFactory(this);
+		}
+		return owlIndividualTypeFactory;
+	}
 
 }
