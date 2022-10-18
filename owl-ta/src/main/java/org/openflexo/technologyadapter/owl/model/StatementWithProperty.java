@@ -38,6 +38,7 @@
 
 package org.openflexo.technologyadapter.owl.model;
 
+import java.beans.PropertyChangeSupport;
 import java.lang.reflect.Type;
 
 import org.openflexo.foundation.fml.TechnologySpecificType;
@@ -54,11 +55,24 @@ public class StatementWithProperty implements TechnologySpecificType<OWLTechnolo
 	}
 
 	private final OWLProperty property;
+	private final PropertyChangeSupport pcSupport;
 
 	public StatementWithProperty(OWLProperty aProperty) {
+		pcSupport = new PropertyChangeSupport(this);
 		this.property = aProperty;
 	}
 
+	@Override
+	public PropertyChangeSupport getPropertyChangeSupport() {
+		return pcSupport;
+	}
+
+	@Override
+	public String getDeletedProperty() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public OWLProperty getProperty() {
 		return property;
 	}
