@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 import org.openflexo.connie.type.CustomType;
+import org.openflexo.foundation.FlexoObject;
 import org.openflexo.foundation.fml.FlexoRole;
 import org.openflexo.foundation.fml.editionaction.EditionAction;
 import org.openflexo.foundation.ontology.IFlexoOntology;
@@ -278,10 +279,18 @@ public class OWLAdapterController extends FlexoOntologyTechnologyAdapterControll
 	}
 
 	@Override
-	public boolean hasModuleViewForObject(TechnologyObject<OWLTechnologyAdapter> object, FlexoController controller) {
-		return object instanceof OWLOntology;
+	public boolean isRepresentableInModuleView(TechnologyObject<OWLTechnologyAdapter> object) {
+		return object instanceof OWLObject;
 	}
-
+	
+	@Override
+	public FlexoObject getRepresentableMasterObject(TechnologyObject<OWLTechnologyAdapter> object) {
+		if (object instanceof OWLObject) {
+			return ((OWLObject)object).getFlexoOntology();
+		}
+		return null;
+	}
+	
 	@Override
 	public String getWindowTitleforObject(TechnologyObject<OWLTechnologyAdapter> object, FlexoController controller) {
 		if (object instanceof OWLOntology) {
@@ -291,7 +300,7 @@ public class OWLAdapterController extends FlexoOntologyTechnologyAdapterControll
 	}
 
 	@Override
-	public ModuleView<?> createModuleViewForObject(TechnologyObject<OWLTechnologyAdapter> object, FlexoController controller,
+	public ModuleView<?> createModuleViewForMasterObject(TechnologyObject<OWLTechnologyAdapter> object, FlexoController controller,
 			FlexoPerspective perspective) {
 		if (object instanceof OWLOntology) {
 			OWLOntologyView returned = new OWLOntologyView((OWLOntology) object, controller, perspective);
