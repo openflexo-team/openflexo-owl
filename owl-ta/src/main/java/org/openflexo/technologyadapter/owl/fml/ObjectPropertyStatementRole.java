@@ -136,7 +136,7 @@ public interface ObjectPropertyStatementRole extends StatementRole<ObjectPropert
 
 		@Override
 		public ObjectPropertyStatementActorReference makeActorReference(ObjectPropertyStatement object, FlexoConceptInstance epi) {
-			org.openflexo.pamela.factory.ModelFactory factory = OWLModelSlotImpl.getModelFactory();
+			org.openflexo.pamela.factory.PamelaModelFactory factory = OWLModelSlotImpl.getModelFactory();
 			ObjectPropertyStatementActorReference returned = factory.newInstance(ObjectPropertyStatementActorReference.class);
 			returned.setFlexoRole(this);
 			returned.setFlexoConceptInstance(epi);

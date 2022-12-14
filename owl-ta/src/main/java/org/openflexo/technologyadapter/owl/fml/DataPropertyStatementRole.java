@@ -133,7 +133,7 @@ public interface DataPropertyStatementRole extends StatementRole<DataPropertySta
 
 		@Override
 		public DataPropertyStatementActorReference makeActorReference(DataPropertyStatement object, FlexoConceptInstance epi) {
-			org.openflexo.pamela.factory.ModelFactory factory = OWLModelSlotImpl.getModelFactory();
+			org.openflexo.pamela.factory.PamelaModelFactory factory = OWLModelSlotImpl.getModelFactory();
 			DataPropertyStatementActorReference returned = factory.newInstance(DataPropertyStatementActorReference.class);
 			returned.setFlexoRole(this);
 			returned.setFlexoConceptInstance(epi);

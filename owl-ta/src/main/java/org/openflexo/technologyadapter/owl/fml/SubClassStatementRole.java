@@ -76,7 +76,7 @@ public interface SubClassStatementRole extends StatementRole<SubClassStatement> 
 
 		@Override
 		public SubClassStatementActorReference makeActorReference(SubClassStatement object, FlexoConceptInstance epi) {
-			org.openflexo.pamela.factory.ModelFactory factory = OWLModelSlotImpl.getModelFactory();
+			org.openflexo.pamela.factory.PamelaModelFactory factory = OWLModelSlotImpl.getModelFactory();
 			SubClassStatementActorReference returned = factory.newInstance(SubClassStatementActorReference.class);
 			returned.setFlexoRole(this);
 			returned.setFlexoConceptInstance(epi);

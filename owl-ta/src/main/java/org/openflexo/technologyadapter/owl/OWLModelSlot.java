@@ -58,7 +58,7 @@ import org.openflexo.foundation.ontology.technologyadapter.FlexoOntologyModelSlo
 import org.openflexo.foundation.resource.FlexoResourceCenter;
 import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.foundation.technologyadapter.FlexoMetaModelResource;
-import org.openflexo.pamela.ModelContextLibrary;
+import org.openflexo.pamela.PamelaMetaModelLibrary;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.Import;
 import org.openflexo.pamela.annotations.Imports;
@@ -120,11 +120,11 @@ public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOnt
 
 		private static final Logger logger = Logger.getLogger(OWLModelSlot.class.getPackage().getName());
 
-		private static org.openflexo.pamela.factory.ModelFactory MF;
+		private static org.openflexo.pamela.factory.PamelaModelFactory MF;
 
 		static {
 			try {
-				MF = new org.openflexo.pamela.factory.ModelFactory(ModelContextLibrary.getCompoundModelContext(
+				MF = new org.openflexo.pamela.factory.PamelaModelFactory(PamelaMetaModelLibrary.getCompoundModelContext(
 						ObjectPropertyStatementRole.class, ObjectPropertyStatementActorReference.class, DataPropertyStatementRole.class,
 						DataPropertyStatementActorReference.class, OWLClassRole.class, OWLDataPropertyRole.class,
 						OWLObjectPropertyRole.class, OWLPropertyRole.class, StatementRole.class, SubClassStatementActorReference.class,
@@ -134,7 +134,7 @@ public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOnt
 			}
 		}
 
-		public static org.openflexo.pamela.factory.ModelFactory getModelFactory() {
+		public static org.openflexo.pamela.factory.PamelaModelFactory getModelFactory() {
 			return MF;
 		}
 

@@ -2035,7 +2035,7 @@ public class OWLOntology extends OWLObject
 		Hashtable<OntResource, String> renamedResources = new Hashtable<OntResource, String>();
 		Hashtable<String, OntResource> renamedURI = new Hashtable<String, OntResource>();
 	
-		OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+		OntModel ontModel = PamelaModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 		String ontologyURI = "file:/tmp/UML2.owl";
 		ontModel.read(ontologyURI);
 		for (Iterator<OntClass> i = ontModel.listClasses(); i.hasNext();) {

@@ -189,7 +189,7 @@ public class TestPizza extends OpenflexoTestCase {
 		// create the ontology model
 		/*
 		 * Model base = m_maker.createModel( ONTOLOGY_C ); OntModel om =
-		 * ModelFactory.createOntologyModel( oms, base );
+		 * PamelaModelFactory.createOntologyModel( oms, base );
 		 */
 
 		// read in some content which does importing
@@ -208,7 +208,7 @@ public class TestPizza extends OpenflexoTestCase {
 		 * 
 		 * 
 		 * OntModel ontModel =
-		 * ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM,
+		 * PamelaModelFactory.createOntologyModel(OntModelSpec.OWL_MEM,
 		 * importedOntologyLibrary, base);
 		 * 
 		 * ontModel.createOntology("http://my-pizza.com");
@@ -227,7 +227,7 @@ public class TestPizza extends OpenflexoTestCase {
 		 * relationshipUri = "http://purl.org/vocab/relationship/";
 		 * 
 		 * // Create an empty Model // Model model =
-		 * ModelFactory.createDefaultModel();
+		 * PamelaModelFactory.createDefaultModel();
 		 * 
 		 * // Create a Resource for each family member, identified by their URI
 		 * OntClass adam = ontModel.createClass(familyUri+"adam"); OntClass beth

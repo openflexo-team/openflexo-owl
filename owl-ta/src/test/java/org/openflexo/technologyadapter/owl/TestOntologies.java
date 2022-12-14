@@ -846,7 +846,7 @@ public class TestOntologies extends OpenflexoTestCase {
 	 * RDFSURIDefinitions.RDFS_ONTOLOGY_URI);
 	 * 
 	 * OntModel ontModel =
-	 * ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null, null);
+	 * PamelaModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null, null);
 	 * 
 	 * // FIXES add strict to FALSE (XtoF) // FIXES OPENFLEXO-39, OPENFLEXO-40,
 	 * OPENFLEXO-41, OPENFLEXO-42, OPENFLEXO-43, OPENFLEXO-44 //
@@ -902,7 +902,7 @@ public class TestOntologies extends OpenflexoTestCase {
 	 * "TestResourceCenter"));
 	 * 
 	 * OntModel ontModel =
-	 * ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, ontologyLibrary,
+	 * PamelaModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, ontologyLibrary,
 	 * null); for (OWLOntology o : ontologyLibrary.getAllOntologies()) { try {
 	 * System.out.println("Onto: " + o.getURI() + " file " +
 	 * o.getAlternativeLocalFile().toURL().toString());
