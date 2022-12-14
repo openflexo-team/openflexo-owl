@@ -124,7 +124,7 @@ public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOnt
 
 		static {
 			try {
-				MF = new org.openflexo.pamela.factory.PamelaModelFactory(PamelaMetaModelLibrary.getCompoundModelContext(
+				MF = new org.openflexo.pamela.factory.PamelaModelFactory(PamelaMetaModelLibrary.retrieveMetaModel(
 						ObjectPropertyStatementRole.class, ObjectPropertyStatementActorReference.class, DataPropertyStatementRole.class,
 						DataPropertyStatementActorReference.class, OWLClassRole.class, OWLDataPropertyRole.class,
 						OWLObjectPropertyRole.class, OWLPropertyRole.class, StatementRole.class, SubClassStatementActorReference.class,
