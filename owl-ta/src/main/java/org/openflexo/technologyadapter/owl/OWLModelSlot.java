@@ -110,6 +110,19 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 @Imports({ @Import(SelectIndividual.class) })
 @XMLElement
 @FML("OWLModelSlot")
+/*@FML(
+		value = "TypedDiagram",
+		description = "<html>This ModelSlot represents access to a Diagram conform to a DiagramSpecification<br>"
+				+ "Such diagram refers to a diagram metamodel which is composed of a example diagram and a collection of palettes both encoding template shapes and connectors"
+				+ "</html>",
+		examples = { @UsageExample(
+				example = "Diagram myDiagram with DIAGRAM::TypedDiagram(diagramSpecification = myDiagramSpecification,"
+						+ "paletteElementBindings = {\n"
+						+ "            FMLDiagramPaletteElementBinding:(elementId=\"MyPaletteElement\",dropAction=\"MyConcept.drop()\",overridingGR=RED_SHAPE2),\n"
+						+ "            FMLDiagramPaletteElementBinding:(elementId=\"MyPaletteElement2\",dropAction=\"MyConcept.drop()\")\n"
+						+ "});",
+				description = "Declares a model slot called 'myDiagram' with resulting type 'Diagram', realized through the 'TypedDiagram' model slot, conform to 'myDiagramSpecification' and specified palette element bindings") },
+		references = { @SeeAlso(FreeDiagramModelSlot.class), @SeeAlso(CreateDiagram.class) })*/
 public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOntology, OWLTechnologyAdapter> {
 
 	@Override
@@ -257,6 +270,11 @@ public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOnt
 		public List<Class<? extends FlexoBehaviour>> getAvailableFlexoBehaviourTypes() {
 			List<Class<? extends FlexoBehaviour>> types = new ArrayList<>();
 			return types;
+		}
+
+		@Override
+		public boolean isMetaModelRequired() {
+			return false;
 		}
 
 	}
