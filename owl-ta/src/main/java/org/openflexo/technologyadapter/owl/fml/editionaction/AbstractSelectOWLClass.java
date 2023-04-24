@@ -43,12 +43,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.connie.DataBinding;
+import org.openflexo.connie.DataBinding.BindingDefinitionType;
+import org.openflexo.connie.exception.NullReferenceException;
+import org.openflexo.connie.exception.TypeMismatchException;
+import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.fml.editionaction.AbstractFetchRequest;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.ontology.IFlexoOntologyClass;
 import org.openflexo.foundation.ontology.fml.editionaction.AbstractSelectClass;
+import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
@@ -63,6 +71,16 @@ import org.openflexo.technologyadapter.owl.model.OWLOntology;
 @ImplementationClass(AbstractSelectOWLClass.AbstractSelectOWLClassImpl.class)
 public interface AbstractSelectOWLClass<AT> extends AbstractSelectClass<OWLModelSlot, OWLOntology, OWLClass, AT> {
 
+	@PropertyIdentifier(type = DataBinding.class)
+	public static final String DECLARED_KEY = "declared";
+
+	@Getter(value = DECLARED_KEY)
+	@FMLAttribute(value = DECLARED_KEY, required = false)
+	public DataBinding<Boolean> getDeclared();
+
+	@Setter(DECLARED_KEY)
+	public void setDeclared(DataBinding<Boolean> declared);
+
 	public static abstract class AbstractSelectOWLClassImpl<AT> extends AbstractSelectClassImpl<OWLModelSlot, OWLOntology, OWLClass, AT>
 			implements AbstractSelectOWLClass<AT> {
 
@@ -76,6 +94,30 @@ public interface AbstractSelectOWLClass<AT> extends AbstractSelectClass<OWLModel
 			return OWLClass.class;
 		}
 
+		private DataBinding<Boolean> declared;
+
+		@Override
+		public DataBinding<Boolean> getDeclared() {
+			if (declared == null) {
+				declared = new DataBinding<>(this, Boolean.class, BindingDefinitionType.GET);
+				declared.setBindingName("declared");
+			}
+			return declared;
+		}
+
+		@Override
+		public void setDeclared(DataBinding<Boolean> declared) {
+
+			if (declared != null) {
+				declared.setOwner(this);
+				declared.setBindingName("declared");
+				declared.setDeclaredType(Boolean.class);
+				declared.setBindingDefinitionType(BindingDefinitionType.GET);
+			}
+			this.declared = declared;
+			notifiedBindingChanged(this.declared);
+		}
+
 		@Override
 		public List<OWLClass> performExecute(RunTimeEvaluationContext evaluationContext) {
 
@@ -83,13 +125,43 @@ public interface AbstractSelectOWLClass<AT> extends AbstractSelectClass<OWLModel
 
 			OWLOntology ontology = getReceiver(evaluationContext);
 
-			System.out.println("On cherche tous les sousclasses de " + getParentClass() + " dans " + ontology);
+			System.err.println("On cherche tous les sousclasses de " + getParentClass() + " dans " + ontology);
+
+			boolean restrictToDeclared = false;
+			if (getDeclared().isSet() && getDeclared().isValid()) {
+				try {
+					restrictToDeclared = getDeclared().getBindingValue(evaluationContext);
+				} catch (TypeMismatchException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NullReferenceException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ReflectiveOperationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			System.err.println("Restrict to declared: " + restrictToDeclared);
+			// System.exit(-1);
+
+			List<OWLClass> consideredClasses = new ArrayList<>();
+			if (restrictToDeclared) {
+				consideredClasses = ontology.getClasses();
+				System.err.println("Hop: " + consideredClasses);
+			}
+			else {
+				consideredClasses = ontology.getAccessibleClasses();
+			}
 
 			List<OWLClass> selectedClasses = new ArrayList<>();
 			IFlexoOntologyClass parentClass = getParentClass();
-			for (OWLClass c : ontology.getAccessibleClasses()) {
+			for (OWLClass c : consideredClasses) {
 				if (parentClass == null || parentClass.isSuperClassOf(c)) {
-					selectedClasses.add(c);
+					if (!restrictToDeclared || !(c.isRootConcept())) {
+						selectedClasses.add(c);
+					}
 				}
 			}
 
