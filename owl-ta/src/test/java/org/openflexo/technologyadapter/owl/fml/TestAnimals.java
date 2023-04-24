@@ -38,25 +38,36 @@
 
 package org.openflexo.technologyadapter.owl.fml;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.openflexo.connie.exception.InvalidBindingException;
+import org.openflexo.connie.exception.NullReferenceException;
+import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.FlexoEditor;
 import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.FlexoProject;
+import org.openflexo.foundation.fml.CreationScheme;
 import org.openflexo.foundation.fml.VirtualModel;
 import org.openflexo.foundation.fml.VirtualModelLibrary;
 import org.openflexo.foundation.fml.rt.FMLRTVirtualModelInstance;
+import org.openflexo.foundation.fml.rt.action.CreateBasicVirtualModelInstance;
+import org.openflexo.foundation.fml.rt.rm.FMLRTVirtualModelInstanceResource;
 import org.openflexo.foundation.resource.FlexoResourceCenter;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.test.OpenflexoProjectAtRunTimeTestCase;
+import org.openflexo.rm.ResourceLocator;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
-import org.openflexo.technologyadapter.owl.model.OWLOntology;
+import org.openflexo.technologyadapter.owl.model.OWLClass;
+import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
 import org.openflexo.test.UITest;
@@ -73,13 +84,10 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	private static FlexoEditor editor;
 	private static FlexoProject<File> project;
 
-	private static VirtualModel viewPoint;
-	// private static VirtualModel virtualModel;
-	// private static FlexoConcept flexoConcept;
+	private static VirtualModel rootVM;
 
-	private static FMLRTVirtualModelInstance newView;
-	// private static FMLRTVirtualModelInstance newVirtualModelInstance;
-	private static OWLOntology animalOntology;
+	private static FMLRTVirtualModelInstance vmi;
+	private static OWLOntologyResource animalOntologyResource;
 
 	/**
 	 * Retrieve the ViewPoint
@@ -105,36 +113,19 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 
 		VirtualModelLibrary vpLib = serviceManager.getVirtualModelLibrary();
 		assertNotNull(vpLib);
-		viewPoint = vpLib.getVirtualModel("http://www.openflexo.org/test/owl/Animals.fml");
-		assertNotNull(viewPoint);
+		rootVM = vpLib.getVirtualModel("http://www.openflexo.org/test/owl/Animals.fml");
+		assertNotNull(rootVM);
 
-		System.out.println(viewPoint.getCompilationUnit().getFMLPrettyPrint());
+		System.out.println(rootVM.getCompilationUnit().getFMLPrettyPrint());
 
-		assertCompilationUnitIsValid(viewPoint.getCompilationUnit());
+		assertCompilationUnitIsValid(rootVM.getCompilationUnit());
 
-		/*virtualModel = viewPoint.getVirtualModelNamed("TestVirtualModel");
-		assertNotNull(virtualModel);
-		assertTrue(virtualModel.hasNature(FMLControlledDiagramVirtualModelNature.INSTANCE));
-		
-		flexoConcept = virtualModel.getFlexoConcepts().get(0);
-		assertNotNull(flexoConcept);
-		
-		dropScheme = (DropScheme) flexoConcept.getFlexoBehaviours().get(0);
-		assertNotNull(dropScheme);*/
-
-		/*DiagramSpecificationRepository<?> repository = diagramTA.getDiagramSpecificationRepository(resourceCenter);
-		DiagramSpecificationResource diagramSpecificationResource = repository
-				.getResource("http://openflexo.org/test/TestDiagramSpecification");
-		assertNotNull(diagramSpecificationResource);
-		assertNotNull(diagramSpecification = diagramSpecificationResource.getDiagramSpecification());
-		assertEquals(1, diagramSpecificationResource.getDiagramSpecification().getPalettes().size());
-		assertNotNull(palette = diagramSpecificationResource.getDiagramSpecification().getPalettes().get(0));
-		assertEquals(2, palette.getElements().size());
-		assertNotNull(paletteElement = palette.getElements().get(0));*/
+		animalOntologyResource = (OWLOntologyResource) serviceManager.getResourceManager().getResource("http://openflexo.org/test/animals");
+		assertNotNull(animalOntologyResource);
 
 	}
 
-	/*@Test
+	@Test
 	@TestOrder(2)
 	@Category(UITest.class)
 	public void testCreateProject() {
@@ -142,212 +133,53 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 		project = (FlexoProject<File>) editor.getProject();
 		System.out.println("Created project " + project.getProjectDirectory());
 		assertTrue(project.getProjectDirectory().exists());
-	}*/
+	}
 
-	/**
-	 * Instantiate in project a View conform to the ViewPoint
-	 */
-	/*	@Test
-		@TestOrder(3)
-		@Category(UITest.class)
-		public void testCreateView() {
-	
-			CreateBasicVirtualModelInstance action = CreateBasicVirtualModelInstance.actionType
-					.makeNewAction(project.getVirtualModelInstanceRepository().getRootFolder(), null, editor);
-			action.setNewVirtualModelInstanceName("MyView");
-			action.setNewVirtualModelInstanceTitle("Test creation of a new view");
-			action.setVirtualModel(viewPoint);
-			action.doAction();
-			assertTrue(action.hasActionExecutionSucceeded());
-			newView = action.getNewVirtualModelInstance();
-			assertNotNull(newView);
-			assertNotNull(newView.getResource());
-			assertTrue(ResourceLocator.retrieveResourceAsFile(((FMLRTVirtualModelInstanceResource) newView.getResource()).getDirectory())
-					.exists());
-			assertTrue(((FMLRTVirtualModelInstanceResource) newView.getResource()).getIODelegate().exists());
-	
-		}*/
-
-	/**
-	 * Instantiate in project a FMLRTVirtualModelInstance conform to the VirtualModel
-	 */
-	/*	@Test
-		@TestOrder(4)
-		@Category(UITest.class)
-		public void testCreateVirtualModelInstance() {
-	
-			log("testCreateVirtualModelInstance()");
-	
-			assertEquals(1, virtualModel.getModelSlots().size());
-	
-			assertEquals(1, virtualModel.getModelSlots(TypedDiagramModelSlot.class).size());
-			TypedDiagramModelSlot ms = virtualModel.getModelSlots(TypedDiagramModelSlot.class).get(0);
-			assertNotNull(ms);
-	
-			assertTrue(virtualModel.getModelSlots().contains(ms));
-	
-			CreateBasicVirtualModelInstance action = CreateBasicVirtualModelInstance.actionType.makeNewAction(newView, null, editor);
-			action.setNewVirtualModelInstanceName("MyVirtualModelInstance");
-			action.setNewVirtualModelInstanceTitle("Test creation of a new FMLRTVirtualModelInstance");
-			action.setVirtualModel(virtualModel);
-			action.setCreationScheme(virtualModel.getCreationSchemes().get(0));
-	
-			action.doAction();
-	
-			if (!action.hasActionExecutionSucceeded()) {
-				fail(action.getThrownException().getMessage());
-			}
-	
-			assertTrue(action.hasActionExecutionSucceeded());
-			newVirtualModelInstance = action.getNewVirtualModelInstance();
-			assertNotNull(newVirtualModelInstance);
-			assertNotNull(newVirtualModelInstance.getResource());
-			assertTrue(ResourceLocator.retrieveResourceAsFile(((FMLRTVirtualModelInstanceResource) newView.getResource()).getDirectory())
-					.exists());
-			assertTrue(((FMLRTVirtualModelInstanceResource) newView.getResource()).getIODelegate().exists());
-			assertEquals(1, newVirtualModelInstance.getModelSlotInstances().size());
-	
-			TypeAwareModelSlotInstance<Diagram, DiagramSpecification, TypedDiagramModelSlot> diagramMSInstance = (TypeAwareModelSlotInstance<Diagram, DiagramSpecification, TypedDiagramModelSlot>) newVirtualModelInstance
-					.getModelSlotInstances().get(0);
-			assertNotNull(diagramMSInstance);
-			assertNotNull(diagram = diagramMSInstance.getAccessedResourceData());
-			assertNotNull(diagramMSInstance.getResource());
-			assertTrue(((DiagramResource) diagramMSInstance.getResource()).getIODelegate().exists());
-	
-			assertTrue(newVirtualModelInstance.hasNature(FMLControlledDiagramVirtualModelInstanceNature.INSTANCE));
-	
-			assertNotNull(FMLControlledDiagramVirtualModelInstanceNature.getModelSlotInstance(newVirtualModelInstance));
-			assertNotNull(FMLControlledDiagramVirtualModelInstanceNature.getModelSlotInstance(newVirtualModelInstance).getModelSlot());
-	
-			assertFalse(diagram.isModified());
-			assertFalse(newVirtualModelInstance.isModified());
-	
-		}*/
-
-	/**
-	 * Try to populate FMLRTVirtualModelInstance
-	 * 
-	 * @throws SaveResourceException
-	 */
-	/*	@Test
-		@TestOrder(5)
-		@Category(UITest.class)
-		public void testPopulateVirtualModelInstance() throws SaveResourceException {
-	
-			log("testPopulateVirtualModelInstance()");
-	
-			FMLRTVirtualModelInstanceResource vmiRes = (FMLRTVirtualModelInstanceResource) newVirtualModelInstance.getResource();
-	
-			assertFalse(diagram.isModified());
-			assertFalse(newVirtualModelInstance.isModified());
-	
-			System.out.println(vmiRes.getFactory().stringRepresentation(vmiRes.getLoadedResourceData()));
-	
-			System.out.println("Avant le drop");
-			for (FlexoResource<?> unsaved : serviceManager.getResourceManager().getUnsavedResources()) {
-				System.out.println(" unsaved : " + unsaved);
-			}
-	
-			DropSchemeAction action = new DropSchemeAction(dropScheme, newVirtualModelInstance, null, editor);
-			action.setDropLocation(new DianaPoint(100, 100));
-	
-			action.doAction();
-			assertTrue(action.hasActionExecutionSucceeded());
-	
-			System.out.println("Apres le drop");
-			for (FlexoResource<?> unsaved : serviceManager.getResourceManager().getUnsavedResources()) {
-				System.out.println(" unsaved : " + unsaved);
-			}
-	
-			System.out.println(vmiRes.getFactory().stringRepresentation(vmiRes.getLoadedResourceData()));
-	
-			assertTrue(diagram.isModified());
-			assertTrue(newVirtualModelInstance.isModified());
-	
-			assertTrue(diagram.isModified());
-			assertTrue(newVirtualModelInstance.isModified());
-	
-			System.out.println("-----------> Modified resources");
-			for (FlexoResource<?> r : serviceManager.getResourceManager().getUnsavedResources()) {
-				System.out.println(" > " + r);
-			}
-	
-			// TODO: check this
-			// If we uncomment this, virtual model also flagged as saved on Jenkins environement
-			// Because of jars ???
-			// assertEquals(2, serviceManager.getResourceManager().getUnsavedResources().size());
-			// assertTrue(serviceManager.getResourceManager().getUnsavedResources().contains(virtualModel.getResource()));
-	
-			assertTrue(serviceManager.getResourceManager().getUnsavedResources().contains(newVirtualModelInstance.getResource()));
-			assertTrue(serviceManager.getResourceManager().getUnsavedResources().contains(diagram.getResource()));
-	
-			newVirtualModelInstance.getResource().save();
-			assertTrue(((FMLRTVirtualModelInstanceResource) newVirtualModelInstance.getResource()).getIODelegate().exists());
-			assertFalse(newVirtualModelInstance.isModified());
-	
-			diagram.getResource().save();
-			assertTrue(((DiagramResource) diagram.getResource()).getIODelegate().exists());
-			assertFalse(diagram.isModified());
-	
-			// assertEquals(0, serviceManager.getResourceManager().getUnsavedResources().size());
-	
-			// Cf Above
-			// virtualModel.getResource().save(null);
-			// assertEquals(0,
-			// serviceManager.getResourceManager().getUnsavedResources().size());
-		}*/
-
-	/**
-	 * Instantiate in project a FMLRTVirtualModelInstance conform to the VirtualModel
-	 * 
-	 * @throws FlexoException
-	 * @throws ResourceLoadingCancelledException
-	 * @throws FileNotFoundException
-	 */
-	/*@Test
-	@TestOrder(6)
+	@Test
+	@TestOrder(3)
 	@Category(UITest.class)
-	public void testReloadProject() throws FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
-	
-		log("testReloadProject()");
-	
-		String oldViewURI = newView.getURI();
-	
-		// instanciateTestServiceManager(DiagramTechnologyAdapter.class);
-		editor = reloadProject(project);
-		project = (FlexoProject<File>) editor.getProject();
-		assertNotNull(editor);
-		assertNotNull(project);
-	
-		System.out.println("All resources=" + project.getAllResources());
-		assertEquals(4, project.getAllResources().size());
-		assertNotNull(project.getResource(oldViewURI));
-	
-		FMLRTVirtualModelInstanceResource newViewResource = project.getVirtualModelInstanceRepository().getVirtualModelInstance(oldViewURI);
-		assertNotNull(newViewResource);
-		newViewResource.loadResourceData();
-		assertNotNull(newView = newViewResource.getVirtualModelInstance());
-	
-		assertEquals(1, newViewResource.getVirtualModelInstanceResources().size());
-		FMLRTVirtualModelInstanceResource vmiResource = newViewResource.getVirtualModelInstanceResources().get(0);
-		assertNotNull(vmiResource);
-		assertNull(vmiResource.getLoadedResourceData());
-		vmiResource.loadResourceData();
-		assertNotNull(newVirtualModelInstance = vmiResource.getVirtualModelInstance());
-	
-		assertEquals(1, newVirtualModelInstance.getFlexoConceptInstances().size());
-		FlexoConceptInstance fci = newVirtualModelInstance.getFlexoConceptInstances().get(0);
-		assertNotNull(fci);
-	
-		assertTrue(newVirtualModelInstance.hasNature(FMLControlledDiagramVirtualModelInstanceNature.INSTANCE));
-		assertNotNull(FMLControlledDiagramVirtualModelInstanceNature.getModelSlotInstance(newVirtualModelInstance));
-		assertNotNull(FMLControlledDiagramVirtualModelInstanceNature.getModelSlotInstance(newVirtualModelInstance).getModelSlot());
-	
-		assertEquals(1, fci.getActors().size());
-	
-		ModelObjectActorReference<DiagramShape> actorReference = (ModelObjectActorReference<DiagramShape>) fci.getActors().get(0);
-		assertNotNull(actorReference);
-		assertNotNull(actorReference.getModellingElement());
-	
-	}*/
+	public void testCreateInstance() {
+
+		System.err.println("testCreateInstance()");
+		CreateBasicVirtualModelInstance action = CreateBasicVirtualModelInstance.actionType
+				.makeNewAction(project.getVirtualModelInstanceRepository().getRootFolder(), null, editor);
+		action.setNewVirtualModelInstanceName("AnimalsInstance");
+		action.setNewVirtualModelInstanceTitle("Test animals");
+		action.setVirtualModel(rootVM);
+
+		CreationScheme creationScheme = rootVM.getCreationSchemes().get(0);
+		action.setCreationScheme(creationScheme);
+
+		action.setParameterValue(creationScheme.getParameters().get(0), animalOntologyResource);
+		action.doAction();
+		assertTrue(action.hasActionExecutionSucceeded());
+		vmi = action.getNewVirtualModelInstance();
+		assertNotNull(vmi);
+		assertNotNull(vmi.getResource());
+		assertTrue(ResourceLocator.retrieveResourceAsFile(((FMLRTVirtualModelInstanceResource) vmi.getResource()).getDirectory()).exists());
+		assertTrue(((FMLRTVirtualModelInstanceResource) vmi.getResource()).getIODelegate().exists());
+
+		System.err.println("View: " + vmi + " in " + vmi.getResource().getIODelegate());
+
+	}
+
+	@Test
+	@TestOrder(4)
+	@Category(UITest.class)
+	public void testListAllOWLClasses() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+		System.err.println("testListAllOWLClasses()");
+		List<OWLClass> allClasses = vmi.execute("this.listAllOWLClasses()");
+		assertEquals(30, allClasses.size());
+	}
+
+	@Test
+	@TestOrder(5)
+	@Category(UITest.class)
+	public void listDeclaredOWLClasses() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+		System.err.println("listDeclaredOWLClasses()");
+		List<OWLClass> allClasses = vmi.execute("this.listDeclaredOWLClasses()");
+		assertEquals(4, allClasses.size());
+	}
 }
