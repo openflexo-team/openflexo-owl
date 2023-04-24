@@ -54,6 +54,7 @@ import org.openflexo.foundation.fml.annotations.DeclareFlexoRoles;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.ontology.fml.editionaction.SelectIndividual;
 import org.openflexo.foundation.ontology.fml.rt.ConceptActorReference;
+import org.openflexo.foundation.ontology.fml.rt.FlexoOntologyModelSlotInstance;
 import org.openflexo.foundation.ontology.technologyadapter.FlexoOntologyModelSlot;
 import org.openflexo.foundation.resource.FlexoResourceCenter;
 import org.openflexo.foundation.resource.SaveResourceException;
@@ -104,7 +105,7 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 @DeclareEditionActions({ CreateOWLResource.class, AddOWLIndividual.class, AddOWLClass.class, AddDataPropertyStatement.class,
 		AddObjectPropertyStatement.class, AddRestrictionStatement.class, AddSubClassStatement.class })
 @DeclareFetchRequests({ SelectOWLClass.class, SelectOWLIndividual.class, SelectUniqueOWLClass.class, SelectUniqueOWLIndividual.class })
-@DeclareActorReferences({ ConceptActorReference.class })
+@DeclareActorReferences({ FlexoOntologyModelSlotInstance.class, ConceptActorReference.class })
 @ModelEntity
 @ImplementationClass(OWLModelSlot.OWLModelSlotImpl.class)
 @Imports({ @Import(SelectIndividual.class) })
