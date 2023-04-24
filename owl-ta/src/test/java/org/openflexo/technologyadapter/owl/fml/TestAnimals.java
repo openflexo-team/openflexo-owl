@@ -182,4 +182,14 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 		List<OWLClass> allClasses = vmi.execute("this.listDeclaredOWLClasses()");
 		assertEquals(4, allClasses.size());
 	}
+
+	@Test
+	@TestOrder(6)
+	@Category(UITest.class)
+	public void listDeclaredOWLClasses2() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+		System.err.println("listDeclaredOWLClasses2()");
+		List<OWLClass> allClasses = vmi.execute("this.listDeclaredOWLClasses2()");
+		assertEquals(4, allClasses.size());
+	}
 }

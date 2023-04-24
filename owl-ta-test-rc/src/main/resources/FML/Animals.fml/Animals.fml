@@ -35,11 +35,25 @@ public model Animals {
 		return returned;
 	}
 
+	public List<OWLClass> listDeclaredOWLClasses2() {
+		List<OWLClass> returned = new ArrayList();
+		for (OWLClass aClass : select OWLClass with SelectOWLClass(declared=true) from ontology) {
+				returned.add(aClass);
+		}
+		return returned;
+	}
+
 	public void listAllOWLIndividuals() {
 		for (OWLIndividual anIndividual : select OWLIndividual from ontology) {
 			log "OWLIndividual: " + anIndividual;
 		}
 	}
+	
+	/*public OWLClass setlectUniqueOWLClasses() {
+		return select unique OWLClass from ontology where (selected.name="Cat");
+	}*/
+
+
 
 /*	public void listAllCats() {
 		for (Cat aCat : select Cat from ontology) {
