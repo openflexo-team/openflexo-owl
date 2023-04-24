@@ -1,0 +1,36 @@
+use org.openflexo.technologyadapter.owl.OWLModelSlot as OWL;
+
+import ["http://openflexo.org/test/animals"] as ANIMALS;
+import [ANIMALS:"Cat"] as cat;
+
+import org.openflexo.technologyadapter.owl.model.OWLOntology;
+
+//type OWLIndividualType(owlClass=cat) as Cat;
+
+@URI("http://www.openflexo.org/test/owl/Animals.fml")
+public model Animals {
+	OWLOntology ontology with OWLModelSlot();
+
+	create(Resource<OWLOntology> aOWLOntologyResource) {
+		ontology = parameters.aOWLOntologyResource.resourceData;
+	}
+
+	public void listAllOWLClasses() {
+		for (OWLClass aClass : select OWLClass from ontology) {
+			log "OWLClass: " + aClass;
+		}
+	}
+
+	public void listAllOWLIndividuals() {
+		for (OWLIndividual anIndividual : select OWLIndividual from ontology) {
+			log "OWLIndividual: " + anIndividual;
+		}
+	}
+
+/*	public void listAllCats() {
+		for (Cat aCat : select Cat from ontology) {
+			log "Cat: " + aCat;
+		}
+	}*/
+
+}
