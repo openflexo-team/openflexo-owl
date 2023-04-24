@@ -42,6 +42,7 @@ package org.openflexo.technologyadapter.owl.model;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -412,14 +413,22 @@ public class OWLOntologyLibrary extends FlexoOntologyTechnologyContextManager<OW
 		allImportedOntologiesMapCache.invalidateAll();
 	}
 
+	private List<OWLOntology> ontologiesBeeingImported = new ArrayList<>();
+
 	protected Set<OWLOntology> getAllImportedOntology(OWLOntology ontology) {
+		if (ontologiesBeeingImported.contains(ontology)) {
+			return Collections.emptySet();
+		}
 		try {
+			ontologiesBeeingImported.add(ontology);
 			return allImportedOntologiesMapCache.get(ontology);
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 			System.err.println("Caused by: ");
 			e.getCause().printStackTrace();
 			return null;
+		} finally {
+			ontologiesBeeingImported.remove(ontology);
 		}
 	}
 
