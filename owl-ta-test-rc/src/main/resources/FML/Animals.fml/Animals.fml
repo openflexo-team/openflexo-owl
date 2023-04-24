@@ -49,9 +49,9 @@ public model Animals {
 		}
 	}
 	
-	/*public OWLClass setlectUniqueOWLClasses() {
-		return select unique OWLClass from ontology where (selected.name="Cat");
-	}*/
+	public OWLClass selectUniqueOWLClasses() {
+		return select unique OWLClass from ontology where (selected.name=="Cat");
+	}
 
 
 

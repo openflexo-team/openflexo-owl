@@ -176,7 +176,7 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@Test
 	@TestOrder(5)
 	@Category(UITest.class)
-	public void listDeclaredOWLClasses() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+	public void testListDeclaredOWLClasses() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
 			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
 		System.err.println("listDeclaredOWLClasses()");
 		List<OWLClass> allClasses = vmi.execute("this.listDeclaredOWLClasses()");
@@ -186,10 +186,22 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@Test
 	@TestOrder(6)
 	@Category(UITest.class)
-	public void listDeclaredOWLClasses2() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+	public void testListDeclaredOWLClasses2() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
 			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
 		System.err.println("listDeclaredOWLClasses2()");
 		List<OWLClass> allClasses = vmi.execute("this.listDeclaredOWLClasses2()");
 		assertEquals(4, allClasses.size());
 	}
+
+	@Test
+	@TestOrder(7)
+	@Category(UITest.class)
+	public void testSelectUniqueOWLClasses() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+		System.err.println("selectUniqueOWLClasses()");
+		OWLClass theCat = vmi.execute("this.selectUniqueOWLClasses()");
+		System.err.println("theCat=" + theCat);
+		assertNotNull(theCat);
+	}
+
 }
