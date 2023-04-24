@@ -1227,6 +1227,7 @@ public class OWLOntology extends OWLObject
 	@Override
 	public List<OWLClass> getAccessibleClasses() {
 		List<OWLClass> returned = new ArrayList<>();
+		returned.addAll(getClasses());
 		for (OWLOntology o : getAllImportedOntologies()) {
 			returned.addAll(o.getClasses());
 		}
@@ -1243,6 +1244,7 @@ public class OWLOntology extends OWLObject
 	@Override
 	public List<OWLIndividual> getAccessibleIndividuals() {
 		List<OWLIndividual> returned = new ArrayList<>();
+		returned.addAll(getIndividuals());
 		for (OWLOntology o : getAllImportedOntologies()) {
 			returned.addAll(o.getIndividuals());
 		}
@@ -1259,6 +1261,7 @@ public class OWLOntology extends OWLObject
 	@Override
 	public List<OWLObjectProperty> getAccessibleObjectProperties() {
 		List<OWLObjectProperty> returned = new ArrayList<>();
+		returned.addAll(getObjectProperties());
 		for (OWLOntology o : getAllImportedOntologies()) {
 			returned.addAll(o.getObjectProperties());
 		}
@@ -1275,6 +1278,7 @@ public class OWLOntology extends OWLObject
 	@Override
 	public List<OWLDataProperty> getAccessibleDataProperties() {
 		List<OWLDataProperty> returned = new ArrayList<>();
+		returned.addAll(getDataProperties());
 		for (OWLOntology o : getAllImportedOntologies()) {
 			returned.addAll(o.getDataProperties());
 		}
