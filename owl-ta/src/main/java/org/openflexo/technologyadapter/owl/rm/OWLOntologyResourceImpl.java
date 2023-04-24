@@ -54,6 +54,11 @@ import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.foundation.resource.SaveResourcePermissionDeniedException;
 import org.openflexo.foundation.technologyadapter.FlexoMetaModelResource;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
+import org.openflexo.technologyadapter.owl.model.OWLClass;
+import org.openflexo.technologyadapter.owl.model.OWLConcept;
+import org.openflexo.technologyadapter.owl.model.OWLDataProperty;
+import org.openflexo.technologyadapter.owl.model.OWLIndividual;
+import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 
 /**
@@ -198,6 +203,52 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 	@Override
 	public Class<OWLOntology> getResourceDataClass() {
 		return OWLOntology.class;
+	}
+
+	@Override
+	public OWLConcept<?> findObject(String objectIdentifier, String userIdentifier) {
+		OWLOntology ontology;
+		try {
+			ontology = getResourceData();
+
+			// Easyest way
+			String uri = ontology.getURI() + "#" + objectIdentifier;
+			OWLConcept<?> object = ontology.getOntologyObject(uri);
+			if (object != null) {
+				return object;
+			}
+			for (OWLClass owlClass : ontology.getClasses()) {
+				if (owlClass.getName().equals(objectIdentifier)) {
+					return owlClass;
+				}
+			}
+			for (OWLObjectProperty owlProperty : ontology.getObjectProperties()) {
+				if (owlProperty.getName().equals(objectIdentifier)) {
+					return owlProperty;
+				}
+			}
+			for (OWLDataProperty owlProperty : ontology.getDataProperties()) {
+				if (owlProperty.getName().equals(objectIdentifier)) {
+					return owlProperty;
+				}
+			}
+			for (OWLIndividual owlIndividual : ontology.getIndividuals()) {
+				if (owlIndividual.getName().equals(objectIdentifier)) {
+					return owlIndividual;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ResourceLoadingCancelledException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FlexoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }
