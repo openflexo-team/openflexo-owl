@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.connie.type.ProxyType;
 import org.openflexo.foundation.fml.editionaction.AbstractFetchRequest;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.ontology.IFlexoOntologyClass;
@@ -83,6 +84,9 @@ public interface AbstractSelectOWLIndividual<AT> extends AbstractSelectIndividua
 			super.setFetchedType(type);
 			if (type instanceof OWLIndividualType) {
 				setType(((OWLIndividualType) type).getOntologyClass());
+			}
+			if (type instanceof ProxyType && ((ProxyType) type).getReferencedType() instanceof OWLIndividualType) {
+				setType(((OWLIndividualType) ((ProxyType) type).getReferencedType()).getOntologyClass());
 			}
 		}
 
