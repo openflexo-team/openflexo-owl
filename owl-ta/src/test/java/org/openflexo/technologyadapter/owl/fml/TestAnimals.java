@@ -135,6 +135,8 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 		animalOntologyResource = (OWLOntologyResource) serviceManager.getResourceManager().getResource("http://openflexo.org/test/animals");
 		assertNotNull(animalOntologyResource);
 
+		System.out.println(rootVM.getCompilationUnit().getNormalizedFML());
+
 	}
 
 	@Test
@@ -254,6 +256,16 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
 		System.err.println("listAllCats()");
 		List<OWLIndividual> allCats = vmi.execute("this.listAllCats()");
+		assertEquals(2, allCats.size());
+	}
+
+	@Test
+	@TestOrder(12)
+	@Category(UITest.class)
+	public void testListAllCats2() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+		System.err.println("listAllCats2()");
+		List<OWLIndividual> allCats = vmi.execute("this.listAllCats2()");
 		assertEquals(2, allCats.size());
 	}
 

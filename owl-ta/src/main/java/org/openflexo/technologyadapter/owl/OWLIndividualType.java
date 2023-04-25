@@ -117,7 +117,8 @@ public class OWLIndividualType extends IndividualOfClass<OWLTechnologyAdapter, O
 
 	@Override
 	public String fullQualifiedRepresentation() {
-		return getClass().getName() + "(" + getSerializationRepresentation() + ")";
+		// return getClass().getName() + "(" + getSerializationRepresentation() + ")";
+		return getClass().getName() + "(" + getOntologyClass() + ")";
 	}
 
 	@Override
