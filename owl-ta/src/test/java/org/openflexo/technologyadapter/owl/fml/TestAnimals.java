@@ -67,6 +67,7 @@ import org.openflexo.foundation.test.OpenflexoProjectAtRunTimeTestCase;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
+import org.openflexo.technologyadapter.owl.model.OWLIndividual;
 import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
@@ -203,5 +204,25 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 		System.err.println("theCat=" + theCat);
 		assertNotNull(theCat);
 	}
+
+	@Test
+	@TestOrder(8)
+	@Category(UITest.class)
+	public void testListAllOWLIndividuals() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+		System.err.println("listAllOWLIndividuals()");
+		List<OWLIndividual> allIndividuals = vmi.execute("this.listAllOWLIndividuals()");
+		assertEquals(3, allIndividuals.size());
+	}
+
+	/*@Test
+	@TestOrder(9)
+	@Category(UITest.class)
+	public void testListAllOWLIndividuals2() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+		System.err.println("listAllOWLIndividuals2()");
+		List<OWLIndividual> allIndividuals = vmi.execute("this.listAllOWLIndividuals2()");
+		assertEquals(3, allIndividuals.size());
+	}*/
 
 }
