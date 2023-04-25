@@ -74,7 +74,7 @@ public interface AbstractSelectOWLIndividual<AT> extends AbstractSelectIndividua
 			if (getType() != null) {
 				return super.getFetchedType();
 			}
-			return OWLClass.class;
+			return OWLIndividual.class;
 		}
 
 		@Override
