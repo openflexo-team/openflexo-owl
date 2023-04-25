@@ -63,8 +63,17 @@ public model Animals {
 	public OWLIndividual selectUniqueOWLIndividual() {
 		return select unique OWLIndividual from ontology where (selected.name=="Jerry");
 	}
+	
+	public List<OWLIndividual> listAllCats() {
+		List<OWLIndividual> returned = new ArrayList();
+		for (OWLIndividual aCat : select OWLIndividualType(owlClass=CAT) from ontology) {
+			log "Cat: " + aCat;
+			returned.add(aCat);
+		}
+		return returned;
+	}
 
-/*	public void listAllCats() {
+/*	public void listAllCats2() {
 		for (Cat aCat : select Cat from ontology) {
 			log "Cat: " + aCat;
 		}

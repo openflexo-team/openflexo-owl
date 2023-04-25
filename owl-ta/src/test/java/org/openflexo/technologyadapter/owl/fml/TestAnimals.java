@@ -58,9 +58,11 @@ import org.openflexo.foundation.FlexoProject;
 import org.openflexo.foundation.fml.CreationScheme;
 import org.openflexo.foundation.fml.VirtualModel;
 import org.openflexo.foundation.fml.VirtualModelLibrary;
+import org.openflexo.foundation.fml.rm.CompilationUnitResource;
 import org.openflexo.foundation.fml.rt.FMLRTVirtualModelInstance;
 import org.openflexo.foundation.fml.rt.action.CreateBasicVirtualModelInstance;
 import org.openflexo.foundation.fml.rt.rm.FMLRTVirtualModelInstanceResource;
+import org.openflexo.foundation.resource.FlexoResource;
 import org.openflexo.foundation.resource.FlexoResourceCenter;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.test.OpenflexoProjectAtRunTimeTestCase;
@@ -112,9 +114,18 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 		System.out.println("owlTA=" + owlTA);
 		System.out.println("resourceCenter=" + resourceCenter);
 
+		for (FlexoResource<?> flexoResource : serviceManager.getResourceManager().getRegisteredResources()) {
+			System.out.println("> " + flexoResource + " loaded: " + flexoResource.isLoaded() + " uri=" + flexoResource.getURI());
+		}
+
+		CompilationUnitResource cur = (CompilationUnitResource) serviceManager.getResourceManager()
+				.getResource("http://www.openflexo.org/test/owl/Animals.fml");
+		System.out.println("Hop: " + cur);
+
 		VirtualModelLibrary vpLib = serviceManager.getVirtualModelLibrary();
 		assertNotNull(vpLib);
 		rootVM = vpLib.getVirtualModel("http://www.openflexo.org/test/owl/Animals.fml");
+
 		assertNotNull(rootVM);
 
 		System.out.println(rootVM.getCompilationUnit().getFMLPrettyPrint());
@@ -234,6 +245,16 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 		OWLIndividual jerry = vmi.execute("this.selectUniqueOWLIndividual()");
 		System.err.println("jerry=" + jerry);
 		assertNotNull(jerry);
+	}
+
+	@Test
+	@TestOrder(11)
+	@Category(UITest.class)
+	public void testListAllCats() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+		System.err.println("listAllCats()");
+		List<OWLIndividual> allCats = vmi.execute("this.listAllCats()");
+		assertEquals(2, allCats.size());
 	}
 
 }
