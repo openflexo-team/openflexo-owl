@@ -49,6 +49,7 @@ import org.openflexo.foundation.ontology.IFlexoOntologyClass;
 import org.openflexo.foundation.ontology.fml.editionaction.AbstractSelectIndividual;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.technologyadapter.owl.OWLIndividualType;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLIndividual;
@@ -75,6 +76,14 @@ public interface AbstractSelectOWLIndividual<AT> extends AbstractSelectIndividua
 				return super.getFetchedType();
 			}
 			return OWLIndividual.class;
+		}
+
+		@Override
+		public void setFetchedType(Type type) {
+			super.setFetchedType(type);
+			if (type instanceof OWLIndividualType) {
+				setType(((OWLIndividualType) type).getOntologyClass());
+			}
 		}
 
 		@Override

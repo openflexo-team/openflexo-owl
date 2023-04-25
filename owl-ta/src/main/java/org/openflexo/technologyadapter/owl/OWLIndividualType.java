@@ -45,6 +45,7 @@ import org.openflexo.foundation.ontology.IndividualOfClass;
 import org.openflexo.foundation.utils.FlexoObjectReference.ReferenceOwner;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLIndividual;
+import org.openflexo.toolbox.StringUtils;
 
 /**
  * An type defined as an {@link OWLIndividual} of a given {@link OWLClass}
@@ -61,6 +62,8 @@ public class OWLIndividualType extends IndividualOfClass<OWLTechnologyAdapter, O
 		return (OWLIndividualType) anOntologyClass.getTechnologyAdapter().getTechnologyContextManager()
 				.getIndividualOfClass(anOntologyClass);
 	}
+
+	public static OWLIndividualType UNDEFINED_OWL_INDIVIDUAL_TYPE = new OWLIndividualType((OWLClass) null);
 
 	/**
 	 * Factory for {@link OWLIndividualType} instances
@@ -106,12 +109,20 @@ public class OWLIndividualType extends IndividualOfClass<OWLTechnologyAdapter, O
 
 	@Override
 	public String simpleRepresentation() {
+		if (getSpecificTypeInfo() != null && StringUtils.isNotEmpty(getSpecificTypeInfo().getSerializationForm())) {
+			return getSpecificTypeInfo().getSerializationForm();
+		}
 		return getOntologyClass() != null ? getOntologyClass().getName() : "OWLIndividual";
 	}
 
 	@Override
 	public String fullQualifiedRepresentation() {
 		return getClass().getName() + "(" + getSerializationRepresentation() + ")";
+	}
+
+	@Override
+	public String toString() {
+		return simpleRepresentation();
 	}
 
 }

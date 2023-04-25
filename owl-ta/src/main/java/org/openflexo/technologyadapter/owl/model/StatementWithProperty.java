@@ -43,6 +43,7 @@ import java.lang.reflect.Type;
 
 import org.openflexo.foundation.fml.TechnologySpecificType;
 import org.openflexo.foundation.ontology.IFlexoOntologyStructuralProperty;
+import org.openflexo.foundation.technologyadapter.SpecificTypeInfo;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 
 public class StatementWithProperty implements TechnologySpecificType<OWLTechnologyAdapter> {
@@ -72,7 +73,7 @@ public class StatementWithProperty implements TechnologySpecificType<OWLTechnolo
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public OWLProperty getProperty() {
 		return property;
 	}
@@ -140,5 +141,16 @@ public class StatementWithProperty implements TechnologySpecificType<OWLTechnolo
 	public void resolve() {
 
 	}
+
+	@Override
+	public void registerSpecificTypeInfo(SpecificTypeInfo<OWLTechnologyAdapter> typeInfo) {
+		this.typeInfo = typeInfo;
+	}
+
+	public SpecificTypeInfo<OWLTechnologyAdapter> getSpecificTypeInfo() {
+		return typeInfo;
+	}
+
+	private SpecificTypeInfo<OWLTechnologyAdapter> typeInfo;
 
 }

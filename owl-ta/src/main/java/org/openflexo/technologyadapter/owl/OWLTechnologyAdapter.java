@@ -46,6 +46,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.FlexoProject;
+import org.openflexo.foundation.fml.TechnologySpecificType;
 import org.openflexo.foundation.fml.annotations.DeclareModelSlots;
 import org.openflexo.foundation.fml.annotations.DeclareResourceFactories;
 import org.openflexo.foundation.fml.annotations.DeclareTechnologySpecificTypes;
@@ -55,12 +56,14 @@ import org.openflexo.foundation.resource.FlexoResourceCenter;
 import org.openflexo.foundation.resource.FlexoResourceCenterService;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.resource.SaveResourceException;
+import org.openflexo.foundation.technologyadapter.SpecificTypeInfo;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapter;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterInitializationException;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterService;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.technologyadapter.owl.OWLIndividualType.OWLIndividualTypeFactory;
 import org.openflexo.technologyadapter.owl.fml.binding.OWLBindingFactory;
+import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 import org.openflexo.technologyadapter.owl.model.OWLOntology.OntologyNotFoundException;
 import org.openflexo.technologyadapter.owl.model.OWLOntologyLibrary;
@@ -400,6 +403,30 @@ public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter
 			owlIndividualTypeFactory = new OWLIndividualTypeFactory(this);
 		}
 		return owlIndividualTypeFactory;
+	}
+
+	@Override
+	public <T extends TechnologySpecificType<OWLTechnologyAdapter>> T instantiateType(
+			SpecificTypeInfo<OWLTechnologyAdapter> specificTypeInfo) {
+
+		T returned = null;
+		if (specificTypeInfo.getTechnologySpecificTypeClass().equals(OWLIndividualType.class)) {
+			if (specificTypeInfo.getParameter("owlClass") != null) {
+				OWLClass type = (OWLClass) specificTypeInfo.getParameter("owlClass");
+				returned = (T) OWLIndividualType.getOWLIndividualOfClass(type);
+
+			}
+			else {
+				returned = (T) OWLIndividualType.UNDEFINED_OWL_INDIVIDUAL_TYPE;
+			}
+		}
+
+		if (returned != null) {
+			returned.registerSpecificTypeInfo(specificTypeInfo);
+			return returned;
+		}
+
+		return null;
 	}
 
 }
