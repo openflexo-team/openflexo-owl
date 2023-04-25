@@ -43,7 +43,7 @@ public model Animals {
 		return returned;
 	}
 
-	public OWLClass selectUniqueOWLClasses() {
+	public OWLClass selectUniqueOWLClass() {
 		return select unique OWLClass from ontology where (selected.name=="Cat");
 	}
 
@@ -60,6 +60,9 @@ public model Animals {
 		return select OWLIndividual from ontology;
 	}
 
+	public OWLIndividual selectUniqueOWLIndividual() {
+		return select unique OWLIndividual from ontology where (selected.name=="Jerry");
+	}
 
 /*	public void listAllCats() {
 		for (Cat aCat : select Cat from ontology) {

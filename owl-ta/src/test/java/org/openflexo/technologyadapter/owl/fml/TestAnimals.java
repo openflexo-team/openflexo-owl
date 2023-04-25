@@ -197,10 +197,10 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@Test
 	@TestOrder(7)
 	@Category(UITest.class)
-	public void testSelectUniqueOWLClasses() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+	public void testSelectUniqueOWLClass() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
 			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
-		System.err.println("selectUniqueOWLClasses()");
-		OWLClass theCat = vmi.execute("this.selectUniqueOWLClasses()");
+		System.err.println("selectUniqueOWLClass()");
+		OWLClass theCat = vmi.execute("this.selectUniqueOWLClass()");
 		System.err.println("theCat=" + theCat);
 		assertNotNull(theCat);
 	}
@@ -215,7 +215,7 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 		assertEquals(3, allIndividuals.size());
 	}
 
-	/*@Test
+	@Test
 	@TestOrder(9)
 	@Category(UITest.class)
 	public void testListAllOWLIndividuals2() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
@@ -223,6 +223,17 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 		System.err.println("listAllOWLIndividuals2()");
 		List<OWLIndividual> allIndividuals = vmi.execute("this.listAllOWLIndividuals2()");
 		assertEquals(3, allIndividuals.size());
-	}*/
+	}
+
+	@Test
+	@TestOrder(10)
+	@Category(UITest.class)
+	public void testSelectUniqueOWLIndividual() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+		System.err.println("selectUniqueOWLIndividual()");
+		OWLIndividual jerry = vmi.execute("this.selectUniqueOWLIndividual()");
+		System.err.println("jerry=" + jerry);
+		assertNotNull(jerry);
+	}
 
 }
