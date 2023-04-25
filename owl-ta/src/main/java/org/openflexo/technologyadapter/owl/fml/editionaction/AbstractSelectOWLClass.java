@@ -125,7 +125,7 @@ public interface AbstractSelectOWLClass<AT> extends AbstractSelectClass<OWLModel
 
 			OWLOntology ontology = getReceiver(evaluationContext);
 
-			System.err.println("On cherche tous les sousclasses de " + getParentClass() + " dans " + ontology);
+			// System.err.println("On cherche tous les sousclasses de " + getParentClass() + " dans " + ontology);
 
 			boolean restrictToDeclared = false;
 			if (getDeclared().isSet() && getDeclared().isValid()) {
@@ -143,13 +143,13 @@ public interface AbstractSelectOWLClass<AT> extends AbstractSelectClass<OWLModel
 				}
 			}
 
-			System.err.println("Restrict to declared: " + restrictToDeclared);
+			// System.err.println("Restrict to declared: " + restrictToDeclared);
 			// System.exit(-1);
 
 			List<OWLClass> consideredClasses = new ArrayList<>();
 			if (restrictToDeclared) {
 				consideredClasses = ontology.getClasses();
-				System.err.println("Hop: " + consideredClasses);
+				// System.err.println("Hop: " + consideredClasses);
 			}
 			else {
 				consideredClasses = ontology.getAccessibleClasses();
@@ -167,7 +167,7 @@ public interface AbstractSelectOWLClass<AT> extends AbstractSelectClass<OWLModel
 
 			List<OWLClass> returned = filterWithConditions(selectedClasses, evaluationContext);
 
-			System.out.println("SelectOWLClass, without filtering =" + selectedClasses + " after filtering=" + returned);
+			// System.out.println("SelectOWLClass, without filtering =" + selectedClasses + " after filtering=" + returned);
 
 			return returned;
 
