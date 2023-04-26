@@ -78,17 +78,22 @@ import org.openflexo.technologyadapter.owl.fml.ObjectPropertyStatementRole;
 import org.openflexo.technologyadapter.owl.fml.StatementRole;
 import org.openflexo.technologyadapter.owl.fml.SubClassStatementActorReference;
 import org.openflexo.technologyadapter.owl.fml.SubClassStatementRole;
+import org.openflexo.technologyadapter.owl.fml.TypeStatementActorReference;
+import org.openflexo.technologyadapter.owl.fml.TypeStatementRole;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddDataPropertyStatement;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddOWLClass;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddOWLIndividual;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddObjectPropertyStatement;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddRestrictionStatement;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddSubClassStatement;
+import org.openflexo.technologyadapter.owl.fml.editionaction.AddTypeStatement;
 import org.openflexo.technologyadapter.owl.fml.editionaction.CreateOWLResource;
 import org.openflexo.technologyadapter.owl.fml.editionaction.SelectOWLClass;
 import org.openflexo.technologyadapter.owl.fml.editionaction.SelectOWLIndividual;
+import org.openflexo.technologyadapter.owl.fml.editionaction.SelectOWLObjectProperty;
 import org.openflexo.technologyadapter.owl.fml.editionaction.SelectUniqueOWLClass;
 import org.openflexo.technologyadapter.owl.fml.editionaction.SelectUniqueOWLIndividual;
+import org.openflexo.technologyadapter.owl.fml.editionaction.SelectUniqueOWLObjectProperty;
 import org.openflexo.technologyadapter.owl.model.OWLObject;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
@@ -101,11 +106,14 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
  * 
  */
 @DeclareFlexoRoles({ OWLIndividualRole.class, OWLClassRole.class, OWLDataPropertyRole.class, OWLObjectPropertyRole.class,
-		OWLPropertyRole.class, DataPropertyStatementRole.class, ObjectPropertyStatementRole.class, SubClassStatementRole.class })
+		OWLPropertyRole.class, DataPropertyStatementRole.class, ObjectPropertyStatementRole.class, SubClassStatementRole.class,
+		TypeStatementRole.class })
 @DeclareEditionActions({ CreateOWLResource.class, AddOWLIndividual.class, AddOWLClass.class, AddDataPropertyStatement.class,
-		AddObjectPropertyStatement.class, AddRestrictionStatement.class, AddSubClassStatement.class })
-@DeclareFetchRequests({ SelectOWLClass.class, SelectOWLIndividual.class, SelectUniqueOWLClass.class, SelectUniqueOWLIndividual.class })
-@DeclareActorReferences({ FlexoOntologyModelSlotInstance.class, ConceptActorReference.class })
+		AddObjectPropertyStatement.class, AddRestrictionStatement.class, AddSubClassStatement.class, AddTypeStatement.class })
+@DeclareFetchRequests({ SelectOWLClass.class, SelectOWLIndividual.class, SelectOWLObjectProperty.class, SelectUniqueOWLClass.class,
+		SelectUniqueOWLIndividual.class, SelectUniqueOWLObjectProperty.class })
+@DeclareActorReferences({ FlexoOntologyModelSlotInstance.class, ConceptActorReference.class, SubClassStatementActorReference.class,
+		TypeStatementActorReference.class })
 @ModelEntity
 @ImplementationClass(OWLModelSlot.OWLModelSlotImpl.class)
 @Imports({ @Import(SelectIndividual.class) })
@@ -142,7 +150,7 @@ public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOnt
 						ObjectPropertyStatementRole.class, ObjectPropertyStatementActorReference.class, DataPropertyStatementRole.class,
 						DataPropertyStatementActorReference.class, OWLClassRole.class, OWLDataPropertyRole.class,
 						OWLObjectPropertyRole.class, OWLPropertyRole.class, StatementRole.class, SubClassStatementActorReference.class,
-						SubClassStatementRole.class));
+						SubClassStatementRole.class, TypeStatementActorReference.class, TypeStatementRole.class));
 			} catch (ModelDefinitionException e) {
 				e.printStackTrace();
 			}

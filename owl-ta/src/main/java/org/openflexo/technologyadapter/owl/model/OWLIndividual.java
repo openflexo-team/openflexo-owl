@@ -59,8 +59,8 @@ import org.openflexo.foundation.ontology.IFlexoOntologyPropertyValue;
 import org.openflexo.foundation.ontology.IFlexoOntologyStructuralProperty;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 
-public class OWLIndividual extends OWLConcept<Individual> implements IFlexoOntologyIndividual<OWLTechnologyAdapter>,
-		Comparable<IFlexoOntologyIndividual<OWLTechnologyAdapter>> {
+public class OWLIndividual extends OWLConcept<Individual>
+		implements IFlexoOntologyIndividual<OWLTechnologyAdapter>, Comparable<IFlexoOntologyIndividual<OWLTechnologyAdapter>> {
 
 	private static final Logger logger = Logger.getLogger(IFlexoOntologyIndividual.class.getPackage().getName());
 
@@ -102,8 +102,7 @@ public class OWLIndividual extends OWLConcept<Individual> implements IFlexoOntol
 	}
 
 	/**
-	 * Update this IFlexoOntologyIndividual, given base Individual which is
-	 * assumed to extends base Individual
+	 * Update this IFlexoOntologyIndividual, given base Individual which is assumed to extends base Individual
 	 * 
 	 * @param anOntClass
 	 */
@@ -181,11 +180,11 @@ public class OWLIndividual extends OWLConcept<Individual> implements IFlexoOntol
 	 * 
 	 * @param type
 	 */
-	public SubClassStatement addToTypes(OWLClass aType) {
+	public TypeStatement addToTypes(OWLClass aType) {
 		if (aType != null) {
 			getOntResource().addOntClass(aType.getOntResource());
 			updateOntologyStatements();
-			return getSubClassStatement(aType);
+			return getTypeStatement(aType);
 		}
 		logger.warning("Type " + aType + " is null");
 		return null;
@@ -201,8 +200,7 @@ public class OWLIndividual extends OWLConcept<Individual> implements IFlexoOntol
 
 	public static final Comparator<IFlexoOntologyIndividual<OWLTechnologyAdapter>> COMPARATOR = new Comparator<IFlexoOntologyIndividual<OWLTechnologyAdapter>>() {
 		@Override
-		public int compare(IFlexoOntologyIndividual<OWLTechnologyAdapter> o1,
-				IFlexoOntologyIndividual<OWLTechnologyAdapter> o2) {
+		public int compare(IFlexoOntologyIndividual<OWLTechnologyAdapter> o1, IFlexoOntologyIndividual<OWLTechnologyAdapter> o2) {
 			return Collator.getInstance().compare(o1.getName(), o2.getName());
 		}
 	};
@@ -335,6 +333,15 @@ public class OWLIndividual extends OWLConcept<Individual> implements IFlexoOntol
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + ":" + getURI();
+	}
+
+	public TypeStatement getTypeStatement(OWLClass type) {
+		for (OWLStatement statement : getStatements()) {
+			if (statement instanceof TypeStatement && ((TypeStatement) statement).getType().equals(type)) {
+				return (TypeStatement) statement;
+			}
+		}
+		return null;
 	}
 
 }

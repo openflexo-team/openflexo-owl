@@ -38,6 +38,7 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
@@ -80,6 +81,14 @@ public interface AddOWLIndividual
 
 		public AddOWLIndividualImpl() {
 			super();
+		}
+
+		@Override
+		public Type getAssignableType() {
+			if (getOntologyClass() == null) {
+				return OWLIndividual.class;
+			}
+			return super.getAssignableType();
 		}
 
 		@Override
@@ -147,6 +156,10 @@ public interface AddOWLIndividual
 			// System.out.println("individualName="+individualName);
 
 			OWLOntology receiver = getReceiver(evaluationContext);
+
+			if (father == null) {
+				father = receiver.getRootClass();
+			}
 
 			OWLIndividual newIndividual = null;
 			try {

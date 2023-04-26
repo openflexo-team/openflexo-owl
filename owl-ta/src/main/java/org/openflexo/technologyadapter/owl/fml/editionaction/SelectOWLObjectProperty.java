@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014-2015, Openflexo
  * 
- * This file is part of Owlconnector, a component of the software infrastructure 
+ * This file is part of Emfconnector, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -36,44 +36,32 @@
  * 
  */
 
-package org.openflexo.technologyadapter.owl.fml;
+package org.openflexo.technologyadapter.owl.fml.editionaction;
 
-import java.lang.reflect.Type;
+import java.util.List;
 
 import org.openflexo.foundation.fml.annotations.FML;
-import org.openflexo.foundation.ontology.fml.ObjectPropertyRole;
-import org.openflexo.foundation.technologyadapter.TechnologyAdapter;
+import org.openflexo.foundation.fml.editionaction.AbstractFetchRequest;
+import org.openflexo.foundation.fml.editionaction.FetchRequest;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
+import org.openflexo.technologyadapter.owl.OWLModelSlot;
+import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
+import org.openflexo.technologyadapter.owl.model.OWLOntology;
 
+/**
+ * OWL technology - specific {@link AbstractFetchRequest} allowing to retrieve a selection of some {@link OWLClass} subclass of a given
+ * {@link OWLObjectProperty} matching some conditions<br>
+ * 
+ * @author sylvain
+ */
 @ModelEntity
-@ImplementationClass(OWLObjectPropertyRole.OWLObjectPropertyRoleImpl.class)
+@ImplementationClass(SelectOWLObjectProperty.AbstractSelectOWLObjectPropertyImpl.class)
 @XMLElement
-@FML("OWLObjectPropertyRole")
-public interface OWLObjectPropertyRole extends ObjectPropertyRole<OWLObjectProperty> {
+@FML("SelectOWLObjectProperty")
+public interface SelectOWLObjectProperty
+		extends AbstractSelectOWLObjectProperty<List<OWLObjectProperty>>, FetchRequest<OWLModelSlot, OWLOntology, OWLObjectProperty> {
 
-	public static abstract class OWLObjectPropertyRoleImpl extends ObjectPropertyRoleImpl<OWLObjectProperty>
-			implements OWLObjectPropertyRole {
-
-		public OWLObjectPropertyRoleImpl() {
-			super();
-		}
-
-		@Override
-		public Class<? extends TechnologyAdapter> getRoleTechnologyAdapterClass() {
-			return OWLTechnologyAdapter.class;
-		}
-
-		@Override
-		public Type getType() {
-			if (getParentProperty() == null) {
-				return OWLObjectProperty.class;
-			}
-			return super.getType();
-		}
-
-	}
 }

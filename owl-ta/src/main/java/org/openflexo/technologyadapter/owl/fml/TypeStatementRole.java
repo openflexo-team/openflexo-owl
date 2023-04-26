@@ -39,41 +39,43 @@
 package org.openflexo.technologyadapter.owl.fml;
 
 import java.lang.reflect.Type;
+import java.util.logging.Logger;
 
 import org.openflexo.foundation.fml.annotations.FML;
-import org.openflexo.foundation.ontology.fml.ObjectPropertyRole;
-import org.openflexo.foundation.technologyadapter.TechnologyAdapter;
+import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
+import org.openflexo.logging.FlexoLogger;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
-import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
+import org.openflexo.technologyadapter.owl.OWLModelSlot.OWLModelSlotImpl;
+import org.openflexo.technologyadapter.owl.model.TypeStatement;
 
 @ModelEntity
-@ImplementationClass(OWLObjectPropertyRole.OWLObjectPropertyRoleImpl.class)
-@XMLElement
-@FML("OWLObjectPropertyRole")
-public interface OWLObjectPropertyRole extends ObjectPropertyRole<OWLObjectProperty> {
+@ImplementationClass(TypeStatementRole.TypeStatementRoleImpl.class)
+@FML("TypeStatementRole")
+public interface TypeStatementRole extends StatementRole<TypeStatement> {
 
-	public static abstract class OWLObjectPropertyRoleImpl extends ObjectPropertyRoleImpl<OWLObjectProperty>
-			implements OWLObjectPropertyRole {
+	public static abstract class TypeStatementRoleImpl extends StatementRoleImpl<TypeStatement> implements TypeStatementRole {
 
-		public OWLObjectPropertyRoleImpl() {
-			super();
-		}
-
-		@Override
-		public Class<? extends TechnologyAdapter> getRoleTechnologyAdapterClass() {
-			return OWLTechnologyAdapter.class;
-		}
+		static final Logger logger = FlexoLogger.getLogger(TypeStatementRole.class.getPackage().toString());
 
 		@Override
 		public Type getType() {
-			if (getParentProperty() == null) {
-				return OWLObjectProperty.class;
-			}
-			return super.getType();
+			return TypeStatement.class;
 		}
 
+		@Override
+		public String getTypeDescription() {
+			return getLocales().localizedForKey("type_statement");
+		}
+
+		@Override
+		public TypeStatementActorReference makeActorReference(TypeStatement object, FlexoConceptInstance epi) {
+			org.openflexo.pamela.factory.PamelaModelFactory factory = OWLModelSlotImpl.getModelFactory();
+			TypeStatementActorReference returned = factory.newInstance(TypeStatementActorReference.class);
+			returned.setFlexoRole(this);
+			returned.setFlexoConceptInstance(epi);
+			returned.setModellingElement(object);
+			return returned;
+		}
 	}
 }

@@ -275,6 +275,22 @@ public class OWLClass extends OWLConcept<OntClass>
 		return false;
 	}
 
+	public boolean isDirectSuperClassOf(OWLClass aClass) {
+
+		if (aClass.getSuperClasses().contains(this)) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isDirectTypeOf(OWLIndividual anIndividual) {
+
+		if (anIndividual.getTypes().contains(this)) {
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	public boolean isSuperClassOf(IFlexoOntologyClass<OWLTechnologyAdapter> aClass) {
 
@@ -291,6 +307,7 @@ public class OWLClass extends OWLConcept<OntClass>
 		if (RDFSURIDefinitions.RDFS_RESOURCE_URI.equals(getURI())) {
 			return true;
 		}
+
 		if (aClass instanceof OWLClass) {
 
 			for (OWLClass c : ((OWLClass) aClass).getSuperClasses()) {

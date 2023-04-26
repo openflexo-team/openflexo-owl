@@ -116,7 +116,7 @@ public interface AbstractSelectOWLIndividual<AT> extends AbstractSelectIndividua
 						}
 					}
 				}
-				if (takeIt) {
+				if (takeIt && !selectedIndividuals.contains(i)) {
 					selectedIndividuals.add(i);
 				}
 			}
