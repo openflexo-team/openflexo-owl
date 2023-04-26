@@ -13,7 +13,7 @@ public model Animals {
 
 	create(Resource<OWLOntology> aOWLOntologyResource) {
 		ontology = parameters.aOWLOntologyResource.resourceData;
-		log "Ontology: "+ontology;
+		log "Ontology: " + ontology;
 	}
 
 	public List<OWLClass> listAllOWLClasses() {
@@ -44,7 +44,7 @@ public model Animals {
 	}
 
 	public OWLClass selectUniqueOWLClass() {
-		return select unique OWLClass from ontology where (selected.name=="Cat");
+		return select unique OWLClass from ontology where (selected.name == "Cat");
 	}
 
 	public List<OWLIndividual> listAllOWLIndividuals() {
@@ -61,12 +61,12 @@ public model Animals {
 	}
 
 	public OWLIndividual selectUniqueOWLIndividual() {
-		return select unique OWLIndividual from ontology where (selected.name=="Jerry");
+		return select unique OWLIndividual from ontology where (selected.name == "Jerry");
 	}
 
 	public List<OWLIndividual> listAllCats() {
 		List<OWLIndividual> returned = new ArrayList();
-		for (OWLIndividual aCat : select OWLIndividualType(owlClass=CAT) from ontology) {
+		for (OWLIndividualType(owlClass=CAT) aCat : select OWLIndividualType(owlClass=CAT) from ontology) {
 			log "Cat: " + aCat;
 			returned.add(aCat);
 		}
