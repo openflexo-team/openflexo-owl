@@ -51,8 +51,6 @@ import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.editionaction.AssignationAction;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.ontology.IFlexoOntologyClass;
-import org.openflexo.foundation.ontology.IFlexoOntologyDataProperty;
-import org.openflexo.foundation.ontology.IFlexoOntologyStructuralProperty;
 import org.openflexo.foundation.ontology.IndividualOfClass;
 import org.openflexo.foundation.ontology.fml.editionaction.SetDataPropertyValueAction;
 import org.openflexo.pamela.annotations.Getter;
@@ -70,6 +68,7 @@ import org.openflexo.technologyadapter.owl.fml.DataPropertyStatementRole;
 import org.openflexo.technologyadapter.owl.model.DataPropertyStatement;
 import org.openflexo.technologyadapter.owl.model.OWLConcept;
 import org.openflexo.technologyadapter.owl.model.OWLDataProperty;
+import org.openflexo.technologyadapter.owl.model.OWLIndividual;
 import org.openflexo.technologyadapter.owl.model.StatementWithProperty;
 import org.openflexo.technologyadapter.owl.nature.OWLOntologyVirtualModelNature;
 import org.openflexo.toolbox.StringUtils;
@@ -78,7 +77,8 @@ import org.openflexo.toolbox.StringUtils;
 @ImplementationClass(AddDataPropertyStatement.AddDataPropertyStatementImpl.class)
 @XMLElement
 @FML("AddDataPropertyStatement")
-public interface AddDataPropertyStatement extends AddStatement<DataPropertyStatement>, SetDataPropertyValueAction<DataPropertyStatement> {
+public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertyStatement, OWLIndividual, OWLDataProperty>,
+		SetDataPropertyValueAction<DataPropertyStatement, OWLIndividual, OWLDataProperty, T> {
 
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String VALUE_KEY = "value";
@@ -88,11 +88,11 @@ public interface AddDataPropertyStatement extends AddStatement<DataPropertyState
 	@Override
 	@Getter(value = VALUE_KEY)
 	@XMLAttribute
-	public DataBinding<?> getValue();
+	public DataBinding<T> getValue();
 
 	@Override
 	@Setter(VALUE_KEY)
-	public void setValue(DataBinding<?> value);
+	public void setValue(DataBinding<T> value);
 
 	@Getter(value = DATA_PROPERTY_URI_KEY)
 	@XMLAttribute
@@ -102,18 +102,18 @@ public interface AddDataPropertyStatement extends AddStatement<DataPropertyState
 	public void _setDataPropertyURI(String dataPropertyURI);
 
 	@Override
-	public IFlexoOntologyStructuralProperty getProperty();
+	public OWLDataProperty getProperty();
 
 	@Override
-	public void setProperty(IFlexoOntologyStructuralProperty aProperty);
+	public void setProperty(OWLDataProperty aProperty);
 
-	public static abstract class AddDataPropertyStatementImpl extends AddStatementImpl<DataPropertyStatement>
-			implements AddDataPropertyStatement {
+	public static abstract class AddDataPropertyStatementImpl<T>
+			extends AddStatementImpl<DataPropertyStatement, OWLIndividual, OWLDataProperty> implements AddDataPropertyStatement<T> {
 
 		private static final Logger logger = Logger.getLogger(AddDataPropertyStatement.class.getPackage().getName());
 
 		private String dataPropertyURI = null;
-		private DataBinding<?> value;
+		private DataBinding<T> value;
 
 		public AddDataPropertyStatementImpl() {
 			super();
@@ -146,13 +146,13 @@ public interface AddDataPropertyStatement extends AddStatement<DataPropertyState
 		}
 
 		@Override
-		public IFlexoOntologyStructuralProperty getProperty() {
+		public OWLDataProperty getProperty() {
 			return getDataProperty();
 		}
 
 		@Override
-		public void setProperty(IFlexoOntologyStructuralProperty aProperty) {
-			setDataProperty((OWLDataProperty) aProperty);
+		public void setProperty(OWLDataProperty aProperty) {
+			setDataProperty(aProperty);
 		}
 
 		@Override
@@ -169,14 +169,14 @@ public interface AddDataPropertyStatement extends AddStatement<DataPropertyState
 		}
 
 		@Override
-		public void setDataProperty(IFlexoOntologyDataProperty ontologyProperty) {
+		public void setDataProperty(OWLDataProperty ontologyProperty) {
 			if (ontologyProperty != null) {
 				if (getAssignedFlexoProperty() != null) {
 					if (getAssignedFlexoProperty().getDataProperty().isSuperConceptOf(ontologyProperty)) {
 						dataPropertyURI = ontologyProperty.getURI();
 					}
 					else {
-						getAssignedFlexoProperty().setDataProperty((OWLDataProperty) ontologyProperty);
+						getAssignedFlexoProperty().setDataProperty(ontologyProperty);
 					}
 				}
 				else {
@@ -226,9 +226,9 @@ public interface AddDataPropertyStatement extends AddStatement<DataPropertyState
 		};
 
 		@Override
-		public DataBinding<?> getValue() {
+		public DataBinding<T> getValue() {
 			if (value == null) {
-				value = new DataBinding<Object>(this, getType(), BindingDefinitionType.GET) {
+				value = new DataBinding<T>(this, getType(), BindingDefinitionType.GET) {
 					@Override
 					public Type getDeclaredType() {
 						return getType();
@@ -240,9 +240,9 @@ public interface AddDataPropertyStatement extends AddStatement<DataPropertyState
 		}
 
 		@Override
-		public void setValue(DataBinding<?> value) {
+		public void setValue(DataBinding<T> value) {
 			if (value != null) {
-				value = new DataBinding<Object>(value.toString(), this, getType(), BindingDefinitionType.GET) {
+				value = new DataBinding<T>(value.toString(), this, getType(), BindingDefinitionType.GET) {
 					@Override
 					public Type getDeclaredType() {
 						return getType();

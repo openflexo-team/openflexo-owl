@@ -56,7 +56,7 @@ import org.openflexo.technologyadapter.owl.model.SubClassStatement;
 @FML("SubClassStatementRole")
 public interface SubClassStatementRole extends StatementRole<SubClassStatement> {
 
-	public static abstract class SubClassStatementRoleImpl extends StatementRoleImpl<SubClassStatement>implements SubClassStatementRole {
+	public static abstract class SubClassStatementRoleImpl extends StatementRoleImpl<SubClassStatement> implements SubClassStatementRole {
 
 		static final Logger logger = FlexoLogger.getLogger(SubClassStatementRole.class.getPackage().toString());
 
@@ -66,7 +66,7 @@ public interface SubClassStatementRole extends StatementRole<SubClassStatement> 
 
 		@Override
 		public Type getType() {
-			return null;
+			return SubClassStatement.class;
 		}
 
 		@Override

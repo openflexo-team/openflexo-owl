@@ -50,7 +50,7 @@ import org.openflexo.technologyadapter.owl.model.OWLOntology;
  * @author sylvain
  * 
  * @param <T>
- *            powerpoint object type
+ * 
  */
 
 @ModelEntity(isAbstract = true)

@@ -53,7 +53,6 @@ import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.ontology.IFlexoOntologyClass;
 import org.openflexo.foundation.ontology.IFlexoOntologyConcept;
 import org.openflexo.foundation.ontology.IFlexoOntologyObjectProperty;
-import org.openflexo.foundation.ontology.IFlexoOntologyStructuralProperty;
 import org.openflexo.foundation.ontology.IndividualOfClass;
 import org.openflexo.foundation.ontology.fml.editionaction.SetObjectPropertyValueAction;
 import org.openflexo.pamela.annotations.DefineValidationRule;
@@ -70,6 +69,7 @@ import org.openflexo.pamela.validation.ValidationRule;
 import org.openflexo.pamela.validation.ValidationWarning;
 import org.openflexo.technologyadapter.owl.fml.ObjectPropertyStatementRole;
 import org.openflexo.technologyadapter.owl.model.OWLConcept;
+import org.openflexo.technologyadapter.owl.model.OWLIndividual;
 import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
 import org.openflexo.technologyadapter.owl.model.ObjectPropertyStatement;
 import org.openflexo.technologyadapter.owl.model.StatementWithProperty;
@@ -80,8 +80,8 @@ import org.openflexo.toolbox.StringUtils;
 @ImplementationClass(AddObjectPropertyStatement.AddObjectPropertyStatementImpl.class)
 @XMLElement
 @FML("AddObjectPropertyStatement")
-public interface AddObjectPropertyStatement
-		extends AddStatement<ObjectPropertyStatement>, SetObjectPropertyValueAction<ObjectPropertyStatement> {
+public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectPropertyStatement, OWLIndividual, OWLObjectProperty>,
+		SetObjectPropertyValueAction<ObjectPropertyStatement, OWLIndividual, OWLObjectProperty, T> {
 
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String OBJECT_KEY = "object";
@@ -91,11 +91,11 @@ public interface AddObjectPropertyStatement
 	@Override
 	@Getter(value = OBJECT_KEY)
 	@XMLAttribute
-	public DataBinding<?> getObject();
+	public DataBinding<T> getObject();
 
 	@Override
 	@Setter(OBJECT_KEY)
-	public void setObject(DataBinding<?> object);
+	public void setObject(DataBinding<T> object);
 
 	@Getter(value = OBJECT_PROPERTY_URI_KEY)
 	@XMLAttribute
@@ -105,22 +105,18 @@ public interface AddObjectPropertyStatement
 	public void _setObjectPropertyURI(String objectPropertyURI);
 
 	@Override
-	public IFlexoOntologyStructuralProperty getProperty();
+	public OWLObjectProperty getProperty();
 
 	@Override
-	public void setProperty(IFlexoOntologyStructuralProperty aProperty);
+	public void setProperty(OWLObjectProperty aProperty);
 
-	public static abstract class AddObjectPropertyStatementImpl extends AddStatementImpl<ObjectPropertyStatement>
-			implements AddObjectPropertyStatement {
+	public static abstract class AddObjectPropertyStatementImpl<T>
+			extends AddStatementImpl<ObjectPropertyStatement, OWLIndividual, OWLObjectProperty> implements AddObjectPropertyStatement<T> {
 
 		private static final Logger logger = Logger.getLogger(AddObjectPropertyStatement.class.getPackage().getName());
 
 		private String objectPropertyURI = null;
-		private DataBinding<?> object;
-
-		public AddObjectPropertyStatementImpl() {
-			super();
-		}
+		private DataBinding<T> object;
 
 		@Override
 		public ObjectPropertyStatementRole getAssignedFlexoProperty() {
@@ -143,19 +139,14 @@ public interface AddObjectPropertyStatement
 			return super.getSubjectType();
 		}
 
-		/*@Override
-		public List<ObjectPropertyStatementRole> getAvailablePatternRoles() {
-			return getFlexoConcept().getPatternRoles(ObjectPropertyStatementRole.class);
-		}*/
-
 		@Override
-		public IFlexoOntologyStructuralProperty getProperty() {
+		public OWLObjectProperty getProperty() {
 			return getObjectProperty();
 		}
 
 		@Override
-		public void setProperty(IFlexoOntologyStructuralProperty aProperty) {
-			setObjectProperty((OWLObjectProperty) aProperty);
+		public void setProperty(OWLObjectProperty aProperty) {
+			setObjectProperty(aProperty);
 		}
 
 		@Override
@@ -173,14 +164,14 @@ public interface AddObjectPropertyStatement
 
 		@SuppressWarnings("rawtypes")
 		@Override
-		public void setObjectProperty(IFlexoOntologyObjectProperty ontologyProperty) {
+		public void setObjectProperty(OWLObjectProperty ontologyProperty) {
 			if (ontologyProperty != null) {
 				if (getAssignedFlexoProperty() != null) {
 					if (getAssignedFlexoProperty().getObjectProperty().isSuperConceptOf(ontologyProperty)) {
 						objectPropertyURI = ontologyProperty.getURI();
 					}
 					else {
-						getAssignedFlexoProperty().setObjectProperty((OWLObjectProperty) ontologyProperty);
+						getAssignedFlexoProperty().setObjectProperty(ontologyProperty);
 					}
 				}
 				else {
@@ -230,9 +221,9 @@ public interface AddObjectPropertyStatement
 		}
 
 		@Override
-		public DataBinding<?> getObject() {
+		public DataBinding<T> getObject() {
 			if (object == null) {
-				object = new DataBinding<Object>(this, getObjectType(), BindingDefinitionType.GET) {
+				object = new DataBinding<T>(this, getObjectType(), BindingDefinitionType.GET) {
 					@Override
 					public Type getDeclaredType() {
 						return getObjectType();
@@ -244,9 +235,9 @@ public interface AddObjectPropertyStatement
 		}
 
 		@Override
-		public void setObject(DataBinding<?> object) {
+		public void setObject(DataBinding<T> object) {
 			if (object != null) {
-				object = new DataBinding<Object>(object.toString(), this, getObjectType(), BindingDefinitionType.GET) {
+				object = new DataBinding<T>(object.toString(), this, getObjectType(), BindingDefinitionType.GET) {
 					@Override
 					public Type getDeclaredType() {
 						return getObjectType();

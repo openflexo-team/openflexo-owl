@@ -38,6 +38,7 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.exception.NullReferenceException;
@@ -72,6 +73,14 @@ public interface AddOWLClass extends AddClass<OWLModelSlot, OWLOntology, OWLClas
 		}
 
 		@Override
+		public Type getAssignableType() {
+			if (getOntologyClass() == null) {
+				return OWLClass.class;
+			}
+			return super.getAssignableType();
+		}
+
+		@Override
 		public OWLClass getOntologyClass() {
 			return super.getOntologyClass();
 		}
@@ -100,6 +109,7 @@ public interface AddOWLClass extends AddClass<OWLModelSlot, OWLOntology, OWLClas
 				OWLOntology ontology = getReceiver(evaluationContext);
 				logger.info("Adding class " + newClassName + " as " + father);
 				logger.info("ontology=" + ontology);
+
 				if (ontology != null) {
 					newClass = ontology.createOntologyClass(newClassName, father);
 					logger.info("Added class " + newClass.getName() + " as " + father);

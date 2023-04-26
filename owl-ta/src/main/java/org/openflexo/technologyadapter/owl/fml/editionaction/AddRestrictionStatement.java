@@ -74,7 +74,7 @@ import org.openflexo.toolbox.StringUtils;
 @ImplementationClass(AddRestrictionStatement.AddRestrictionStatementImpl.class)
 @XMLElement
 @FML("AddRestrictionStatement")
-public interface AddRestrictionStatement extends AddStatement<OWLStatement> {
+public interface AddRestrictionStatement extends AddStatement<OWLStatement, OWLConcept<?>, OWLProperty> {
 
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String OBJECT_KEY = "object";
@@ -113,7 +113,8 @@ public interface AddRestrictionStatement extends AddStatement<OWLStatement> {
 	@Setter(CARDINALITY_KEY)
 	public void setCardinality(DataBinding<Integer> cardinality);
 
-	public static abstract class AddRestrictionStatementImpl extends AddStatementImpl<OWLStatement> implements AddRestrictionStatement {
+	public static abstract class AddRestrictionStatementImpl extends AddStatementImpl<OWLStatement, OWLConcept<?>, OWLProperty>
+			implements AddRestrictionStatement {
 
 		private static final Logger logger = Logger.getLogger(AddRestrictionStatement.class.getPackage().getName());
 
@@ -134,12 +135,12 @@ public interface AddRestrictionStatement extends AddStatement<OWLStatement> {
 		}
 
 		@Override
-		public IFlexoOntologyStructuralProperty getProperty() {
+		public OWLProperty getProperty() {
 			return getObjectProperty();
 		}
 
 		@Override
-		public void setProperty(IFlexoOntologyStructuralProperty aProperty) {
+		public void setProperty(OWLProperty aProperty) {
 			setObjectProperty(aProperty);
 		}
 

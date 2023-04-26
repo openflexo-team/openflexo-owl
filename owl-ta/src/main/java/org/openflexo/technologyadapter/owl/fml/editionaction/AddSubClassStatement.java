@@ -46,9 +46,9 @@ import org.openflexo.connie.DataBinding.BindingDefinitionType;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.annotations.FML;
+import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.ontology.IFlexoOntologyConcept;
-import org.openflexo.foundation.ontology.IFlexoOntologyStructuralProperty;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
@@ -56,48 +56,45 @@ import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.pamela.annotations.XMLAttribute;
 import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.technologyadapter.owl.model.IsAStatement;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
-import org.openflexo.technologyadapter.owl.model.OWLConcept;
-import org.openflexo.technologyadapter.owl.model.OWLIndividual;
+import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
 import org.openflexo.technologyadapter.owl.model.SubClassStatement;
 
 @ModelEntity
 @ImplementationClass(AddSubClassStatement.AddSubClassStatementImpl.class)
 @XMLElement(xmlTag = "AddIsAPropertyStatement")
 @FML("AddSubClassStatement")
-public interface AddSubClassStatement extends AddStatement<SubClassStatement> {
+public interface AddSubClassStatement extends AddStatement<SubClassStatement, OWLClass, OWLObjectProperty> {
 
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String FATHER_KEY = "father";
 
 	@Getter(value = FATHER_KEY)
 	@XMLAttribute
-	public DataBinding<IFlexoOntologyConcept> getFather();
+	@FMLAttribute(value = FATHER_KEY, required = true)
+	public DataBinding<OWLClass> getFather();
 
 	@Setter(FATHER_KEY)
-	public void setFather(DataBinding<IFlexoOntologyConcept> father);
+	public void setFather(DataBinding<OWLClass> father);
 
-	public static abstract class AddSubClassStatementImpl extends AddStatementImpl<SubClassStatement> implements AddSubClassStatement {
+	public static abstract class AddSubClassStatementImpl extends AddStatementImpl<SubClassStatement, OWLClass, OWLObjectProperty>
+			implements AddSubClassStatement {
 
 		private static final Logger logger = Logger.getLogger(AddSubClassStatement.class.getPackage().getName());
 
-		public AddSubClassStatementImpl() {
-			super();
-		}
-
 		@Override
-		public IFlexoOntologyStructuralProperty getProperty() {
+		public OWLObjectProperty getProperty() {
+			// This is the object property subclassOf in RDFS
 			return null;
 		}
 
 		@Override
-		public void setProperty(IFlexoOntologyStructuralProperty aProperty) {
+		public void setProperty(OWLObjectProperty aProperty) {
 		}
 
-		public OWLConcept<?> getPropertyFather(RunTimeEvaluationContext evaluationContext) {
+		public OWLClass getPropertyFather(RunTimeEvaluationContext evaluationContext) {
 			try {
-				return (OWLConcept<?>) getFather().getBindingValue(evaluationContext);
+				return getFather().getBindingValue(evaluationContext);
 			} catch (TypeMismatchException e) {
 				e.printStackTrace();
 			} catch (NullReferenceException e) {
@@ -108,19 +105,19 @@ public interface AddSubClassStatement extends AddStatement<SubClassStatement> {
 			return null;
 		}
 
-		private DataBinding<IFlexoOntologyConcept> father;
+		private DataBinding<OWLClass> father;
 
 		@Override
-		public DataBinding<IFlexoOntologyConcept> getFather() {
+		public DataBinding<OWLClass> getFather() {
 			if (father == null) {
-				father = new DataBinding<>(this, IFlexoOntologyConcept.class, BindingDefinitionType.GET);
+				father = new DataBinding<>(this, OWLClass.class, BindingDefinitionType.GET);
 				father.setBindingName("father");
 			}
 			return father;
 		}
 
 		@Override
-		public void setFather(DataBinding<IFlexoOntologyConcept> father) {
+		public void setFather(DataBinding<OWLClass> father) {
 			if (father != null) {
 				father.setOwner(this);
 				father.setBindingName("father");
@@ -132,22 +129,22 @@ public interface AddSubClassStatement extends AddStatement<SubClassStatement> {
 
 		@Override
 		public Type getAssignableType() {
-			return IsAStatement.class;
+			return SubClassStatement.class;
 		}
 
 		@Override
 		public SubClassStatement execute(RunTimeEvaluationContext evaluationContext) {
-			OWLConcept<?> subject = getPropertySubject(evaluationContext);
-			OWLConcept<?> father = getPropertyFather(evaluationContext);
+			OWLClass subject = getPropertySubject(evaluationContext);
+			OWLClass father = getPropertyFather(evaluationContext);
 			if (father instanceof OWLClass) {
 				if (subject instanceof OWLClass) {
-					return ((OWLClass) subject).addToSuperClasses((OWLClass) father);
+					return subject.addToSuperClasses(father);
 				}
-				else if (subject instanceof OWLIndividual) {
-					return ((OWLIndividual) subject).addToTypes((OWLClass) father);
-				}
+				/*	else if (subject instanceof OWLIndividual) {
+						return ((OWLIndividual) subject).addToTypes(father);
+					}*/
 			}
-			return null;
+			return subject.getSubClassStatement(father);
 		}
 
 	}

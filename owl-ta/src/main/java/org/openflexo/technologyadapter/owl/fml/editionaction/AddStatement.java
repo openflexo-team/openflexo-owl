@@ -45,6 +45,7 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
+import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.fml.editionaction.TechnologySpecificActionDefiningReceiver;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.ontology.IFlexoOntologyConcept;
@@ -58,12 +59,13 @@ import org.openflexo.pamela.annotations.XMLAttribute;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
 import org.openflexo.technologyadapter.owl.model.OWLConcept;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
+import org.openflexo.technologyadapter.owl.model.OWLProperty;
 import org.openflexo.technologyadapter.owl.model.OWLStatement;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(AddStatement.AddStatementImpl.class)
-public abstract interface AddStatement<S extends OWLStatement>
-		extends TechnologySpecificActionDefiningReceiver<OWLModelSlot, OWLOntology, S>, SetPropertyValueAction<S>, OWLAction<S> {
+public abstract interface AddStatement<ST extends OWLStatement, S extends OWLConcept<?>, P extends OWLProperty>
+		extends TechnologySpecificActionDefiningReceiver<OWLModelSlot, OWLOntology, ST>, SetPropertyValueAction<ST, S, P>, OWLAction<ST> {
 
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String SUBJECT_KEY = "subject";
@@ -71,26 +73,23 @@ public abstract interface AddStatement<S extends OWLStatement>
 	@Override
 	@Getter(value = SUBJECT_KEY)
 	@XMLAttribute
-	public DataBinding<?> getSubject();
+	@FMLAttribute(value = SUBJECT_KEY, required = true)
+	public DataBinding<S> getSubject();
 
 	@Override
 	@Setter(SUBJECT_KEY)
-	public void setSubject(DataBinding<?> subject);
+	public void setSubject(DataBinding<S> subject);
 
 	public OWLOntology getMetaModel();
 
-	public static abstract class AddStatementImpl<S extends OWLStatement>
-			extends TechnologySpecificActionDefiningReceiverImpl<OWLModelSlot, OWLOntology, S> implements AddStatement<S> {
+	public static abstract class AddStatementImpl<ST extends OWLStatement, S extends OWLConcept<?>, P extends OWLProperty>
+			extends TechnologySpecificActionDefiningReceiverImpl<OWLModelSlot, OWLOntology, ST> implements AddStatement<ST, S, P> {
 
 		private static final Logger logger = Logger.getLogger(AddStatement.class.getPackage().getName());
 
-		public AddStatementImpl() {
-			super();
-		}
-
-		public OWLConcept<?> getPropertySubject(RunTimeEvaluationContext evaluationContext) {
+		public S getPropertySubject(RunTimeEvaluationContext evaluationContext) {
 			try {
-				return (OWLConcept<?>) getSubject().getBindingValue(evaluationContext);
+				return getSubject().getBindingValue(evaluationContext);
 			} catch (TypeMismatchException e) {
 				e.printStackTrace();
 			} catch (NullReferenceException e) {
@@ -110,35 +109,18 @@ public abstract interface AddStatement<S extends OWLStatement>
 			return null;
 		}
 
-		/*@Override
-		public R getPatternRole() {
-			try {
-				return super.getPatternRole();
-			} catch (ClassCastException e) {
-				logger.warning("Unexpected pattern property type");
-				setPatternRole(null);
-				return null;
-			}
-		}*/
+		private DataBinding<S> subject;
 
-		// FIXME: if we remove this useless code, some FIB won't work (see FlexoConceptView.fib, inspect an AddIndividual)
-		// Need to be fixed in KeyValueProperty.java
-		/*@Override
-		public void setPatternRole(R patternRole) {
-			super.setPatternRole(patternRole);
-		}*/
-
-		private DataBinding<?> subject;
-
+		// Please override in subclasses
 		@Override
 		public Type getSubjectType() {
-			return IFlexoOntologyConcept.class;
+			return OWLConcept.class;
 		}
 
 		@Override
-		public DataBinding<?> getSubject() {
+		public DataBinding<S> getSubject() {
 			if (subject == null) {
-				subject = new DataBinding<Object>(this, getSubjectType(), BindingDefinitionType.GET) {
+				subject = new DataBinding<S>(this, getSubjectType(), BindingDefinitionType.GET) {
 					@Override
 					public Type getDeclaredType() {
 						return getSubjectType();
@@ -150,9 +132,9 @@ public abstract interface AddStatement<S extends OWLStatement>
 		}
 
 		@Override
-		public void setSubject(DataBinding<?> subject) {
+		public void setSubject(DataBinding<S> subject) {
 			if (subject != null) {
-				subject = new DataBinding<Object>(subject.toString(), this, getSubjectType(), BindingDefinitionType.GET) {
+				subject = new DataBinding<S>(subject.toString(), this, getSubjectType(), BindingDefinitionType.GET) {
 					@Override
 					public Type getDeclaredType() {
 						return getSubjectType();
