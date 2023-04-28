@@ -5,7 +5,7 @@ import [ANIMALS:"Cat"] as CAT;
 
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 
-//type OWLIndividualType(owlClass=cat) as Cat;
+type OWLIndividualType(owlClass=CAT) as Cat;
 
 @URI("http://www.openflexo.org/test/owl/Animals.fml")
 public model Animals {
@@ -13,7 +13,7 @@ public model Animals {
 
 	create(Resource<OWLOntology> aOWLOntologyResource) {
 		ontology = parameters.aOWLOntologyResource.resourceData;
-		log "Ontology: "+ontology;
+		log "Ontology: " + ontology;
 	}
 
 	public List<OWLClass> listAllOWLClasses() {
@@ -38,21 +38,48 @@ public model Animals {
 	public List<OWLClass> listDeclaredOWLClasses2() {
 		List<OWLClass> returned = new ArrayList();
 		for (OWLClass aClass : select OWLClass with SelectOWLClass(declared=true) from ontology) {
-				returned.add(aClass);
+			returned.add(aClass);
 		}
 		return returned;
 	}
 
-	public void listAllOWLIndividuals() {
-		for (OWLIndividual anIndividual : select OWLIndividual from ontology) {
-			log "OWLIndividual: " + anIndividual;
-		}
+	public OWLClass selectUniqueOWLClass() {
+		return select unique OWLClass from ontology where (selected.name == "Cat");
 	}
 
-/*	public void listAllCats() {
+	public List<OWLIndividual> listAllOWLIndividuals() {
+		List<OWLIndividual> returned = new ArrayList();
+		for (OWLIndividual anIndividual : select OWLIndividual from ontology) {
+			log "OWLIndividual: " + anIndividual;
+			returned.add(anIndividual);
+		}
+		return returned;
+	}
+
+	public List<OWLIndividual> listAllOWLIndividuals2() {
+		return select OWLIndividual from ontology;
+	}
+
+	public OWLIndividual selectUniqueOWLIndividual() {
+		return select unique OWLIndividual from ontology where (selected.name == "Jerry");
+	}
+
+	public List<OWLIndividual> listAllCats() {
+		List<OWLIndividual> returned = new ArrayList();
+		for (OWLIndividualType(owlClass=CAT) aCat : select OWLIndividualType(owlClass=CAT) from ontology) {
+			log "Cat: " + aCat;
+			returned.add(aCat);
+		}
+		return returned;
+	}
+
+	public List<Cat> listAllCats2() {
+		List<Cat> returned = new ArrayList();
 		for (Cat aCat : select Cat from ontology) {
 			log "Cat: " + aCat;
+			returned.add(aCat);
 		}
-	}*/
+		return returned;
+	}
 
 }
