@@ -31,7 +31,22 @@
 					value="false" />
 				<Dependancy componentName="AddDataPropertyStatementAssignCC" />
 			</Custom>
-			<Label label="value" align="right" index="14" data=""
+			<Label label="dynamic_property" align="right" index="14" data=""
+				constraints="twocols(expandHorizontally=true;expandVertically=false;index=8;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
+				visible="" format="" icon="" tooltip="" localize="true" enable=""
+				clickAction="" doubleClickAction="" rightClickAction=""
+				enterPressedAction="" valueChangedAction="" valueTransform=""
+				valueValidator="" />
+			<Custom componentClassName="org.openflexo.gina.swing.utils.JavaBindingSelector"
+				format="" icon="" tooltip="" localize="true" enable=""
+				manageDynamicModel="true" clickAction="" doubleClickAction=""
+				rightClickAction="" enterPressedAction="" valueChangedAction=""
+				valueTransform="" valueValidator="" index="15" data="data.dynamicProperty"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
+				visible="">
+				<Assignment variable="component.bindable" value="data" />
+			</Custom>
+			<Label label="value" align="right" index="16" data=""
 				constraints="twocols(expandHorizontally=true;expandVertically=false;index=10;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 				visible="" format="" icon="" tooltip="" localize="true" enable=""
 				clickAction="" doubleClickAction="" rightClickAction=""
@@ -41,7 +56,7 @@
 				format="" icon="" tooltip="" localize="true" enable=""
 				manageDynamicModel="true" clickAction="" doubleClickAction=""
 				rightClickAction="" enterPressedAction="" valueChangedAction=""
-				valueTransform="" valueValidator="" index="15" data="data.value"
+				valueTransform="" valueValidator="" index="17" data="data.value"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 				visible="">
 				<Assignment variable="component.bindable" value="data" />

@@ -48,6 +48,7 @@ import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.FlexoProperty;
 import org.openflexo.foundation.fml.annotations.FML;
+import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.fml.editionaction.AssignationAction;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.ontology.IFlexoOntologyClass;
@@ -84,6 +85,8 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 	public static final String VALUE_KEY = "value";
 	@PropertyIdentifier(type = String.class)
 	public static final String DATA_PROPERTY_URI_KEY = "dataPropertyURI";
+	@PropertyIdentifier(type = DataBinding.class)
+	public static final String DYNAMIC_PROPERTY_KEY = "dynamicProperty";
 
 	@Override
 	@Getter(value = VALUE_KEY)
@@ -106,6 +109,14 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 
 	@Override
 	public void setProperty(OWLDataProperty aProperty);
+
+	// TODO: pull up this method
+	@Getter(value = DYNAMIC_PROPERTY_KEY)
+	@FMLAttribute(value = DYNAMIC_PROPERTY_KEY, required = false, description = "<html>property beeing addressed</html>")
+	public DataBinding<OWLDataProperty> getDynamicProperty();
+
+	@Setter(DYNAMIC_PROPERTY_KEY)
+	public void setDynamicProperty(DataBinding<OWLDataProperty> dynamicProperty);
 
 	public static abstract class AddDataPropertyStatementImpl<T>
 			extends AddStatementImpl<DataPropertyStatement, OWLIndividual, OWLDataProperty> implements AddDataPropertyStatement<T> {
@@ -224,6 +235,28 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 			}
 			return Object.class;
 		};
+
+		private DataBinding<OWLDataProperty> dynamicProperty;
+
+		@Override
+		public DataBinding<OWLDataProperty> getDynamicProperty() {
+			if (dynamicProperty == null) {
+				dynamicProperty = new DataBinding<>(this, OWLDataProperty.class, DataBinding.BindingDefinitionType.GET);
+				dynamicProperty.setBindingName(DYNAMIC_PROPERTY_KEY);
+			}
+			return dynamicProperty;
+		}
+
+		@Override
+		public void setDynamicProperty(DataBinding<OWLDataProperty> dynamicProperty) {
+			if (dynamicProperty != null) {
+				dynamicProperty.setOwner(this);
+				dynamicProperty.setDeclaredType(OWLDataProperty.class);
+				dynamicProperty.setBindingDefinitionType(DataBinding.BindingDefinitionType.GET);
+				dynamicProperty.setBindingName(DYNAMIC_PROPERTY_KEY);
+			}
+			this.dynamicProperty = dynamicProperty;
+		}
 
 		@Override
 		public DataBinding<T> getValue() {
