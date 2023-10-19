@@ -82,6 +82,7 @@ import org.openflexo.technologyadapter.owl.fml.TypeStatementActorReference;
 import org.openflexo.technologyadapter.owl.fml.TypeStatementRole;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddDataPropertyStatement;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddOWLClass;
+import org.openflexo.technologyadapter.owl.fml.editionaction.AddOWLDataProperty;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddOWLIndividual;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddObjectPropertyStatement;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddRestrictionStatement;
@@ -108,8 +109,9 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 @DeclareFlexoRoles({ OWLIndividualRole.class, OWLClassRole.class, OWLDataPropertyRole.class, OWLObjectPropertyRole.class,
 		OWLPropertyRole.class, DataPropertyStatementRole.class, ObjectPropertyStatementRole.class, SubClassStatementRole.class,
 		TypeStatementRole.class })
-@DeclareEditionActions({ CreateOWLResource.class, AddOWLIndividual.class, AddOWLClass.class, AddDataPropertyStatement.class,
-		AddObjectPropertyStatement.class, AddRestrictionStatement.class, AddSubClassStatement.class, AddTypeStatement.class })
+@DeclareEditionActions({ CreateOWLResource.class, AddOWLIndividual.class, AddOWLClass.class, AddOWLDataProperty.class,
+		AddDataPropertyStatement.class, AddObjectPropertyStatement.class, AddRestrictionStatement.class, AddSubClassStatement.class,
+		AddTypeStatement.class })
 @DeclareFetchRequests({ SelectOWLClass.class, SelectOWLIndividual.class, SelectOWLObjectProperty.class, SelectUniqueOWLClass.class,
 		SelectUniqueOWLIndividual.class, SelectUniqueOWLObjectProperty.class })
 @DeclareActorReferences({ FlexoOntologyModelSlotInstance.class, ConceptActorReference.class, SubClassStatementActorReference.class,

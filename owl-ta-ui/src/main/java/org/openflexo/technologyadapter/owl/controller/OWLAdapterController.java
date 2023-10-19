@@ -70,6 +70,7 @@ import org.openflexo.technologyadapter.owl.fml.editionaction.AbstractSelectOWLCl
 import org.openflexo.technologyadapter.owl.fml.editionaction.AbstractSelectOWLIndividual;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddDataPropertyStatement;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddOWLClass;
+import org.openflexo.technologyadapter.owl.fml.editionaction.AddOWLDataProperty;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddOWLIndividual;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddObjectPropertyStatement;
 import org.openflexo.technologyadapter.owl.fml.editionaction.AddRestrictionStatement;
@@ -266,6 +267,9 @@ public class OWLAdapterController extends FlexoOntologyTechnologyAdapterControll
 		else if (AddOWLClass.class.isAssignableFrom(editionActionClass)) {
 			return IconFactory.getImageIcon(getIconForTechnologyObject(OWLClass.class), IconLibrary.DUPLICATE);
 		}
+		else if (AddOWLDataProperty.class.isAssignableFrom(editionActionClass)) {
+			return IconFactory.getImageIcon(getIconForTechnologyObject(OWLDataProperty.class), IconLibrary.DUPLICATE);
+		}
 		else if (CreateOWLResource.class.isAssignableFrom(editionActionClass)) {
 			return IconFactory.getImageIcon(getIconForTechnologyObject(OWLOntology.class), IconLibrary.DUPLICATE);
 		}
@@ -282,15 +286,15 @@ public class OWLAdapterController extends FlexoOntologyTechnologyAdapterControll
 	public boolean isRepresentableInModuleView(TechnologyObject<OWLTechnologyAdapter> object) {
 		return object instanceof OWLObject;
 	}
-	
+
 	@Override
 	public FlexoObject getRepresentableMasterObject(TechnologyObject<OWLTechnologyAdapter> object) {
 		if (object instanceof OWLObject) {
-			return ((OWLObject)object).getFlexoOntology();
+			return ((OWLObject) object).getFlexoOntology();
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String getWindowTitleforObject(TechnologyObject<OWLTechnologyAdapter> object, FlexoController controller) {
 		if (object instanceof OWLOntology) {
