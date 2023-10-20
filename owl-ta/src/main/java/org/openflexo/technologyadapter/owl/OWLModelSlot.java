@@ -52,6 +52,7 @@ import org.openflexo.foundation.fml.annotations.DeclareEditionActions;
 import org.openflexo.foundation.fml.annotations.DeclareFetchRequests;
 import org.openflexo.foundation.fml.annotations.DeclareFlexoRoles;
 import org.openflexo.foundation.fml.annotations.FML;
+import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.ontology.fml.editionaction.SelectIndividual;
 import org.openflexo.foundation.ontology.fml.rt.ConceptActorReference;
 import org.openflexo.foundation.ontology.fml.rt.FlexoOntologyModelSlotInstance;
@@ -60,10 +61,13 @@ import org.openflexo.foundation.resource.FlexoResourceCenter;
 import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.foundation.technologyadapter.FlexoMetaModelResource;
 import org.openflexo.pamela.PamelaMetaModelLibrary;
+import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.Import;
 import org.openflexo.pamela.annotations.Imports;
 import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.technologyadapter.owl.fml.DataPropertyStatementActorReference;
@@ -136,8 +140,19 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 		references = { @SeeAlso(FreeDiagramModelSlot.class), @SeeAlso(CreateDiagram.class) })*/
 public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOntology, OWLTechnologyAdapter> {
 
+	@PropertyIdentifier(type = OWLOntology.class)
+	public static final String IMPORTED_ONTOLOGY_KEY = "importedOntology";
+
 	@Override
 	public OWLTechnologyAdapter getModelSlotTechnologyAdapter();
+
+	// TODO : we must manage many imported ontologies
+	@Getter(value = IMPORTED_ONTOLOGY_KEY, ignoreType = true)
+	@FMLAttribute(value = IMPORTED_ONTOLOGY_KEY, required = false)
+	public OWLOntology getImportedOntology();
+
+	@Setter(IMPORTED_ONTOLOGY_KEY)
+	public void setImportedOntology(OWLOntology anOntology);
 
 	public static abstract class OWLModelSlotImpl extends FlexoOntologyModelSlotImpl<OWLOntology, OWLOntology, OWLTechnologyAdapter>
 			implements OWLModelSlot {
@@ -286,6 +301,26 @@ public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOnt
 		@Override
 		public boolean isMetaModelRequired() {
 			return false;
+		}
+
+		@Override
+		public OWLOntology getImportedOntology() {
+			if (getMetaModelResource() != null) {
+				return getMetaModelResource().getMetaModelData();
+			}
+			return null;
+		}
+
+		@Override
+		public void setImportedOntology(OWLOntology aDiagramSpecification) {
+			setMetaModelResource(aDiagramSpecification != null ? aDiagramSpecification.getResource() : null);
+		}
+
+		@Override
+		public void setMetaModelResource(FlexoMetaModelResource<OWLOntology, OWLOntology, ?> metaModelResource) {
+			super.setMetaModelResource(metaModelResource);
+			getPropertyChangeSupport().firePropertyChange(IMPORTED_ONTOLOGY_KEY, null, metaModelResource);
+			setIsModified();
 		}
 
 	}
