@@ -1,0 +1,14 @@
+use org.openflexo.technologyadapter.owl.OWLModelSlot as OWL;
+
+import org.openflexo.technologyadapter.owl.model.OWLOntology;
+
+import ["http://openflexo.org/test/animals"] as ANIMALS;
+import [ANIMALS:"Mouse"] as MOUSE;
+
+public model MyModel {
+	OWLOntology ontology with OWLModelSlot(importedOntology=ANIMALS);
+
+	foo() {
+		OWLIndividualType(owlClass=MOUSE) foo = OWL::AddOWLIndividual(ontologyClass=MOUSE,individualName="myIndividual") in ontology;
+	}
+}

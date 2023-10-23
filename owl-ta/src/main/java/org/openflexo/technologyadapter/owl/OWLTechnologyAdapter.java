@@ -46,6 +46,8 @@ import java.util.logging.Logger;
 
 import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.FlexoProject;
+import org.openflexo.foundation.fml.ElementImportDeclaration;
+import org.openflexo.foundation.fml.FMLCompilationUnit;
 import org.openflexo.foundation.fml.TechnologySpecificType;
 import org.openflexo.foundation.fml.annotations.DeclareModelSlots;
 import org.openflexo.foundation.fml.annotations.DeclareResourceFactories;
@@ -427,6 +429,20 @@ public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter
 		}
 
 		return null;
+	}
+
+	@Override
+	public String serializeType(TechnologySpecificType<OWLTechnologyAdapter> type, FMLCompilationUnit compilationUnit) {
+		if (type instanceof OWLIndividualType) {
+			OWLIndividualType individualType = (OWLIndividualType) type;
+			if (individualType.getOntologyClass() != null) {
+				OWLClass ontologyClass = individualType.getOntologyClass();
+				ElementImportDeclaration ontologyClassImport = compilationUnit.ensureElementImport(ontologyClass);
+				return "OWLIndividualType(owlClass=" + ontologyClassImport.getAbbrev() + ")";
+			}
+			return "OWLIndividualType()";
+		}
+		return super.serializeType(type, compilationUnit);
 	}
 
 }

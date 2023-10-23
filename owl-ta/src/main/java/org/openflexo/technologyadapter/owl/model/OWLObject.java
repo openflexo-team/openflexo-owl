@@ -41,12 +41,13 @@ package org.openflexo.technologyadapter.owl.model;
 
 import java.util.logging.Logger;
 
+import org.openflexo.foundation.InnerResourceData;
 import org.openflexo.foundation.ontology.FlexoOntologyObjectImpl;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 
 public abstract class OWLObject extends FlexoOntologyObjectImpl<OWLTechnologyAdapter>
-		implements OWL2URIDefinitions, RDFURIDefinitions, RDFSURIDefinitions {
+		implements OWL2URIDefinitions, RDFURIDefinitions, RDFSURIDefinitions, InnerResourceData<OWLOntology> {
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(OWLObject.class.getPackage().getName());
@@ -56,6 +57,21 @@ public abstract class OWLObject extends FlexoOntologyObjectImpl<OWLTechnologyAda
 	public OWLObject(OWLTechnologyAdapter adapter) {
 		super();
 		technologyAdapter = adapter;
+	}
+
+	@Override
+	public OWLOntology getResourceData() {
+		return getOntology();
+	}
+
+	@Override
+	public String getLocalIdentifier() {
+		return getName();
+	}
+
+	@Override
+	public String defaultAbbrevName() {
+		return getName();
 	}
 
 	@Override

@@ -95,6 +95,7 @@ import org.openflexo.foundation.ontology.dm.OntologyIndividualRemoved;
 import org.openflexo.foundation.ontology.dm.OntologyObjectPropertyInserted;
 import org.openflexo.foundation.ontology.dm.OntologyObjectPropertyRemoved;
 import org.openflexo.foundation.ontology.dm.OntologyObjectRenamed;
+import org.openflexo.foundation.resource.ResourceData;
 import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.foundation.technologyadapter.FlexoMetaModel;
 import org.openflexo.foundation.technologyadapter.FlexoModel;
@@ -116,8 +117,8 @@ import org.openflexo.toolbox.StringUtils;
  * @author sylvain
  * 
  */
-public class OWLOntology extends OWLObject
-		implements IFlexoOntology<OWLTechnologyAdapter>, FlexoMetaModel<OWLOntology>, FlexoModel<OWLOntology, OWLOntology> {
+public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnologyAdapter>, FlexoMetaModel<OWLOntology>,
+		FlexoModel<OWLOntology, OWLOntology>, ResourceData<OWLOntology> {
 
 	private static final Logger logger = Logger.getLogger(IFlexoOntology.class.getPackage().getName());
 

@@ -1,1 +1,1 @@
-include 'owl-ta', 'owl-ta-rc', 'owl-ta-test-rc', 'owl-ta-ui'
+include 'owl-ta', 'owl-ta-rc', 'owl-ta-test-rc', 'owl-ta-test', 'owl-ta-ui'

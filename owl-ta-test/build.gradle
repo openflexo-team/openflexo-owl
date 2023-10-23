@@ -1,0 +1,12 @@
+dependencies {
+  implementation project(":owl-ta")
+
+  // openflexo dep
+  implementation group: 'junit', name: 'junit', version: '4.13'
+
+  // testing dep
+  testImplementation flexoFoundationTest()
+
+  // Test resource center
+  testRuntimeOnly project(':owl-ta-test-rc')
+}

@@ -88,12 +88,19 @@ public interface AddOWLIndividual
 			if (getOntologyClass() == null) {
 				return OWLIndividual.class;
 			}
+
 			return super.getAssignableType();
 		}
 
 		@Override
 		public OWLClass getOntologyClass() {
 			return (OWLClass) super.getOntologyClass();
+		}
+
+		@Override
+		public void setOntologyClass(IFlexoOntologyClass ontologyClass) {
+			super.setOntologyClass(ontologyClass);
+			setIsModified();
 		}
 
 		@Override
