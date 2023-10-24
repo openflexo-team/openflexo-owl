@@ -432,9 +432,13 @@ public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter
 	}
 
 	@Override
-	public String serializeType(TechnologySpecificType<OWLTechnologyAdapter> type, FMLCompilationUnit compilationUnit) {
+	public String serializeType(TechnologySpecificType<OWLTechnologyAdapter> type, FMLCompilationUnit compilationUnit,
+			boolean useTypeDefinitions) {
 		if (type instanceof OWLIndividualType) {
 			OWLIndividualType individualType = (OWLIndividualType) type;
+			if (useTypeDefinitions && compilationUnit.getTypeDeclaration(type) != null) {
+				return compilationUnit.getTypeDeclaration(type).getAbbrev();
+			}
 			if (individualType.getOntologyClass() != null) {
 				OWLClass ontologyClass = individualType.getOntologyClass();
 				ElementImportDeclaration ontologyClassImport = compilationUnit.ensureElementImport(ontologyClass);
@@ -442,7 +446,7 @@ public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter
 			}
 			return "OWLIndividualType()";
 		}
-		return super.serializeType(type, compilationUnit);
+		return super.serializeType(type, compilationUnit, useTypeDefinitions);
 	}
 
 }
