@@ -81,7 +81,7 @@ public interface AbstractSelectOWLIndividual<AT> extends AbstractSelectIndividua
 
 		@Override
 		public void setFetchedType(Type type) {
-			super.setFetchedType(type);
+			performSuperSetter(FETCHED_TYPE_KEY, type);
 			if (type instanceof OWLIndividualType) {
 				setType(((OWLIndividualType) type).getOntologyClass());
 			}
