@@ -5,7 +5,8 @@ dependencies {
   implementation group: 'junit', name: 'junit', version: '4.13'
 
   // testing dep
-  implementation flexoFoundationTest()
+  testImplementation flexoFoundation()
+  testImplementation flexoFoundationTest()
 
   // Test resource center
   testRuntimeOnly project(':owl-ta-test-rc')
