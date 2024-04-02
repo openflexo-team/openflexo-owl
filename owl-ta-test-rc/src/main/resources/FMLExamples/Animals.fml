@@ -5,7 +5,7 @@ import [ANIMALS:"Cat"] as CAT;
 
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 
-type OWLIndividualType(owlClass=CAT) as Cat;
+typedef OWLIndividualType(owlClass=CAT) as Cat;
 
 @URI("http://www.openflexo.org/test/owl/Animals.fml")
 public model Animals {
