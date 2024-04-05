@@ -15,5 +15,5 @@
 /infer-out/
 .metadata
 **/*~
-
+.java-version
 
