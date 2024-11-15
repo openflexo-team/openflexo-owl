@@ -48,6 +48,7 @@ import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.FlexoProperty;
 import org.openflexo.foundation.fml.annotations.FML;
+import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.fml.editionaction.AssignationAction;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.ontology.IFlexoOntologyClass;
@@ -91,6 +92,7 @@ public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectProper
 	@Override
 	@Getter(value = OBJECT_KEY)
 	@XMLAttribute
+	@FMLAttribute(value = OBJECT_KEY, required = true, description = "<html>object</html>")
 	public DataBinding<T> getObject();
 
 	@Override
