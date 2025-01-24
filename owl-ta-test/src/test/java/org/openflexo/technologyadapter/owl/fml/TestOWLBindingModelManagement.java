@@ -228,7 +228,8 @@ public class TestOWLBindingModelManagement extends OpenflexoProjectAtRunTimeTest
 	@TestOrder(4)
 	public void testCreateOWLModelSlot() throws InvalidNameException {
 
-		AddUseDeclaration useDeclarationAction = AddUseDeclaration.actionType.makeNewAction(virtualModel1, null, editor);
+		AddUseDeclaration useDeclarationAction = AddUseDeclaration.actionType.makeNewAction(virtualModel1.getCompilationUnit(), null,
+				editor);
 		useDeclarationAction.setModelSlotClass(OWLModelSlot.class);
 		useDeclarationAction.doAction();
 
