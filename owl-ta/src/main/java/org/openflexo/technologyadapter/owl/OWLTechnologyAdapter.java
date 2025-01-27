@@ -441,7 +441,7 @@ public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter
 			}
 			if (individualType.getOntologyClass() != null) {
 				OWLClass ontologyClass = individualType.getOntologyClass();
-				ElementImportDeclaration ontologyClassImport = compilationUnit.ensureElementImport(ontologyClass);
+				ElementImportDeclaration ontologyClassImport = compilationUnit.ensureElementImport(ontologyClass, false);
 				return "OWLIndividualType(owlClass=" + ontologyClassImport.getAbbrev() + ")";
 			}
 			return "OWLIndividualType()";
