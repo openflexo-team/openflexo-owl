@@ -174,25 +174,25 @@ public class TestFMLPrettyPrint1 extends FMLParserTestCase {
 
 		assertEquals("(3:0)-(3:61)", owlOntologyImportNode.getLastParsedFragment().toString());
 		assertEquals(null, owlOntologyImportNode.getPrelude());
-		assertEquals("(3:61)-(5:0)", owlOntologyImportNode.getPostlude().toString());
+		assertEquals("(3:61)-(4:0)", owlOntologyImportNode.getPostlude().toString());
 
-		assertEquals("(5:0)-(5:56)", animalsImportNode.getLastParsedFragment().toString());
+		assertEquals("(6:0)-(6:70)", animalsImportNode.getLastParsedFragment().toString());
 		assertEquals(null, animalsImportNode.getPrelude());
-		assertEquals("(5:56)-(6:0)", animalsImportNode.getPostlude().toString());
+		assertEquals("(6:70)-(7:0)", animalsImportNode.getPostlude().toString());
 
-		assertEquals("(6:0)-(6:34)", mouseImportNode.getLastParsedFragment().toString());
+		assertEquals("(7:0)-(7:45)", mouseImportNode.getLastParsedFragment().toString());
 		assertEquals(null, mouseImportNode.getPrelude());
-		assertEquals("(6:34)-(8:0)", mouseImportNode.getPostlude().toString());
+		assertEquals("(7:45)-(9:0)", mouseImportNode.getPostlude().toString());
 
-		assertEquals("(10:1)-(10:66)", modelSlotNode.getLastParsedFragment().toString());
-		assertEquals("(10:0)-(10:1)", modelSlotNode.getPrelude().toString());
-		assertEquals("(10:66)-(11:0)", modelSlotNode.getPostlude().toString());
+		assertEquals("(11:1)-(11:66)", modelSlotNode.getLastParsedFragment().toString());
+		assertEquals("(11:0)-(11:1)", modelSlotNode.getPrelude().toString());
+		assertEquals("(11:66)-(12:0)", modelSlotNode.getPostlude().toString());
 
-		assertEquals("(12:1)-(14:2)", actionSchemeNode.getLastParsedFragment().toString());
-		assertEquals("(11:0)-(12:0)", actionSchemeNode.getPrelude().toString());
-		assertEquals("(14:2)-(15:0)", actionSchemeNode.getPostlude().toString());
+		assertEquals("(13:1)-(15:2)", actionSchemeNode.getLastParsedFragment().toString());
+		assertEquals("(12:0)-(13:0)", actionSchemeNode.getPrelude().toString());
+		assertEquals("(15:2)-(16:0)", actionSchemeNode.getPostlude().toString());
 
-		assertEquals("(13:2)-(13:87)", addIndividualNode.getLastParsedFragment().toString());
+		assertEquals("(14:2)-(14:87)", addIndividualNode.getLastParsedFragment().toString());
 		assertEquals(null, addIndividualNode.getPrelude());
 		assertEquals(null, addIndividualNode.getPostlude());
 
