@@ -138,7 +138,7 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 						+ "});",
 				description = "Declares a model slot called 'myDiagram' with resulting type 'Diagram', realized through the 'TypedDiagram' model slot, conform to 'myDiagramSpecification' and specified palette element bindings") },
 		references = { @SeeAlso(FreeDiagramModelSlot.class), @SeeAlso(CreateDiagram.class) })*/
-public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOntology, OWLTechnologyAdapter> {
+public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOntology, OWLOntologyResource, OWLTechnologyAdapter> {
 
 	@PropertyIdentifier(type = OWLOntology.class)
 	public static final String IMPORTED_ONTOLOGY_KEY = "importedOntology";
@@ -154,8 +154,8 @@ public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOnt
 	@Setter(IMPORTED_ONTOLOGY_KEY)
 	public void setImportedOntology(OWLOntology anOntology);
 
-	public static abstract class OWLModelSlotImpl extends FlexoOntologyModelSlotImpl<OWLOntology, OWLOntology, OWLTechnologyAdapter>
-			implements OWLModelSlot {
+	public static abstract class OWLModelSlotImpl extends
+			FlexoOntologyModelSlotImpl<OWLOntology, OWLOntology, OWLOntologyResource, OWLTechnologyAdapter> implements OWLModelSlot {
 
 		private static final Logger logger = Logger.getLogger(OWLModelSlot.class.getPackage().getName());
 
