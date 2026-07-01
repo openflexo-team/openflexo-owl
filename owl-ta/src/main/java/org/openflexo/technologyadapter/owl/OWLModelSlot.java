@@ -53,6 +53,7 @@ import org.openflexo.foundation.fml.annotations.DeclareFetchRequests;
 import org.openflexo.foundation.fml.annotations.DeclareFlexoRoles;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.annotations.FMLAttribute;
+import org.openflexo.foundation.ontology.fml.AnnotationRole;
 import org.openflexo.foundation.ontology.fml.editionaction.SelectIndividual;
 import org.openflexo.foundation.ontology.fml.rt.ConceptActorReference;
 import org.openflexo.foundation.ontology.fml.rt.FlexoOntologyModelSlotInstance;
@@ -70,35 +71,9 @@ import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
-import org.openflexo.technologyadapter.owl.fml.DataPropertyStatementActorReference;
-import org.openflexo.technologyadapter.owl.fml.DataPropertyStatementRole;
-import org.openflexo.technologyadapter.owl.fml.OWLClassRole;
-import org.openflexo.technologyadapter.owl.fml.OWLDataPropertyRole;
-import org.openflexo.technologyadapter.owl.fml.OWLIndividualRole;
-import org.openflexo.technologyadapter.owl.fml.OWLObjectPropertyRole;
-import org.openflexo.technologyadapter.owl.fml.OWLPropertyRole;
-import org.openflexo.technologyadapter.owl.fml.ObjectPropertyStatementActorReference;
-import org.openflexo.technologyadapter.owl.fml.ObjectPropertyStatementRole;
-import org.openflexo.technologyadapter.owl.fml.StatementRole;
-import org.openflexo.technologyadapter.owl.fml.SubClassStatementActorReference;
-import org.openflexo.technologyadapter.owl.fml.SubClassStatementRole;
-import org.openflexo.technologyadapter.owl.fml.TypeStatementActorReference;
-import org.openflexo.technologyadapter.owl.fml.TypeStatementRole;
-import org.openflexo.technologyadapter.owl.fml.editionaction.AddDataPropertyStatement;
-import org.openflexo.technologyadapter.owl.fml.editionaction.AddOWLClass;
-import org.openflexo.technologyadapter.owl.fml.editionaction.AddOWLDataProperty;
-import org.openflexo.technologyadapter.owl.fml.editionaction.AddOWLIndividual;
-import org.openflexo.technologyadapter.owl.fml.editionaction.AddObjectPropertyStatement;
-import org.openflexo.technologyadapter.owl.fml.editionaction.AddRestrictionStatement;
-import org.openflexo.technologyadapter.owl.fml.editionaction.AddSubClassStatement;
-import org.openflexo.technologyadapter.owl.fml.editionaction.AddTypeStatement;
-import org.openflexo.technologyadapter.owl.fml.editionaction.CreateOWLResource;
-import org.openflexo.technologyadapter.owl.fml.editionaction.SelectOWLClass;
-import org.openflexo.technologyadapter.owl.fml.editionaction.SelectOWLIndividual;
-import org.openflexo.technologyadapter.owl.fml.editionaction.SelectOWLObjectProperty;
-import org.openflexo.technologyadapter.owl.fml.editionaction.SelectUniqueOWLClass;
-import org.openflexo.technologyadapter.owl.fml.editionaction.SelectUniqueOWLIndividual;
-import org.openflexo.technologyadapter.owl.fml.editionaction.SelectUniqueOWLObjectProperty;
+import org.openflexo.technologyadapter.owl.fml.*;
+import org.openflexo.technologyadapter.owl.fml.editionaction.AddAnnotationStatement;
+import org.openflexo.technologyadapter.owl.fml.editionaction.*;
 import org.openflexo.technologyadapter.owl.model.OWLObject;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
@@ -112,12 +87,13 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
  */
 @DeclareFlexoRoles({ OWLIndividualRole.class, OWLClassRole.class, OWLDataPropertyRole.class, OWLObjectPropertyRole.class,
 		OWLPropertyRole.class, DataPropertyStatementRole.class, ObjectPropertyStatementRole.class, SubClassStatementRole.class,
-		TypeStatementRole.class })
+		TypeStatementRole.class, AnnotationRole.class, OWLAnnotationRole.class,AnnotationStatementRole.class })
 @DeclareEditionActions({ CreateOWLResource.class, AddOWLIndividual.class, AddOWLClass.class, AddOWLDataProperty.class,
 		AddDataPropertyStatement.class, AddObjectPropertyStatement.class, AddRestrictionStatement.class, AddSubClassStatement.class,
-		AddTypeStatement.class })
+		AddTypeStatement.class , AddOWLObjectProperty.class,AddOWLAnnotation.class, org.openflexo.technologyadapter.owl.fml.editionaction.AddAnnotationStatement.class})
 @DeclareFetchRequests({ SelectOWLClass.class, SelectOWLIndividual.class, SelectOWLObjectProperty.class, SelectUniqueOWLClass.class,
-		SelectUniqueOWLIndividual.class, SelectUniqueOWLObjectProperty.class })
+		SelectUniqueOWLIndividual.class, SelectUniqueOWLObjectProperty.class, SelectUniqueOWLDataProperty.class, SelectOWLDataProperty.class,SelectUniqueOWLAnnotation.class, SelectOWLAnnotation.class, SelectOWLAnnotationStatement.class,
+		SelectUniqueOWLAnnotationStatement.class,AbstractSelectOWLAnnotationStatement.class })
 @DeclareActorReferences({ FlexoOntologyModelSlotInstance.class, ConceptActorReference.class, SubClassStatementActorReference.class,
 		TypeStatementActorReference.class })
 @ModelEntity
@@ -167,7 +143,9 @@ public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOnt
 						ObjectPropertyStatementRole.class, ObjectPropertyStatementActorReference.class, DataPropertyStatementRole.class,
 						DataPropertyStatementActorReference.class, OWLClassRole.class, OWLDataPropertyRole.class,
 						OWLObjectPropertyRole.class, OWLPropertyRole.class, StatementRole.class, SubClassStatementActorReference.class,
-						SubClassStatementRole.class, TypeStatementActorReference.class, TypeStatementRole.class));
+						SubClassStatementRole.class, TypeStatementActorReference.class, TypeStatementRole.class,AnnotationStatementRole.class,
+						OWLAnnotationRole.class,
+						AnnotationStatementActorReference.class));
 			} catch (ModelDefinitionException e) {
 				e.printStackTrace();
 			}
@@ -207,6 +185,20 @@ public interface OWLModelSlot extends FlexoOntologyModelSlot<OWLOntology, OWLOnt
 			}
 			else if (SubClassStatementRole.class.isAssignableFrom(patternRoleClass)) {
 				return "fact";
+			}
+			else if (TypeStatementRole.class.isAssignableFrom(patternRoleClass)) {
+				return "fact";
+			}
+			else if (AnnotationStatementRole.class.isAssignableFrom(patternRoleClass)) {
+				return "fact";
+			}
+
+			// Annotation roles (these are NOT statements)
+			else if (AnnotationRole.class.isAssignableFrom(patternRoleClass)) {
+				return "annotation";
+			}
+			else if (OWLAnnotationRole.class.isAssignableFrom(patternRoleClass)) {
+				return "annotation";
 			}
 			return null;
 		}

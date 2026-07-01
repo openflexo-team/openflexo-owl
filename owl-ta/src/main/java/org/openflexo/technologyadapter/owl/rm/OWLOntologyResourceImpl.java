@@ -206,49 +206,187 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 	}
 
 	@Override
-	public OWLConcept<?> findObject(String objectIdentifier, String userIdentifier) {
-		OWLOntology ontology;
-		try {
-			ontology = getResourceData();
+	public Object findObject(String objectIdentifier, String userIdentifier, String typeIdentifier) {
+		Object object = findObject(objectIdentifier, userIdentifier);
 
-			// Easyest way
-			String uri = ontology.getURI() + "#" + objectIdentifier;
-			OWLConcept<?> object = ontology.getOntologyObject(uri);
+		if (object != null) {
+			return object;
+		}
+
+		object = findObject(userIdentifier, null);
+
+		if (object != null) {
+			return object;
+		}
+
+		object = findObject(typeIdentifier, null);
+
+		return object;
+	}
+
+	@Override
+	public OWLConcept<?> findObject(String objectIdentifier, String userIdentifier) {
+
+		try {
+			OWLOntology ontology = getResourceData();
+
+			if (ontology == null) {
+				return null;
+			}
+
+			String id = objectIdentifier;
+
+			if (id == null || id.trim().isEmpty() || "null".equals(id)) {
+				id = userIdentifier;
+			}
+
+			if (id == null || id.trim().isEmpty() || "null".equals(id)) {
+				return null;
+			}
+
+			id = id.trim();
+
+			OWLConcept<?> object = resolveOntologyObject(ontology, id);
+
 			if (object != null) {
 				return object;
 			}
+
 			for (OWLClass owlClass : ontology.getClasses()) {
-				if (owlClass.getName().equals(objectIdentifier)) {
+				if (matchesOWLConcept(ontology, owlClass, id)) {
 					return owlClass;
 				}
 			}
+
 			for (OWLObjectProperty owlProperty : ontology.getObjectProperties()) {
-				if (owlProperty.getName().equals(objectIdentifier)) {
+				if (matchesOWLConcept(ontology, owlProperty, id)) {
 					return owlProperty;
 				}
 			}
+
 			for (OWLDataProperty owlProperty : ontology.getDataProperties()) {
-				if (owlProperty.getName().equals(objectIdentifier)) {
+				if (matchesOWLConcept(ontology, owlProperty, id)) {
 					return owlProperty;
 				}
 			}
+
 			for (OWLIndividual owlIndividual : ontology.getIndividuals()) {
-				if (owlIndividual.getName().equals(objectIdentifier)) {
+				if (matchesOWLConcept(ontology, owlIndividual, id)) {
 					return owlIndividual;
 				}
 			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ResourceLoadingCancelledException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FlexoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			logger.warning("Cannot find OWL object with identifier: " + id
+					+ " in ontology " + ontology.getURI());
+
+		} catch (Exception e) {
+			logger.warning("Cannot resolve OWL object identifier objectIdentifier="
+					+ objectIdentifier + " userIdentifier=" + userIdentifier
+					+ " because " + e.getMessage());
 		}
 
 		return null;
 	}
+
+	private OWLConcept<?> resolveOntologyObject(OWLOntology ontology, String id) {
+
+		OWLConcept<?> object = ontology.getOntologyObject(id);
+
+		if (object != null) {
+			return object;
+		}
+
+		if (ontology.getURI() != null) {
+			object = ontology.getOntologyObject(ontology.getURI() + "#" + id);
+
+			if (object != null) {
+				return object;
+			}
+
+			object = ontology.getOntologyObject(ontology.getURI() + "/" + id);
+
+			if (object != null) {
+				return object;
+			}
+		}
+
+		return null;
+	}
+
+	private boolean matchesOWLConcept(OWLOntology ontology, OWLConcept<?> concept, String id) {
+
+		if (concept == null || id == null) {
+			return false;
+		}
+
+		if (id.equals(concept.getName())) {
+			return true;
+		}
+
+		if (id.equals(concept.getURI())) {
+			return true;
+		}
+
+		String localId = localIdFromURI(concept.getURI());
+
+		if (id.equals(localId)) {
+			return true;
+		}
+
+		if (concept.getURI() != null && concept.getURI().endsWith("#" + id)) {
+			return true;
+		}
+
+        return concept.getURI() != null && concept.getURI().endsWith("/" + id);
+    }
+
+	private String localIdFromURI(String uri) {
+
+		if (uri == null || uri.trim().isEmpty()) {
+			return null;
+		}
+
+		int hashIndex = uri.lastIndexOf('#');
+
+		if (hashIndex >= 0 && hashIndex < uri.length() - 1) {
+			return uri.substring(hashIndex + 1);
+		}
+
+		int slashIndex = uri.lastIndexOf('/');
+
+		if (slashIndex >= 0 && slashIndex < uri.length() - 1) {
+			return uri.substring(slashIndex + 1);
+		}
+
+		return uri;
+	}
+	@Override
+	public String getUserIdentifier(Object object) {
+		return getObjectIdentifier(object);
+	}
+
+	@Override
+	public String getObjectIdentifier(Object object) {
+
+		if (object == null) {
+			return null;
+		}
+
+		if (object instanceof OWLConcept) {
+			OWLConcept<?> concept = (OWLConcept<?>) object;
+
+			if (concept.getName() != null && !concept.getName().trim().isEmpty()) {
+				return concept.getName();
+			}
+
+			if (concept.getURI() != null && !concept.getURI().trim().isEmpty()) {
+				return localIdFromURI(concept.getURI());
+			}
+		}
+
+		return null;
+	}
+
+
 
 }

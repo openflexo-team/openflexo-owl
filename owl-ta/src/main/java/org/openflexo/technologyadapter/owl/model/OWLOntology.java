@@ -86,15 +86,7 @@ import org.openflexo.foundation.ontology.IFlexoOntology;
 import org.openflexo.foundation.ontology.IFlexoOntologyAnnotation;
 import org.openflexo.foundation.ontology.IFlexoOntologyConcept;
 import org.openflexo.foundation.ontology.IFlexoOntologyContainer;
-import org.openflexo.foundation.ontology.dm.OntologyClassInserted;
-import org.openflexo.foundation.ontology.dm.OntologyClassRemoved;
-import org.openflexo.foundation.ontology.dm.OntologyDataPropertyInserted;
-import org.openflexo.foundation.ontology.dm.OntologyDataPropertyRemoved;
-import org.openflexo.foundation.ontology.dm.OntologyIndividualInserted;
-import org.openflexo.foundation.ontology.dm.OntologyIndividualRemoved;
-import org.openflexo.foundation.ontology.dm.OntologyObjectPropertyInserted;
-import org.openflexo.foundation.ontology.dm.OntologyObjectPropertyRemoved;
-import org.openflexo.foundation.ontology.dm.OntologyObjectRenamed;
+import org.openflexo.foundation.ontology.dm.*;
 import org.openflexo.foundation.resource.ResourceData;
 import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.foundation.technologyadapter.FlexoMetaModel;
@@ -137,16 +129,19 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 	private final Hashtable<String, OWLIndividual> individuals;
 	private final Hashtable<String, OWLDataProperty> dataProperties;
 	private final Hashtable<String, OWLObjectProperty> objectProperties;
+	private final Hashtable<String, OWLAnnotation> annotationProperties;
 
 	private final Hashtable<OntClass, OWLClass> _classes;
 	private final Hashtable<Individual, OWLIndividual> _individuals;
 	private final Hashtable<OntProperty, OWLDataProperty> _dataProperties;
 	private final Hashtable<OntProperty, OWLObjectProperty> _objectProperties;
+	private final Hashtable<OntProperty, OWLAnnotation> _annotationProperties;
 
 	private final Vector<OWLClass> orderedClasses;
 	private final Vector<OWLIndividual> orderedIndividuals;
 	private final Vector<OWLDataProperty> orderedDataProperties;
 	private final Vector<OWLObjectProperty> orderedObjectProperties;
+	private final Vector<OWLAnnotation> orderedAnnotationProperties;
 
 	private OWLClass THING_CONCEPT;
 
@@ -185,16 +180,19 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		individuals = new Hashtable<>();
 		dataProperties = new Hashtable<>();
 		objectProperties = new Hashtable<>();
+		annotationProperties = new Hashtable<>();
 
 		_classes = new Hashtable<>();
 		_individuals = new Hashtable<>();
 		_dataProperties = new Hashtable<>();
 		_objectProperties = new Hashtable<>();
+		_annotationProperties = new Hashtable<>();
 
 		orderedClasses = new Vector<>();
 		orderedIndividuals = new Vector<>();
 		orderedDataProperties = new Vector<>();
 		orderedObjectProperties = new Vector<>();
+		orderedAnnotationProperties = new Vector<>();
 
 	}
 
@@ -534,10 +532,12 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		individuals.clear();
 		dataProperties.clear();
 		objectProperties.clear();
+		annotationProperties.clear();
 		_classes.clear();
 		_individuals.clear();
 		_dataProperties.clear();
 		_objectProperties.clear();
+		_annotationProperties.clear();
 
 		for (Iterator<OntClass> i = getOntModel().listClasses(); i.hasNext();) {
 			OntClass ontClass = i.next();
@@ -580,6 +580,15 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 				}
 			}
 		}
+		for (Iterator<AnnotationProperty> i = getOntModel().listAnnotationProperties(); i.hasNext();) {
+			AnnotationProperty ontProperty = i.next();
+			if (_annotationProperties.get(ontProperty) == null && isNamedResourceOfThisOntology(ontProperty)) {
+				makeAnnotationProperty(ontProperty);
+				if (logger.isLoggable(Level.FINE)) {
+					logger.fine(getURI() + ": made AnnotationProperty " + ontProperty.getURI() + " in " + getURI());
+				}
+			}
+		}
 
 		// I don't understand why, but on some ontologies (RDF, RDFS and OWL), this is the only way to obtain those properties
 		for (Iterator<OntProperty> i = ontModel.listAllOntProperties(); i.hasNext();) {
@@ -593,17 +602,7 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 					makeNewDataProperty(ontProperty.as(DatatypeProperty.class));
 				}
 				else if (ontProperty.canAs(AnnotationProperty.class)) {
-					AnnotationProperty ap = ontProperty.as(AnnotationProperty.class);
-					if (ap.getRange() != null && ap.getRange().getURI().equals(RDFSURIDefinitions.RDFS_LITERAL_URI)) {
-						makeNewDataProperty(ontProperty);
-					}
-					else if (ap.getRange() != null && ap.getRange().getURI().equals(RDFSURIDefinitions.RDFS_RESOURCE_URI)) {
-						makeNewObjectProperty(ontProperty);
-					}
-					else {
-						// Unused OWLObjectProperty p =
-						makeNewObjectProperty(ontProperty);
-					}
+					makeAnnotationProperty(ontProperty);
 				}
 				else {
 					// default behaviour: create object property
@@ -925,6 +924,21 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		logger.warning("Unexpected null URI for " + ontProperty);
 		return null;
 	}
+	protected OWLAnnotation makeAnnotationProperty(OntProperty ontProperty) {
+		if (StringUtils.isNotEmpty(ontProperty.getURI())) {
+			OWLAnnotation property = new OWLAnnotation(ontProperty, this, getTechnologyAdapter());
+			annotationProperties.put(ontProperty.getURI(), property);
+			_annotationProperties.put(ontProperty, property);
+			logger.fine("Made annotation property for " + property.getName() + " in " + getOntologyURI());
+			// property.init();
+			needsReordering = true;
+			setChanged();
+			notifyObservers(new OntologyAnnotationInserted(property));
+			return property;
+		}
+		logger.warning("Unexpected null URI for " + ontProperty);
+		return null;
+	}
 
 	protected OWLDataProperty redefineDataProperty(OntProperty ontProperty) {
 		OWLDataProperty originalDefinition = getDataProperty(ontProperty.getURI());
@@ -964,7 +978,14 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		setChanged();
 		notifyObservers(new OntologyObjectRenamed(object, oldURI, newURI));
 	}
-
+	protected OWLAnnotation removeAnnotationProperty(OWLAnnotation aProperty) {
+		annotationProperties.remove(aProperty.getURI());
+		_annotationProperties.remove(aProperty.getOntResource());
+		needsReordering = true;
+		setChanged();
+		notifyObservers(new OntologyAnnotationRemoved(aProperty));
+		return aProperty;
+	}
 	protected OWLObjectProperty makeNewObjectProperty(OntProperty ontProperty) {
 		if (StringUtils.isNotEmpty(ontProperty.getURI())) {
 			OWLObjectProperty property = new OWLObjectProperty(ontProperty, this, getTechnologyAdapter());
@@ -1287,6 +1308,17 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		return returned;
 	}
 
+	@Override
+	public List<OWLAnnotation> getAccessibleAnnotationProperties() {
+		List<OWLAnnotation> returned = new ArrayList<>();
+		returned.addAll(getAnnotationProperties());
+		for (OWLOntology o : getAllImportedOntologies()) {
+			returned.addAll(o.getAnnotationProperties());
+		}
+		removeOriginalFromRedefinedObjects(returned);
+		return returned;
+	}
+
 	/**
 	 * Remove originals from redefined classes<br>
 	 * Special case: original Thing definition is kept and redefinitions are excluded
@@ -1334,6 +1366,15 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 	}
 
 	@Override
+	public Vector<OWLAnnotation> getAnnotationProperties() {
+		loadWhenUnloaded();
+		if (needsReordering) {
+			reorderConceptAndProperties();
+		}
+		return orderedAnnotationProperties;
+	}
+
+	@Override
 	public Vector<OWLObjectProperty> getObjectProperties() {
 		loadWhenUnloaded();
 		if (needsReordering) {
@@ -1372,6 +1413,13 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 			orderedObjectProperties.add(property);
 		}
 		Collections.sort(orderedObjectProperties);
+		orderedAnnotationProperties.clear();
+		for (OWLAnnotation property : annotationProperties.values()) {
+			property.updateDomainsAndRanges();
+			orderedAnnotationProperties.add(property);
+		}
+		Collections.sort(orderedAnnotationProperties);
+
 
 		needsReordering = false;
 	}
@@ -1689,8 +1737,41 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 	public OWLObjectProperty createObjectProperty(String name, OWLObjectProperty superProperty, OWLClass domain, OWLClass range)
 			throws DuplicateURIException {
 		// TODO implement this
-		logger.warning("createObjectProperty() not implemented yet");
-		return null;
+		//logger.warning("createObjectProperty() not implemented yet");
+		//return null;
+		if (superProperty != null) {
+			assumeOntologyImportForReference(superProperty);
+		}
+		if (domain != null) {
+			assumeOntologyImportForReference(domain);
+		}
+		if (range != null) {
+			assumeOntologyImportForReference(range);
+		}
+
+		OntModel m = getOntModel();
+		String uri = makeURI(name);
+		if (!testValidURI(name)) {
+			throw new DuplicateURIException(uri);
+		}
+		ObjectProperty op = m.createObjectProperty(uri);
+
+		if (superProperty != null) {
+			op.addSuperProperty(superProperty.getOntProperty());
+		}
+
+		if (domain != null) {
+			op.addDomain(domain.getOntResource());
+		}
+		if (range != null) {
+			op.addRange(range.getOntResource());
+		}
+
+		OWLObjectProperty returned = makeNewObjectProperty(op);
+		returned.init();
+
+		setIsModified();
+		return returned;
 	}
 
 	/**
@@ -1704,8 +1785,80 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 	public OWLDataProperty createDataProperty(String name, OWLDataProperty superProperty, OWLClass domain, OWLDataType dataType)
 			throws DuplicateURIException {
 		// TODO implement this
-		logger.warning("createDataProperty() not implemented yet");
-		return null;
+		//logger.warning("createDataProperty() not implemented yet");
+		//return null;
+		if (superProperty != null) {
+			assumeOntologyImportForReference(superProperty);
+		}
+		if (domain != null) {
+			assumeOntologyImportForReference(domain);
+		}
+		OntModel m = getOntModel();
+		String uri = makeURI(name);
+		if (!testValidURI(name)) {
+			throw new DuplicateURIException(uri);
+		}
+		String OWL = getFlexoOntology().getOntModel().getNsPrefixURI("owl");
+		Property ON_CLASS = ResourceFactory.createProperty(OWL + "onClass");
+		DatatypeProperty dp = m.createDatatypeProperty(uri);
+		if (superProperty != null) {
+			dp.addSuperProperty(superProperty.getOntProperty());
+		}
+		if (domain != null) {
+			dp.addDomain(domain.getOntResource());
+		}
+		if (dataType != null && dataType.getOntology() != null) {
+			m.getResource(dataType.getURI());
+		}
+		OWLDataProperty returned = makeNewDataProperty(dp);
+		returned.init();
+
+		setIsModified();
+		return returned;
+
+	}
+	/**
+	 * Creates an new annotation property with specified name, super property, domain and datatype
+	 *
+	 * @param name
+	 * @param father
+	 * @return
+	 * @throws DuplicateURIException
+	 */
+	public OWLAnnotation createAnnotation(String name, OWLAnnotation superProperty, OWLClass domain, OWLDataType dataType)
+			throws DuplicateURIException {
+		// TODO implement this
+		//logger.warning("createDataProperty() not implemented yet");
+		//return null;
+		if (superProperty != null) {
+			assumeOntologyImportForReference(superProperty);
+		}
+		if (domain != null) {
+			assumeOntologyImportForReference(domain);
+		}
+		OntModel m = getOntModel();
+		String uri = makeURI(name);
+		if (!testValidURI(name)) {
+			throw new DuplicateURIException(uri);
+		}
+		String OWL = getFlexoOntology().getOntModel().getNsPrefixURI("owl");
+		Property ON_CLASS = ResourceFactory.createProperty(OWL + "onClass");
+		AnnotationProperty dp = m.createAnnotationProperty(uri);
+		if (superProperty != null) {
+			dp.addSuperProperty(superProperty.getOntProperty());
+		}
+		if (domain != null) {
+			dp.addDomain(domain.getOntResource());
+		}
+		if (dataType != null && dataType.getOntology() != null) {
+			m.getResource(dataType.getURI());
+		}
+		OWLAnnotation returned = makeAnnotationProperty(dp);
+		returned.init();
+
+		setIsModified();
+		return returned;
+
 	}
 
 	public OWLRestriction createRestriction(OWLClass subjectClass, OWLProperty property, OWLRestriction.RestrictionType type,
@@ -1830,6 +1983,10 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		if (returned != null) {
 			return returned;
 		}
+		returned = getAnnotation(objectURI);
+		if (returned != null) {
+			return returned;
+		}
 
 		return null;
 	}
@@ -1890,6 +2047,10 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		if (returned != null) {
 			return returned;
 		}
+		returned = getDeclaredAnnotation(objectURI);
+		if (returned != null) {
+			return returned;
+		}
 		return returned;
 	}
 
@@ -1938,18 +2099,35 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		if (propertyURI == null) {
 			return null;
 		}
+
 		OWLObjectProperty returned = getDeclaredObjectProperty(propertyURI);
 		if (returned != null) {
 			return returned;
 		}
+
+		OWLAnnotation annotation = getDeclaredAnnotation(propertyURI);
+		if (annotation != null && annotation.getOntProperty() != null) {
+			returned = makeNewObjectProperty(annotation.getOntProperty());
+			returned.init();
+			return returned;
+		}
+
 		for (OWLOntology o : getAllImportedOntologies()) {
 			if (o != null) {
 				returned = o.getDeclaredObjectProperty(propertyURI);
 				if (returned != null) {
 					return returned;
 				}
+
+				OWLAnnotation importedAnnotation = o.getDeclaredAnnotation(propertyURI);
+				if (importedAnnotation != null && importedAnnotation.getOntProperty() != null) {
+					returned = o.makeNewObjectProperty(importedAnnotation.getOntProperty());
+					returned.init();
+					return returned;
+				}
 			}
 		}
+
 		return null;
 	}
 
@@ -1976,13 +2154,49 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		if (propertyURI == null) {
 			return null;
 		}
+
 		OWLDataProperty returned = getDeclaredDataProperty(propertyURI);
+		if (returned != null) {
+			return returned;
+		}
+
+		OWLAnnotation annotation = getDeclaredAnnotation(propertyURI);
+		if (annotation != null && annotation.getOntProperty() != null) {
+			returned = makeNewDataProperty(annotation.getOntProperty());
+			returned.init();
+			return returned;
+		}
+
+		for (OWLOntology o : getAllImportedOntologies()) {
+			if (o != null) {
+				returned = o.getDeclaredDataProperty(propertyURI);
+				if (returned != null) {
+					return returned;
+				}
+
+				OWLAnnotation importedAnnotation = o.getDeclaredAnnotation(propertyURI);
+				if (importedAnnotation != null && importedAnnotation.getOntProperty() != null) {
+					returned = o.makeNewDataProperty(importedAnnotation.getOntProperty());
+					returned.init();
+					return returned;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public OWLAnnotation getAnnotation(String propertyURI) {
+		if (propertyURI == null) {
+			return null;
+		}
+		OWLAnnotation returned = getDeclaredAnnotation(propertyURI);
 		if (returned != null) {
 			return returned;
 		}
 		for (OWLOntology o : getAllImportedOntologies()) {
 			if (o != null) {
-				returned = o.getDeclaredDataProperty(propertyURI);
+				returned = o.getDeclaredAnnotation(propertyURI);
 				if (returned != null) {
 					return returned;
 				}
@@ -1990,7 +2204,128 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		}
 		return null;
 	}
+	public Vector<AnnotationStatement> getAxiomAnnotationStatements() {
 
+		Vector<AnnotationStatement> returned = new Vector<>();
+
+		loadWhenUnloaded();
+
+		StmtIterator axiomIterator =
+				getOntModel().listStatements(
+						null,
+						org.apache.jena.vocabulary.RDF.type,
+						org.apache.jena.vocabulary.OWL2.Axiom);
+
+		while (axiomIterator.hasNext()) {
+
+			Statement axiomTypeStatement = axiomIterator.nextStatement();
+
+			if (!axiomTypeStatement.getSubject().isResource()) {
+				continue;
+			}
+
+			org.apache.jena.rdf.model.Resource axiom =
+					axiomTypeStatement.getSubject().asResource();
+
+			Statement sourceStatement =
+					axiom.getProperty(org.apache.jena.vocabulary.OWL2.annotatedSource);
+			Statement propertyStatement =
+					axiom.getProperty(org.apache.jena.vocabulary.OWL2.annotatedProperty);
+			Statement targetStatement =
+					axiom.getProperty(org.apache.jena.vocabulary.OWL2.annotatedTarget);
+
+			if (sourceStatement == null || propertyStatement == null || targetStatement == null) {
+				continue;
+			}
+
+			if (!sourceStatement.getObject().isResource()
+					|| !propertyStatement.getObject().isURIResource()) {
+				continue;
+			}
+
+			org.apache.jena.rdf.model.Resource source =
+					sourceStatement.getObject().asResource();
+
+			org.apache.jena.rdf.model.Property predicate =
+					getOntModel().createProperty(
+							propertyStatement.getObject().asResource().getURI());
+
+			org.apache.jena.rdf.model.RDFNode target =
+					targetStatement.getObject();
+
+			Statement baseStatement =
+					getOntModel().createStatement(source, predicate, target);
+
+			OWLConcept<?> subjectConcept = retrieveOntologyObject(source);
+
+			if (subjectConcept == null) {
+				continue;
+			}
+
+			OWLStatement baseOWLStatement = null;
+
+			if (target.isLiteral()) {
+				baseOWLStatement =
+						new DataPropertyStatement(
+								subjectConcept,
+								baseStatement,
+								getTechnologyAdapter());
+			}
+			else if (target.isResource()) {
+				baseOWLStatement =
+						new ObjectPropertyStatement(
+								subjectConcept,
+								baseStatement,
+								getTechnologyAdapter());
+			}
+
+			if (baseOWLStatement == null) {
+				continue;
+			}
+
+			StmtIterator annotationIterator = axiom.listProperties();
+
+			while (annotationIterator.hasNext()) {
+
+				Statement annotationStatement = annotationIterator.nextStatement();
+
+				String predicateURI = annotationStatement.getPredicate().getURI();
+
+				if (org.apache.jena.vocabulary.RDF.type.getURI().equals(predicateURI)
+						|| org.apache.jena.vocabulary.OWL2.annotatedSource.getURI().equals(predicateURI)
+						|| org.apache.jena.vocabulary.OWL2.annotatedProperty.getURI().equals(predicateURI)
+						|| org.apache.jena.vocabulary.OWL2.annotatedTarget.getURI().equals(predicateURI)) {
+					continue;
+				}
+
+				if (!annotationStatement.getObject().isLiteral()) {
+					continue;
+				}
+
+				OWLAnnotation annotation = getAnnotation(predicateURI);
+
+				if (annotation == null) {
+					OWLConcept<?> annotationConcept = getOntologyObject(predicateURI);
+					if (annotationConcept instanceof OWLAnnotation) {
+						annotation = (OWLAnnotation) annotationConcept;
+					}
+				}
+
+				if (annotation == null) {
+					continue;
+				}
+
+				returned.add(
+						new AnnotationStatement(
+								baseOWLStatement,
+								annotation,
+								annotationStatement,
+								getTechnologyAdapter()));
+			}
+		}
+
+		return returned;
+	}
 	@Override
 	public OWLDataProperty getDeclaredDataProperty(String propertyURI) {
 		loadWhenUnloaded();
@@ -2001,6 +2336,15 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		return dataProperties.get(propertyURI);
 	}
 
+	public OWLAnnotation getDeclaredAnnotation(String propertyURI) {
+		loadWhenUnloaded();
+
+		if (propertyURI == null) {
+			return null;
+		}
+		return annotationProperties.get(propertyURI);
+	}
+
 	@Override
 	public OWLProperty getDeclaredProperty(String objectURI) {
 		OWLProperty returned = getDeclaredObjectProperty(objectURI);
@@ -2008,6 +2352,10 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 			return returned;
 		}
 		returned = getDeclaredDataProperty(objectURI);
+		if (returned != null) {
+			return returned;
+		}
+		returned = getDeclaredAnnotation(objectURI);
 		if (returned != null) {
 			return returned;
 		}
@@ -2021,6 +2369,10 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 			return returned;
 		}
 		returned = getDataProperty(objectURI);
+		if (returned != null) {
+			return returned;
+		}
+		returned = getAnnotation(objectURI);
 		if (returned != null) {
 			return returned;
 		}
@@ -2117,6 +2469,7 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		returned.addAll(individuals.values());
 		returned.addAll(objectProperties.values());
 		returned.addAll(dataProperties.values());
+		returned.addAll(annotationProperties.values());
 		return returned;
 	}
 

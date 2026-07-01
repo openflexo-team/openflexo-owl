@@ -47,6 +47,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.apache.jena.base.Sys;
 import org.apache.jena.ontology.OntResource;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
@@ -78,6 +79,7 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 	private final Vector<PropertyStatement> _annotationStatements;
 	private final Vector<ObjectPropertyStatement> _annotationObjectsStatements;
 	private final Vector<OWLStatement> _semanticStatements;
+	private final Vector<AnnotationStatement> _owlAnnotationStatements;
 
 	private boolean domainsAndRangesAreUpToDate = false;
 	private boolean domainsAndRangesAreRecursivelyUpToDate = false;
@@ -96,24 +98,77 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 		super(adapter);
 
 		_ontology = ontology;
-		if (ontResource != null) {
-			uri = ontResource.getURI();
-			if (uri != null && uri.indexOf("#") > -1) {
-				name = uri.substring(uri.indexOf("#") + 1);
-			}
-			else {
-				name = uri;
-			}
-		}
+
+		uri = computeURI(ontResource);
+		name = computeName(ontResource, uri);
 
 		_statements = new Vector<>();
 		_semanticStatements = new Vector<>();
 		_annotationStatements = new Vector<>();
 		_annotationObjectsStatements = new Vector<>();
+		_owlAnnotationStatements = new Vector<>();
+
 		propertiesTakingMySelfAsRange = new ArrayList<>();
 		propertiesTakingMySelfAsDomain = new ArrayList<>();
+
 		declaredPropertiesTakingMySelfAsRange = new HashSet<>();
 		declaredPropertiesTakingMySelfAsDomain = new HashSet<>();
+	}
+	private String computeURI(OntResource ontResource) {
+		if (ontResource == null) {
+			return null;
+		}
+
+		// Works for rdf:about and rdf:ID after Jena resolves the resource.
+		String computedURI = ontResource.getURI();
+
+		if (computedURI != null && !computedURI.trim().isEmpty()) {
+			return computedURI;
+		}
+
+		// Fallback for resources where Jena exposes namespace/local name
+		// but getURI() is unexpectedly null.
+		String namespace = ontResource.getNameSpace();
+		String localName = ontResource.getLocalName();
+
+		if (namespace != null && !namespace.trim().isEmpty()
+				&& localName != null && !localName.trim().isEmpty()) {
+			return namespace + localName;
+		}
+
+		return null;
+	}
+
+	private String computeName(OntResource ontResource, String computedURI) {
+		if (ontResource != null) {
+			String localName = ontResource.getLocalName();
+
+			if (localName != null && !localName.trim().isEmpty()) {
+				return localName;
+			}
+		}
+
+		return localIdFromURI(computedURI);
+	}
+
+	private String localIdFromURI(String computedURI) {
+		if (computedURI == null || computedURI.trim().isEmpty()) {
+			return null;
+		}
+
+		int hashIndex = computedURI.lastIndexOf('#');
+
+		if (hashIndex >= 0 && hashIndex < computedURI.length() - 1) {
+			return computedURI.substring(hashIndex + 1);
+		}
+
+		int slashIndex = computedURI.lastIndexOf('/');
+
+		if (slashIndex >= 0 && slashIndex < computedURI.length() - 1) {
+			return computedURI.substring(slashIndex + 1);
+		}
+
+		return computedURI;
 	}
 
 	protected abstract void update();
@@ -216,6 +271,7 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 		_semanticStatements.clear();
 		_annotationStatements.clear();
 		_annotationObjectsStatements.clear();
+		_owlAnnotationStatements.clear();
 
 		for (StmtIterator j = anOntResource.listProperties(); j.hasNext();) {
 			Statement s = j.nextStatement();
@@ -237,6 +293,9 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 						}
 						else if (((Resource) s.getObject()).getURI().equals(OWL_DATA_PROPERTY_URI)) {
 							newStatement = new IsDatatypePropertyStatement(this, s, getTechnologyAdapter());
+						}
+						else if (((Resource) s.getObject()).getURI().equals(OWL_ANNOTATED_PROPERTY_URI)) {
+							newStatement = new IsAnnotationStatement(this, s, getTechnologyAdapter());
 						}
 						else {
 							newStatement = new TypeStatement(this, s, getTechnologyAdapter());
@@ -265,44 +324,73 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 					newStatement = new EquivalentClassStatement(this, s, getTechnologyAdapter());
 				}
 				else {
-					IFlexoOntologyConcept<OWLTechnologyAdapter> predicateProperty = getOntology().getOntologyObject(predicate.getURI());
-					if (predicateProperty instanceof IFlexoOntologyObjectProperty) {
+					IFlexoOntologyConcept<OWLTechnologyAdapter> predicateProperty =
+							getOntology().getOntologyObject(predicate.getURI());
+
+					OWLDataProperty legacyDataProperty =
+							getOntology().getDataProperty(predicate.getURI());
+
+					OWLObjectProperty legacyObjectProperty =
+							getOntology().getObjectProperty(predicate.getURI());
+
+					if (s.getObject().isLiteral() && legacyDataProperty != null) {
+						newStatement = new DataPropertyStatement(this, s, getTechnologyAdapter());
+					}
+					else if (s.getObject().isResource() && legacyObjectProperty != null) {
+						newStatement = new ObjectPropertyStatement(this, s, getTechnologyAdapter());
+					}
+					else if (predicateProperty instanceof IFlexoOntologyObjectProperty) {
 						newStatement = new ObjectPropertyStatement(this, s, getTechnologyAdapter());
 					}
 					else if (predicateProperty instanceof IFlexoOntologyDataProperty) {
 						newStatement = new DataPropertyStatement(this, s, getTechnologyAdapter());
 					}
+					else if (predicateProperty instanceof OWLAnnotation) {
+						if (s.getObject().isLiteral()) {
+							newStatement = new AnnotationStatement(
+									this,
+									(OWLAnnotation) predicateProperty,
+									s,
+									getTechnologyAdapter());
+						}
+						else {
+							logger.warning("Object-valued OWLAnnotation not handled yet: " + predicate.getURI());
+						}
+					}
 					else {
-						/*OWLOntologyLibrary owlOntologyLibrary = getOntologyLibrary();
-						OWLOntology rdfsOntology = owlOntologyLibrary.getRDFSOntology();
-						System.out.println("Unknown predicate: " + predicate);
-						System.out.println("Known predicates:");
-						for (OWLDataProperty p : getOntology().getAccessibleDataProperties()) {
-							System.out.println(" > " + p);
-						}
-						for (OWLObjectProperty p : getOntology().getAccessibleObjectProperties()) {
-							System.out.println(" > " + p);
-						}
-						System.out.println("rdfsOntology=" + rdfsOntology);
-						System.out.println("hop=" + getOntology().getOntologyObject(predicate.getURI()));
-						System.out.println("hop2=" + rdfsOntology.getOntologyObject(predicate.getURI()));
-						System.out.println("ontology = " + getOntology());
-						System.out.println("importedOntologies=" + getOntology().getImportedOntologies());
-						System.out.println("allImportedOntologies=" + getOntology().getAllImportedOntologies());
-						System.out.println("OWLOntology = " + getOntology().getImportedOntologies().get(0));
-						System.out.println("OWLOntology importedOntologies="
-								+ getOntology().getImportedOntologies().get(0).getImportedOntologies());
-						System.out.println("OWLOntology importedOntologies=" + owlOntologyLibrary.getOWLOntology().getImportedOntologies());*/
 						logger.warning("Inconsistant data: unkwown property " + predicate);
 					}
 				}
 			}
 
 			if (newStatement != null) {
+
 				_statements.add(newStatement);
-				if (newStatement instanceof PropertyStatement && ((PropertyStatement) newStatement).isAnnotationProperty()) {
-					if (((PropertyStatement) newStatement).hasLitteralValue()) {
-						_annotationStatements.add((PropertyStatement) newStatement);
+
+				if (newStatement instanceof PropertyStatement
+						&& ((PropertyStatement) newStatement).isAnnotationProperty()) {
+
+					PropertyStatement propertyStatement = (PropertyStatement) newStatement;
+
+					if (propertyStatement.hasLitteralValue()) {
+
+						// old API
+						_annotationStatements.add(propertyStatement);
+
+						// new AnnotationStatement API
+						OWLAnnotation annotation =
+								getOntology().getAnnotation(propertyStatement.getProperty().getURI());
+
+						if (annotation != null) {
+							AnnotationStatement annotationStatement =
+									new AnnotationStatement(
+											this,
+											annotation,
+											propertyStatement.getStatement(),
+											getTechnologyAdapter());
+
+							_owlAnnotationStatements.add(annotationStatement);
+						}
 					}
 					else if (newStatement instanceof ObjectPropertyStatement) {
 						_annotationObjectsStatements.add((ObjectPropertyStatement) newStatement);
@@ -335,7 +423,9 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 	public Vector<PropertyStatement> getAnnotationStatements() {
 		return _annotationStatements;
 	}
-
+	public Vector<AnnotationStatement> getOWLAnnotationStatements() {
+		return _owlAnnotationStatements;
+	}
 	public Vector<ObjectPropertyStatement> getAnnotationObjectStatements() {
 		return _annotationObjectsStatements;
 	}
@@ -367,14 +457,35 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 	 */
 	public Vector<DataPropertyStatement> getAnnotationStatements(IFlexoOntologyDataProperty<OWLTechnologyAdapter> property) {
 		Vector<DataPropertyStatement> returned = new Vector<>();
-		for (OWLStatement statement : getAnnotationStatements()) {
-			if (statement instanceof DataPropertyStatement) {
-				DataPropertyStatement s = (DataPropertyStatement) statement;
-				if (s.getProperty().equalsToConcept(property)) {
-					returned.add(s);
-				}
+
+		for (PropertyStatement statement : getAnnotationStatements()) {
+
+			if (statement instanceof DataPropertyStatement
+					&& statement.getProperty() != null
+					&& statement.getProperty().equalsToConcept(property)) {
+
+				returned.add((DataPropertyStatement) statement);
 			}
 		}
+
+		return returned;
+	}
+	/**
+	 * Return all annotation statement related to supplied property
+	 *
+	 * @param property
+	 * @return
+	 */
+	public Vector<AnnotationStatement> getAnnotationStatements(IFlexoOntologyAnnotation<OWLTechnologyAdapter> property) {
+		Vector<AnnotationStatement> returned = new Vector<>();
+
+		for (AnnotationStatement statement : getOWLAnnotationStatements()) {
+			if (statement.getProperty() != null
+					&& statement.getProperty().equalsToConcept(property)) {
+				returned.add(statement);
+			}
+		}
+
 		return returned;
 	}
 
@@ -396,6 +507,8 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 		}
 		return returned;
 	}
+
+
 
 	/**
 	 * Return all statement related to supplied property
@@ -509,9 +622,24 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 	public DataPropertyStatement getDataPropertyStatement(IFlexoOntologyDataProperty<OWLTechnologyAdapter> property, Object value) {
 		Vector<DataPropertyStatement> returned = getDataPropertyStatements(property);
 		for (DataPropertyStatement statement : returned) {
-			if (statement.getValue().equals(value)) {
-				return statement;
-			}
+			Object v = statement.getValue();
+			if (v == null && value == null) return statement;
+			if (v != null && v.equals(value)) return statement;
+		}
+		return null;
+	}
+	/**
+	 * Return statement related to supplied property and value
+	 *
+	 * @param property
+	 * @return
+	 */
+	public AnnotationStatement getAnnotationStatement(IFlexoOntologyAnnotation<OWLTechnologyAdapter> property, Object value) {
+		Vector<AnnotationStatement> returned = getAnnotationStatements(property);
+		for (AnnotationStatement statement : returned) {
+			Object v = statement.getValue();
+			if (v == null && value == null) return statement;
+			if (v != null && v.equals(value)) return statement;
 		}
 		return null;
 	}
@@ -594,6 +722,22 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 		for (OWLStatement statement : getStatements()) {
 			if (statement instanceof DataPropertyStatement && ((DataPropertyStatement) statement).getProperty() == property) {
 				return (DataPropertyStatement) statement;
+			}
+		}
+		return null;
+	}
+	/**
+	 * Return first found statement related to supplied property
+	 *
+	 * @param property
+	 * @return
+	 */
+	// TODO: need to handle multiple statements
+	public AnnotationStatement getAnnotationStatement(IFlexoOntologyAnnotation<OWLTechnologyAdapter> property) {
+		for (AnnotationStatement statement : getOWLAnnotationStatements()) {
+			if (statement.getProperty() != null
+					&& statement.getProperty().equalsToConcept(property)) {
+				return statement;
 			}
 		}
 		return null;
@@ -789,14 +933,35 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 	 * @return
 	 */
 	public Object getAnnotationValue(OWLDataProperty property, Language language) {
-		List<DataPropertyStatement> literalAnnotations = getAnnotationStatements(property);
-		for (DataPropertyStatement annotation : literalAnnotations) {
-			if (annotation != null && annotation.getLanguage() == language) {
-				if (annotation.hasLitteralValue()) {
+
+		if (property == null) {
+			return null;
+		}
+
+		String expectedLanguageTag = language != null ? language.getTag() : null;
+
+		for (PropertyStatement annotation : getAnnotationStatements()) {
+
+			if (annotation == null
+					|| annotation.getProperty() == null
+					|| !annotation.getProperty().equalsToConcept(property)
+					|| !annotation.hasLitteralValue()) {
+				continue;
+			}
+
+			Language actualLanguage = annotation.getLanguage();
+			String actualLanguageTag = actualLanguage != null ? actualLanguage.getTag() : null;
+
+			if (expectedLanguageTag == null) {
+				if (actualLanguageTag == null || actualLanguageTag.length() == 0) {
 					return annotation.getLiteral().getValue();
 				}
 			}
+			else if (expectedLanguageTag.equals(actualLanguageTag)) {
+				return annotation.getLiteral().getValue();
+			}
 		}
+
 		return null;
 	}
 
@@ -846,7 +1011,6 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 		// System.out.println("Subject: "+this+" resource="+getOntResource());
 		// System.out.println("Predicate: "+property+" resource="+property.getOntProperty());
 		// System.out.println("Object: "+object+" resource="+object.getOntResource());
-
 		getOntResource().addProperty(((OWLProperty) property).getOntProperty(), object.getResource());
 		updateOntologyStatements();
 		setChanged();
@@ -904,6 +1068,56 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 		updateOntologyStatements();
 		setChanged();
 		return getDataPropertyStatement(property, value);
+	}
+
+	/**
+	 * Append property statement for specified property and value
+	 *
+	 * @param property
+	 * @param object
+	 * @return an object representing the added statement
+	 */
+	public AnnotationStatement addAnnotationStatement(OWLAnnotation property, Object value) {
+
+		logger.warning("[addAnnotationStatement] subject=" + getURI());
+		logger.warning("[addAnnotationStatement] property=" + (property != null ? property.getURI() : "null"));
+		logger.warning("[addAnnotationStatement] value=" + value);
+
+		if (property == null) {
+			logger.warning("[addAnnotationStatement] NULL property");
+			return null;
+		}
+
+		if (!(property instanceof OWLProperty)) {
+			logger.warning("[addAnnotationStatement] property is not OWLProperty: " + property.getClass());
+			return null;
+		}
+
+		getOntResource().addLiteral(((OWLProperty) property).getOntProperty(), value);
+
+		logger.warning("[addAnnotationStatement] after addLiteral, raw RDF statements:");
+
+		for (StmtIterator it = getOntResource().listProperties(); it.hasNext();) {
+			Statement s = it.nextStatement();
+			logger.warning(
+					"  RDF "
+							+ s.getSubject()
+							+ " "
+							+ s.getPredicate().getURI()
+							+ " "
+							+ s.getObject()
+							+ " literal=" + s.getObject().isLiteral()
+			);
+		}
+
+		updateOntologyStatements();
+
+		logger.warning("[addAnnotationStatement] after updateOntologyStatements:");
+		logger.warning("  _statements=" + getStatements().size());
+		logger.warning("  old annotationStatements=" + getAnnotationStatements().size());
+		logger.warning("  new owlAnnotationStatements=" + getOWLAnnotationStatements().size());
+
+		return getAnnotationStatement(property, value);
 	}
 
 	public void removePropertyStatement(PropertyStatement statement) {

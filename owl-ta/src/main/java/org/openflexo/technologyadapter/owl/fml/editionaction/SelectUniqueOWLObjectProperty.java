@@ -55,7 +55,7 @@ import org.openflexo.technologyadapter.owl.model.OWLOntology;
  * @author sylvain
  */
 @ModelEntity
-@ImplementationClass(SelectUniqueOWLObjectProperty.AbstractSelectOWLObjectPropertyImpl.class)
+@ImplementationClass(SelectUniqueOWLObjectProperty.SelectOWLObjectPropertyImpl.class)
 @XMLElement
 @FML("SelectUniqueOWLObjectProperty")
 public interface SelectUniqueOWLObjectProperty

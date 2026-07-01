@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns="http://openflexo.org/test/statements#"
+    xml:base="http://openflexo.org/test/statements"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+    <owl:Ontology rdf:about="http://openflexo.org/test/statements"/>
+
+    <owl:Class rdf:about="http://openflexo.org/test/statements#TestClass"/>
+
+    <owl:NamedIndividual rdf:about="http://openflexo.org/test/statements#i1">
+        <rdf:type rdf:resource="http://openflexo.org/test/statements#TestClass"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://openflexo.org/test/statements#i2">
+        <rdf:type rdf:resource="http://openflexo.org/test/statements#TestClass"/>
+    </owl:NamedIndividual>
+
+    <owl:DatatypeProperty rdf:about="http://openflexo.org/test/statements#score">
+        <rdfs:domain rdf:resource="http://openflexo.org/test/statements#TestClass"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+
+    <owl:ObjectProperty rdf:about="http://openflexo.org/test/statements#relatedTo">
+        <rdfs:domain rdf:resource="http://openflexo.org/test/statements#TestClass"/>
+        <rdfs:range rdf:resource="http://openflexo.org/test/statements#TestClass"/>
+    </owl:ObjectProperty>
+
+    <owl:AnnotationProperty rdf:about="http://openflexo.org/test/statements#annotation"/>
+
+</rdf:RDF>

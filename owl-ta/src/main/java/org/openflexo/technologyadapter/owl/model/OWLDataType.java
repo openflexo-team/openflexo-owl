@@ -55,8 +55,7 @@ public class OWLDataType extends OWLObject implements IFlexoOntologyDataType<OWL
 
 	private final String dataTypeURI;
 	private BuiltInDataType builtInDataType;
-
-	protected OWLDataType(String dataTypeURI, OWLTechnologyAdapter adapter) {
+	public OWLDataType(String dataTypeURI, OWLTechnologyAdapter adapter) {
 		super(adapter);
 		this.dataTypeURI = dataTypeURI;
 		builtInDataType = BuiltInDataType.fromURI(getURI());

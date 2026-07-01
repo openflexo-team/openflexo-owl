@@ -45,11 +45,7 @@ import org.openflexo.foundation.ontology.IFlexoOntologyObject;
 import org.openflexo.foundation.ontology.nature.FlexoOntologyVirtualModelNature;
 import org.openflexo.foundation.ontology.technologyadapter.FlexoOntologyModelSlot;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
-import org.openflexo.technologyadapter.owl.model.OWLClass;
-import org.openflexo.technologyadapter.owl.model.OWLDataProperty;
-import org.openflexo.technologyadapter.owl.model.OWLIndividual;
-import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
-import org.openflexo.technologyadapter.owl.model.OWLProperty;
+import org.openflexo.technologyadapter.owl.model.*;
 
 /**
  * Define the "FlexoOntology" nature of a {@link VirtualModel}<br>
@@ -177,5 +173,9 @@ public class OWLOntologyVirtualModelNature extends FlexoOntologyVirtualModelNatu
 	 */
 	public static OWLDataProperty getOWLDataProperty(String uri, VirtualModel virtualModel) {
 		return (OWLDataProperty) getOntologyDataProperty(uri, virtualModel);
+	}
+
+	public static OWLAnnotation getOWLAnnotation(String uri, VirtualModel virtualModel) {
+		return (OWLAnnotation) getOntologyAnnotation(uri, virtualModel);
 	}
 }

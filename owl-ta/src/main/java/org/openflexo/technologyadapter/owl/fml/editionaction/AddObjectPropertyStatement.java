@@ -70,11 +70,7 @@ import org.openflexo.pamela.validation.ValidationIssue;
 import org.openflexo.pamela.validation.ValidationRule;
 import org.openflexo.pamela.validation.ValidationWarning;
 import org.openflexo.technologyadapter.owl.fml.ObjectPropertyStatementRole;
-import org.openflexo.technologyadapter.owl.model.OWLConcept;
-import org.openflexo.technologyadapter.owl.model.OWLIndividual;
-import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
-import org.openflexo.technologyadapter.owl.model.ObjectPropertyStatement;
-import org.openflexo.technologyadapter.owl.model.StatementWithProperty;
+import org.openflexo.technologyadapter.owl.model.*;
 import org.openflexo.technologyadapter.owl.nature.OWLOntologyVirtualModelNature;
 import org.openflexo.toolbox.StringUtils;
 
@@ -89,6 +85,8 @@ public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectProper
 	public static final String OBJECT_KEY = "object";
 	@PropertyIdentifier(type = String.class)
 	public static final String OBJECT_PROPERTY_URI_KEY = "objectPropertyURI";
+	@PropertyIdentifier(type = DataBinding.class)
+	public static final String DYNAMIC_PROPERTY_KEY = "dynamicProperty";
 
 	@Override
 	@Getter(value = OBJECT_KEY)
@@ -107,6 +105,13 @@ public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectProper
 	@Setter(OBJECT_PROPERTY_URI_KEY)
 	public void _setObjectPropertyURI(String objectPropertyURI);
 
+
+	@Getter(value = DYNAMIC_PROPERTY_KEY)
+	@FMLAttribute(value = DYNAMIC_PROPERTY_KEY, required = false, description = "<html>property beeing addressed</html>")
+	public DataBinding<OWLObjectProperty> getDynamicProperty();
+
+	@Setter(DYNAMIC_PROPERTY_KEY)
+	public void setDynamicProperty(DataBinding<OWLObjectProperty> dynamicProperty);
 	@Override
 	public OWLObjectProperty getProperty();
 
@@ -222,6 +227,26 @@ public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectProper
 			}
 			return IFlexoOntologyConcept.class;
 		}
+		private DataBinding<OWLObjectProperty> dynamicProperty;
+		@Override
+		public DataBinding<OWLObjectProperty> getDynamicProperty() {
+			if (dynamicProperty == null) {
+				dynamicProperty = new DataBinding<>(this, OWLObjectProperty.class, DataBinding.BindingDefinitionType.GET);
+				dynamicProperty.setBindingName(DYNAMIC_PROPERTY_KEY);
+			}
+			return dynamicProperty;
+		}
+
+		@Override
+		public void setDynamicProperty(DataBinding<OWLObjectProperty> dynamicProperty) {
+			if (dynamicProperty != null) {
+				dynamicProperty.setOwner(this);
+				dynamicProperty.setDeclaredType(OWLObjectProperty.class);
+				dynamicProperty.setBindingDefinitionType(DataBinding.BindingDefinitionType.GET);
+				dynamicProperty.setBindingName(DYNAMIC_PROPERTY_KEY);
+			}
+			this.dynamicProperty = dynamicProperty;
+		}
 
 		@Override
 		public DataBinding<T> getObject() {
@@ -269,7 +294,20 @@ public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectProper
 
 		@Override
 		public ObjectPropertyStatement execute(RunTimeEvaluationContext evaluationContext) {
-			OWLObjectProperty property = getObjectProperty();
+			OWLObjectProperty property=null;
+
+
+			if (getDynamicProperty() != null && getDynamicProperty().isSet() && getDynamicProperty().isValid()) {
+				try {
+					property = getDynamicProperty().getBindingValue(evaluationContext);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (property == null) {
+				property = getObjectProperty();
+			}
+			//setObjectProperty(property);
 			OWLConcept<?> subject = getPropertySubject(evaluationContext);
 			OWLConcept<?> object = getPropertyObject(evaluationContext);
 			if (property == null) {

@@ -1,0 +1,201 @@
+
+use org.openflexo.technologyadapter.owl.OWLModelSlot as OWL;
+
+import org.openflexo.technologyadapter.owl.model.OWLOntology;
+import org.openflexo.technologyadapter.owl.model.OWLClass;
+import org.openflexo.technologyadapter.owl.model.OWLIndividual;
+import org.openflexo.technologyadapter.owl.model.OWLDataProperty;
+import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
+import org.openflexo.technologyadapter.owl.model.OWLAnnotation;
+import org.openflexo.technologyadapter.owl.model.DataPropertyStatement;
+import org.openflexo.technologyadapter.owl.model.ObjectPropertyStatement;
+import org.openflexo.technologyadapter.owl.model.AnnotationStatement;
+
+import OWLOntology TEST_ONTOLOGY from ["http://openflexo.org/test/statements"];
+import OWLClass TEST_CLASS from [TEST_ONTOLOGY:"TestClass"];
+
+typedef OWLIndividualType(owlClass=TEST_CLASS) as TestIndividual;
+@URI("http://www.openflexo.org/test/owl/Statements.fml")
+@Author("h24hnain")
+
+public model Statements {
+
+   OWLOntology ontology with OWLModelSlot();
+
+   create(Resource<OWLOntology> aOWLOntologyResource) {
+      ontology = parameters.aOWLOntologyResource.resourceData;
+      log "Ontology: " + ontology;
+   }
+
+   public OWLIndividual selectI1() {
+      return select unique OWLIndividual from ontology
+         where (selected.name == "i1");
+   }
+
+   public OWLIndividual selectI2() {
+      return select unique OWLIndividual from ontology
+         where (selected.name == "i2");
+   }
+
+   public OWLDataProperty scoreProperty() {
+      return select unique OWLDataProperty from ontology
+         where (selected.name == "score");
+   }
+
+   public OWLObjectProperty relatedToProperty() {
+      return select unique OWLObjectProperty from ontology
+         where (selected.name == "relatedTo");
+   }
+
+   public OWLAnnotation testAnnotationProperty() {
+      return select unique OWLAnnotation from ontology
+         where (selected.name == "annotation");
+   }
+
+   public DataPropertyStatement addDataPropertyStatement() {
+      OWLIndividual i1 = this.selectI1();
+      OWLDataProperty score = this.scoreProperty();
+
+      return OWL::AddDataPropertyStatement(
+         subject=i1,
+         dynamicProperty=score,
+         value="0.9"
+      ) in ontology;
+   }
+
+   public List<DataPropertyStatement> selectDataPropertyStatements() {
+      List<DataPropertyStatement> returned = new ArrayList();
+      OWLDataProperty score = this.scoreProperty();
+/*
+      for (DataPropertyStatement s : select DataPropertyStatement from ontology) {
+         if (s.property == score) {
+            returned.add(s);
+         }
+      }*/
+
+      return returned;
+   }
+
+   public ObjectPropertyStatement addObjectPropertyStatement() {
+      OWLIndividual i1 = this.selectI1();
+      OWLIndividual i2 = this.selectI2();
+      OWLObjectProperty relatedTo = this.relatedToProperty();
+
+      return OWL::AddObjectPropertyStatement(
+         subject=i1,
+         dynamicProperty=relatedTo,
+         object=i2
+      ) in ontology;
+   }
+
+   public List<ObjectPropertyStatement> selectObjectPropertyStatements() {
+      List<ObjectPropertyStatement> returned = new ArrayList();
+      OWLObjectProperty relatedTo = this.relatedToProperty();
+
+      /*
+
+      for (ObjectPropertyStatement s : select ObjectPropertyStatement from ontology) {
+         if (s.property == relatedTo) {
+            returned.add(s);
+         }
+      }
+*/
+      return returned;
+   }
+
+   public AnnotationStatement addAnnotationOnConcept() {
+      OWLIndividual i1 = this.selectI1();
+      OWLAnnotation annotation = this.testAnnotationProperty();
+
+      return OWL::AddAnnotationStatement(
+         subject=i1,
+         dynamicProperty=annotation,
+         value="SomeValue"
+      ) in ontology;
+   }
+
+   public List<AnnotationStatement> selectAnnotationStatements() {
+      List<AnnotationStatement> returned = new ArrayList();
+      OWLAnnotation annotation = this.testAnnotationProperty();
+
+      for (AnnotationStatement s : select AnnotationStatement from ontology) {
+         if (s.property == annotation) {
+            returned.add(s);
+         }
+      }
+
+      return returned;
+   }
+
+   public AnnotationStatement addAnnotationOnStatement() {
+      ObjectPropertyStatement s = this.addObjectPropertyStatement();
+      OWLAnnotation annotation = this.testAnnotationProperty();
+
+      return OWL::AddAnnotationStatement(
+         subject=s,
+         dynamicProperty=annotation,
+         value="0.9"
+      ) in ontology;
+   }
+
+  /*
+    public List<AnnotationStatement> selectAnnotationOnStatement() {
+   List<AnnotationStatement> returned = new ArrayList();
+     OWLAnnotation annotation = this.testAnnotationProperty();
+
+     for (AnnotationStatement s : select AnnotationStatement from ontology) {
+        if (s.property.uRI == annotation.uRI && (s.objectSubject instanceof ObjectPropertyStatement || s.objectSubject instanceof DataPropertyStatement)) {
+           returned.add(s);
+        }
+     }
+
+     return returned;
+  }*/public List<AnnotationStatement> selectAnnotationOnStatement() {
+     List<AnnotationStatement> returned = new ArrayList();
+     OWLAnnotation annotation = this.testAnnotationProperty();
+
+     log "TARGET annotation=" + annotation;
+     log "TARGET annotation uri=" + annotation.uRI;
+     log "TARGET annotation name=" + annotation.name;
+
+     for (AnnotationStatement s : select AnnotationStatement from ontology) {
+
+        log "---- AnnotationStatement ----";
+        log "s=" + s;
+
+        if (s.property == null) {
+           log "property=null";
+        }
+        else {
+           log "property=" + s.property;
+           log "property uri=" + s.property.uRI;
+           log "property name=" + s.property.name;
+           log "property matches target by object=" + (s.property == annotation);
+           log "property matches target by uri=" + (s.property.uRI == annotation.uRI);
+        }
+
+        if (s.objectSubject == null) {
+           log "objectSubject=null";
+        }
+        else {
+           log "objectSubject=" + s.objectSubject;
+           log "objectSubject class=" + s.objectSubject.getClass().getName();
+           //log "is ObjectPropertyStatement=" + (s.objectSubject instanceof ObjectPropertyStatement);
+           //log "is DataPropertyStatement=" + (s.objectSubject instanceof DataPropertyStatement);
+        }
+
+        if (s.property != null
+              && s.property.uRI == annotation.uRI
+              && (s.objectSubject instanceof ObjectPropertyStatement
+                 || s.objectSubject instanceof DataPropertyStatement)) {
+
+           log "ADDING statement annotation: " + s;
+           returned.add(s);
+        }
+     }
+
+     log "RETURNED statement annotations=" + returned;
+
+     return returned;
+  }
+}

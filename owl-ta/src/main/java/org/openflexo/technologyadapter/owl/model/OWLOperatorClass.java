@@ -44,7 +44,12 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.jena.ontology.BooleanClassDescription;
+import org.apache.jena.ontology.ConversionException;
 import org.apache.jena.ontology.OntClass;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 
@@ -73,7 +78,7 @@ public abstract class OWLOperatorClass extends OWLClass {
 		super.update(anOntClass);
 		updateOperands();
 	}
-
+/*
 	private void updateOperands() {
 		operands.clear();
 		for (ExtendedIterator<? extends OntClass> i = booleanClassDescription.listOperands(); i.hasNext();) {
@@ -84,6 +89,65 @@ public abstract class OWLOperatorClass extends OWLClass {
 			}
 			else {
 				logger.warning("Cannot find class for " + c);
+			}
+		}
+	}*/
+
+	private void updateOperands() {
+		operands.clear();
+
+		RDFNode listNode = booleanClassDescription.getPropertyValue(OWL.unionOf);
+
+		if (listNode == null) {
+			listNode = booleanClassDescription.getPropertyValue(OWL.intersectionOf);
+		}
+
+		if (listNode == null || !listNode.canAs(RDFList.class)) {
+			logger.warning("No readable operand list for " + booleanClassDescription);
+			return;
+		}
+
+		RDFList list = listNode.as(RDFList.class);
+
+		for (Object item : list.asJavaList()) {
+			if (!(item instanceof RDFNode)) {
+				continue;
+			}
+
+			RDFNode node = (RDFNode) item;
+
+			if (!node.isResource()) {
+				logger.warning("Skipping non-resource operand: " + node);
+				continue;
+			}
+
+			Resource resource = node.asResource();
+
+			if (resource.getURI() != null
+					&& resource.getURI().startsWith("http://www.w3.org/2001/XMLSchema#")) {
+				logger.warning("Skipping datatype operand in class expression: " + resource.getURI());
+				continue;
+			}
+
+			if (!resource.canAs(OntClass.class)) {
+				logger.warning("Skipping non-class operand: " + resource);
+				continue;
+			}
+
+			try {
+				OntClass c = resource.as(OntClass.class);
+
+				OWLClass ontologyClass = getOntology().retrieveOntologyClass(c);
+
+				if (ontologyClass != null) {
+					operands.add(ontologyClass);
+				}
+				else {
+					logger.warning("Cannot find class for " + c);
+				}
+			}
+			catch (ConversionException e) {
+				logger.warning("Skipping operand that cannot be converted to OntClass: " + resource);
 			}
 		}
 	}

@@ -57,10 +57,10 @@ import org.openflexo.technologyadapter.owl.model.OWLOntology;
  * @author sylvain
  */
 @ModelEntity(isAbstract = true)
-@ImplementationClass(AbstractSelectOWLObjectProperty.AbstractSelectOWLObjectPropertyImpl.class)
+@ImplementationClass(AbstractSelectOWLObjectProperty.SelectOWLObjectPropertyImpl.class)
 public interface AbstractSelectOWLObjectProperty<AT> extends AbstractFetchRequest<OWLModelSlot, OWLOntology, OWLObjectProperty, AT> {
 
-	public static abstract class AbstractSelectOWLObjectPropertyImpl<AT> extends
+	public static abstract class SelectOWLObjectPropertyImpl<AT> extends
 			AbstractFetchRequestImpl<OWLModelSlot, OWLOntology, OWLObjectProperty, AT> implements AbstractSelectOWLObjectProperty<AT> {
 
 		private static final Logger logger = Logger.getLogger(AbstractSelectOWLObjectProperty.class.getPackage().getName());

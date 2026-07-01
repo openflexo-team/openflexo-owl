@@ -92,6 +92,7 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 	@Override
 	@Getter(value = VALUE_KEY)
 	@XMLAttribute
+	@FMLAttribute(value = VALUE_KEY, required = true, description = "<html>property beeing addressed</html>")
 	public DataBinding<T> getValue();
 
 	@Override
@@ -245,6 +246,7 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 				dynamicProperty = new DataBinding<>(this, OWLDataProperty.class, DataBinding.BindingDefinitionType.GET);
 				dynamicProperty.setBindingName(DYNAMIC_PROPERTY_KEY);
 			}
+
 			return dynamicProperty;
 		}
 
@@ -305,9 +307,30 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 
 		@Override
 		public DataPropertyStatement execute(RunTimeEvaluationContext evaluationContext) {
-			OWLDataProperty property = getDataProperty();
+
+			OWLDataProperty property=null;
+
+
+			if (getDynamicProperty() != null && getDynamicProperty().isSet() && getDynamicProperty().isValid()) {
+				try {
+					property = getDynamicProperty().getBindingValue(evaluationContext);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (property == null) {
+				property = getDataProperty();
+			}
+			//setDataProperty(property);
 			OWLConcept<?> subject = getPropertySubject(evaluationContext);
 			Object value = getValue(evaluationContext);
+
+			logger.info("[AddDataPropertyStatement] Executing:");
+			logger.info("  property URI = " + (property != null ? property.getURI() : "null"));
+			logger.info("  property name = " + (property != null ? property.getName() : "null"));
+			logger.info("  subject URI = " + (subject != null ? subject.getURI() : "null"));
+			logger.info("  subject class = " + (subject != null ? subject.getClass().getSimpleName() : "null"));
+			logger.info("  value = " + value + " (" + (value != null ? value.getClass().getSimpleName() : "null") + ")");
 			if (property == null) {
 				return null;
 			}
