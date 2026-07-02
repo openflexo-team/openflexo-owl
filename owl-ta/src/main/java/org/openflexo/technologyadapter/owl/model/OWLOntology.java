@@ -74,6 +74,8 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.vocabulary.OWL2;
+import org.apache.jena.vocabulary.RDF;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -100,6 +102,7 @@ import org.openflexo.technologyadapter.owl.model.action.CreateOntologyIndividual
 import org.openflexo.technologyadapter.owl.model.action.DeleteOntologyObjects;
 import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 import org.openflexo.toolbox.StringUtils;
+//import org.apache.jena.rdf.model.Resource;
 
 /**
  * Represents an OWL Ontology<br>
@@ -2213,8 +2216,8 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		StmtIterator axiomIterator =
 				getOntModel().listStatements(
 						null,
-						org.apache.jena.vocabulary.RDF.type,
-						org.apache.jena.vocabulary.OWL2.Axiom);
+						RDF.type,
+						OWL2.Axiom);
 
 		while (axiomIterator.hasNext()) {
 
@@ -2228,11 +2231,11 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 					axiomTypeStatement.getSubject().asResource();
 
 			Statement sourceStatement =
-					axiom.getProperty(org.apache.jena.vocabulary.OWL2.annotatedSource);
+					axiom.getProperty(OWL2.annotatedSource);
 			Statement propertyStatement =
-					axiom.getProperty(org.apache.jena.vocabulary.OWL2.annotatedProperty);
+					axiom.getProperty(OWL2.annotatedProperty);
 			Statement targetStatement =
-					axiom.getProperty(org.apache.jena.vocabulary.OWL2.annotatedTarget);
+					axiom.getProperty(OWL2.annotatedTarget);
 
 			if (sourceStatement == null || propertyStatement == null || targetStatement == null) {
 				continue;
@@ -2250,81 +2253,269 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 					getOntModel().createProperty(
 							propertyStatement.getObject().asResource().getURI());
 
-			org.apache.jena.rdf.model.RDFNode target =
-					targetStatement.getObject();
+			RDFNode target = targetStatement.getObject();
 
 			Statement baseStatement =
-					getOntModel().createStatement(source, predicate, target);
+					getOntModel().createStatement(
+							source,
+							predicate,
+							target);
 
-			OWLConcept<?> subjectConcept = retrieveOntologyObject(source);
+			OWLConcept<?> subjectConcept =
+					retrieveOntologyObject(source);
 
 			if (subjectConcept == null) {
 				continue;
 			}
 
-			OWLStatement baseOWLStatement = null;
-
-			if (target.isLiteral()) {
-				baseOWLStatement =
-						new DataPropertyStatement(
-								subjectConcept,
-								baseStatement,
-								getTechnologyAdapter());
-			}
-			else if (target.isResource()) {
-				baseOWLStatement =
-						new ObjectPropertyStatement(
-								subjectConcept,
-								baseStatement,
-								getTechnologyAdapter());
-			}
+			OWLStatement baseOWLStatement =
+					makeOWLStatement(subjectConcept, baseStatement);
 
 			if (baseOWLStatement == null) {
 				continue;
 			}
 
-			StmtIterator annotationIterator = axiom.listProperties();
-
-			while (annotationIterator.hasNext()) {
-
-				Statement annotationStatement = annotationIterator.nextStatement();
-
-				String predicateURI = annotationStatement.getPredicate().getURI();
-
-				if (org.apache.jena.vocabulary.RDF.type.getURI().equals(predicateURI)
-						|| org.apache.jena.vocabulary.OWL2.annotatedSource.getURI().equals(predicateURI)
-						|| org.apache.jena.vocabulary.OWL2.annotatedProperty.getURI().equals(predicateURI)
-						|| org.apache.jena.vocabulary.OWL2.annotatedTarget.getURI().equals(predicateURI)) {
-					continue;
-				}
-
-				if (!annotationStatement.getObject().isLiteral()) {
-					continue;
-				}
-
-				OWLAnnotation annotation = getAnnotation(predicateURI);
-
-				if (annotation == null) {
-					OWLConcept<?> annotationConcept = getOntologyObject(predicateURI);
-					if (annotationConcept instanceof OWLAnnotation) {
-						annotation = (OWLAnnotation) annotationConcept;
-					}
-				}
-
-				if (annotation == null) {
-					continue;
-				}
-
-				returned.add(
-						new AnnotationStatement(
-								baseOWLStatement,
-								annotation,
-								annotationStatement,
-								getTechnologyAdapter()));
-			}
+			collectAxiomAnnotationProperties(
+					axiom,
+					baseOWLStatement,
+					returned);
 		}
 
 		return returned;
+	}
+	public Vector<AnnotationStatement> getAxiomAnnotationStatements(OWLConcept<?> concept) {
+
+		Vector<AnnotationStatement> returned = new Vector<>();
+
+		if (concept == null || concept.getOntResource() == null) {
+			return returned;
+		}
+
+		loadWhenUnloaded();
+
+		StmtIterator sourceIterator =
+				getOntModel().listStatements(
+						null,
+						OWL2.annotatedSource,
+						concept.getOntResource());
+
+		while (sourceIterator.hasNext()) {
+
+			Statement sourceStatement = sourceIterator.nextStatement();
+
+			if (!sourceStatement.getSubject().isResource()) {
+				continue;
+			}
+
+			org.apache.jena.rdf.model.Resource axiom =
+					sourceStatement.getSubject().asResource();
+
+			if (!isOWLAxiom(axiom)) {
+				continue;
+			}
+
+			Statement propertyStatement =
+					axiom.getProperty(OWL2.annotatedProperty);
+			Statement targetStatement =
+					axiom.getProperty(OWL2.annotatedTarget);
+
+			if (propertyStatement == null || targetStatement == null) {
+				continue;
+			}
+
+			if (!propertyStatement.getObject().isURIResource()) {
+				continue;
+			}
+
+			org.apache.jena.rdf.model.Property predicate =
+					getOntModel().createProperty(
+							propertyStatement.getObject().asResource().getURI());
+
+			RDFNode target = targetStatement.getObject();
+
+			Statement baseStatement =
+					getOntModel().createStatement(
+							concept.getOntResource(),
+							predicate,
+							target);
+
+			OWLStatement baseOWLStatement =
+					makeOWLStatement(concept, baseStatement);
+
+			if (baseOWLStatement == null) {
+				continue;
+			}
+
+			collectAxiomAnnotationProperties(
+					axiom,
+					baseOWLStatement,
+					returned);
+		}
+
+		return returned;
+	}
+	public Vector<AnnotationStatement> getAxiomAnnotationStatements(OWLStatement owlStatement) {
+
+		Vector<AnnotationStatement> returned = new Vector<>();
+
+		if (owlStatement == null || owlStatement.getStatement() == null) {
+			return returned;
+		}
+
+		loadWhenUnloaded();
+
+		Statement baseStatement =
+				owlStatement.getStatement();
+
+		StmtIterator sourceIterator =
+				getOntModel().listStatements(
+						null,
+						OWL2.annotatedSource,
+						baseStatement.getSubject());
+
+		while (sourceIterator.hasNext()) {
+
+			Statement sourceStatement = sourceIterator.nextStatement();
+
+			if (!sourceStatement.getSubject().isResource()) {
+				continue;
+			}
+
+			org.apache.jena.rdf.model.Resource axiom =
+					sourceStatement.getSubject().asResource();
+
+			if (!isOWLAxiom(axiom)) {
+				continue;
+			}
+
+			Statement propertyStatement =
+					axiom.getProperty(OWL2.annotatedProperty);
+			Statement targetStatement =
+					axiom.getProperty(OWL2.annotatedTarget);
+
+			if (propertyStatement == null || targetStatement == null) {
+				continue;
+			}
+
+			if (!propertyStatement.getObject().isURIResource()) {
+				continue;
+			}
+
+			String axiomPredicateURI =
+					propertyStatement.getObject().asResource().getURI();
+
+			if (!baseStatement.getPredicate().getURI().equals(axiomPredicateURI)) {
+				continue;
+			}
+
+			if (!baseStatement.getObject().equals(targetStatement.getObject())) {
+				continue;
+			}
+
+			collectAxiomAnnotationProperties(
+					axiom,
+					owlStatement,
+					returned);
+		}
+
+		return returned;
+	}
+	private boolean isOWLAxiom(org.apache.jena.rdf.model.Resource axiom) {
+
+		if (axiom == null) {
+			return false;
+		}
+
+		Statement typeStatement =
+				axiom.getProperty(org.apache.jena.vocabulary.RDF.type);
+
+		return typeStatement != null
+				&& typeStatement.getObject().isURIResource()
+				&& org.apache.jena.vocabulary.OWL2.Axiom.getURI().equals(
+				typeStatement.getObject().asResource().getURI());
+	}
+	private OWLStatement makeOWLStatement(
+			OWLConcept<?> subjectConcept,
+			Statement baseStatement) {
+
+		if (subjectConcept == null || baseStatement == null) {
+			return null;
+		}
+
+		if (baseStatement.getObject().isLiteral()) {
+			return new DataPropertyStatement(
+					subjectConcept,
+					baseStatement,
+					getTechnologyAdapter());
+		}
+
+		if (baseStatement.getObject().isResource()) {
+			return new ObjectPropertyStatement(
+					subjectConcept,
+					baseStatement,
+					getTechnologyAdapter());
+		}
+
+		return null;
+	}
+	private void collectAxiomAnnotationProperties(
+			org.apache.jena.rdf.model.Resource axiom,
+			OWLStatement baseOWLStatement,
+			Vector<AnnotationStatement> returned) {
+
+		if (axiom == null || baseOWLStatement == null || returned == null) {
+			return;
+		}
+
+		StmtIterator annotationIterator =
+				axiom.listProperties();
+
+		while (annotationIterator.hasNext()) {
+
+			Statement annotationStatement =
+					annotationIterator.nextStatement();
+
+			String predicateURI =
+					annotationStatement.getPredicate().getURI();
+
+			if (RDF.type.getURI().equals(predicateURI)
+					|| OWL2.annotatedSource.getURI().equals(predicateURI)
+					|| OWL2.annotatedProperty.getURI().equals(predicateURI)
+					|| OWL2.annotatedTarget.getURI().equals(predicateURI)) {
+				continue;
+			}
+
+			if (!annotationStatement.getObject().isLiteral()) {
+				continue;
+			}
+
+			OWLAnnotation annotation =
+					getAnnotation(predicateURI);
+
+			if (annotation == null) {
+				OWLConcept<?> annotationConcept =
+						getOntologyObject(predicateURI);
+
+				if (annotationConcept instanceof OWLAnnotation) {
+					annotation = (OWLAnnotation) annotationConcept;
+				}
+			}
+
+			if (annotation == null) {
+				continue;
+			}
+
+			AnnotationStatement returnedStatement =
+					new AnnotationStatement(
+							baseOWLStatement,
+							annotation,
+							annotationStatement,
+							getTechnologyAdapter());
+
+			if (!returned.contains(returnedStatement)) {
+				returned.add(returnedStatement);
+			}
+		}
 	}
 	@Override
 	public OWLDataProperty getDeclaredDataProperty(String propertyURI) {
