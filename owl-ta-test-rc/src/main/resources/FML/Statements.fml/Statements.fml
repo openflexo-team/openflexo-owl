@@ -151,51 +151,20 @@ public model Statements {
 
      return returned;
   }*/public List<AnnotationStatement> selectAnnotationOnStatement() {
-     List<AnnotationStatement> returned = new ArrayList();
-     OWLAnnotation annotation = this.testAnnotationProperty();
+         List<AnnotationStatement> returned = new ArrayList();
 
-     log "TARGET annotation=" + annotation;
-     log "TARGET annotation uri=" + annotation.uRI;
-     log "TARGET annotation name=" + annotation.name;
+         AnnotationStatement created = this.addAnnotationOnStatement();
+         //OWLObject statementSubject = created.objectSubject;
+         OWLAnnotation annotation = this.testAnnotationProperty();
 
-     for (AnnotationStatement s : select AnnotationStatement from ontology) {
+         for (AnnotationStatement s : select AnnotationStatement with SelectOWLAnnotationStatement(subject=created.objectSubject) from ontology ) {
+             if (s.property.uRI == annotation.uRI
+                     && (s.objectSubject instanceof ObjectPropertyStatement
+                         || s.objectSubject instanceof DataPropertyStatement)) {
+                 returned.add(s);
+             }
+         }
 
-        log "---- AnnotationStatement ----";
-        log "s=" + s;
-
-        if (s.property == null) {
-           log "property=null";
-        }
-        else {
-           log "property=" + s.property;
-           log "property uri=" + s.property.uRI;
-           log "property name=" + s.property.name;
-           log "property matches target by object=" + (s.property == annotation);
-           log "property matches target by uri=" + (s.property.uRI == annotation.uRI);
-        }
-
-        if (s.objectSubject == null) {
-           log "objectSubject=null";
-        }
-        else {
-           log "objectSubject=" + s.objectSubject;
-           log "objectSubject class=" + s.objectSubject.getClass().getName();
-           //log "is ObjectPropertyStatement=" + (s.objectSubject instanceof ObjectPropertyStatement);
-           //log "is DataPropertyStatement=" + (s.objectSubject instanceof DataPropertyStatement);
-        }
-
-        if (s.property != null
-              && s.property.uRI == annotation.uRI
-              && (s.objectSubject instanceof ObjectPropertyStatement
-                 || s.objectSubject instanceof DataPropertyStatement)) {
-
-           log "ADDING statement annotation: " + s;
-           returned.add(s);
-        }
+         return returned;
      }
-
-     log "RETURNED statement annotations=" + returned;
-
-     return returned;
-  }
 }
