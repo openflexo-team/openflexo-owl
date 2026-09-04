@@ -88,10 +88,13 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 	public static final String DATA_PROPERTY_URI_KEY = "dataPropertyURI";
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String DYNAMIC_PROPERTY_KEY = "dynamicProperty";
+	@PropertyIdentifier(type = OWLDataProperty.class)
+	public static final String DATA_PROPERTY_KEY = "dataProperty";
 
 	@Override
 	@Getter(value = VALUE_KEY)
 	@XMLAttribute
+	@FMLAttribute(value = VALUE_KEY, required = true, description = "<html>asserted value</html>")
 	public DataBinding<T> getValue();
 
 	@Override
@@ -110,6 +113,21 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 
 	@Override
 	public void setProperty(OWLDataProperty aProperty);
+
+	/**
+	 * The data property being asserted. When this action is assigned to a DataPropertyStatementRole
+	 * the property is inherited from that role; declaring it here lets a standalone statement (one
+	 * the legacy serialization nested inside AddOWLIndividual as a DataPropertyAssertion) name its
+	 * own property in textual FML.
+	 */
+	@Override
+	@Getter(value = DATA_PROPERTY_KEY, ignoreType = true)
+	@FMLAttribute(value = DATA_PROPERTY_KEY, required = false, description = "<html>asserted data property</html>")
+	public OWLDataProperty getDataProperty();
+
+	@Override
+	@Setter(DATA_PROPERTY_KEY)
+	public void setDataProperty(OWLDataProperty aProperty);
 
 	// TODO: pull up this method
 	@Getter(value = DYNAMIC_PROPERTY_KEY)
