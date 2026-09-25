@@ -128,7 +128,8 @@ public class OWLTechnologyAdapter extends TechnologyAdapter<OWLTechnologyAdapter
 		OWLOntologyRepository<I> returned = resourceCenter.retrieveRepository(OWLOntologyRepository.class, this);
 		if (returned == null) {
 			returned = OWLOntologyRepository.instanciateNewRepository(this, resourceCenter);
-			resourceCenter.registerRepository(returned, OWLOntologyRepository.class, this);
+			// Another thread may have registered one meanwhile: use the registered one (CORE-D-25)
+			returned = resourceCenter.registerRepository(returned, OWLOntologyRepository.class, this);
 		}
 		return returned;
 	}
