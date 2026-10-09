@@ -67,7 +67,7 @@ public class ObjectPropertyStatement extends PropertyStatement implements IFlexo
 				System.out.println("resource: "+s.getObject());
 				System.out.println("uri: "+((Resource)s.getObject()).getURI());
 			}*/
-			if (statementObject == null) {
+			if (statementObject == null && !getOntology().isOntologyReference((Resource) s.getObject())) {
 				logger.warning("Ontology: " + getOntology() + " cannot retrieve " + s.getObject() + " for statement " + s);
 			}
 		}
