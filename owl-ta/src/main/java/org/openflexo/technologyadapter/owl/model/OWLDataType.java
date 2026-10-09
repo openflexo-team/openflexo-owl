@@ -41,6 +41,7 @@ package org.openflexo.technologyadapter.owl.model;
 
 import java.util.logging.Level;
 
+import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.rdf.model.Literal;
 import org.openflexo.foundation.ontology.BuiltInDataType;
 import org.openflexo.foundation.ontology.IFlexoOntologyDataType;
@@ -124,7 +125,17 @@ public class OWLDataType extends OWLObject implements IFlexoOntologyDataType<OWL
 				case Int:
 					return literal.getInt();
 				case Integer:
+				case NonNegativeInteger:
+				case PositiveInteger:
 					return literal.getInt();
+				case AnyURI:
+					return literal.getLexicalForm();
+				case Date:
+				case DateTime:
+					if (literal.getValue() instanceof XSDDateTime) {
+						return ((XSDDateTime) literal.getValue()).asCalendar().getTime();
+					}
+					return null;
 				case Short:
 					return literal.getShort();
 				case Long:

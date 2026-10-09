@@ -39,6 +39,7 @@
 package org.openflexo.technologyadapter.owl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openflexo.foundation.test.OpenflexoTestCase;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
+import org.openflexo.technologyadapter.owl.model.OWLDataType;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
 import org.openflexo.technologyadapter.owl.model.OWLOntologyLibrary;
 import org.openflexo.technologyadapter.owl.model.ObjectPropertyStatement;
@@ -110,6 +112,8 @@ public class TestStandardOntologyLoadingWarnings extends OpenflexoTestCase {
 			modelLogger.removeHandler(recorder);
 			conceptLogger.removeHandler(recorder);
 		}
+		owlAdapter = serviceManager.getTechnologyAdapterService().getTechnologyAdapter(OWLTechnologyAdapter.class);
+		ontologyLibrary = (OWLOntologyLibrary) serviceManager.getTechnologyAdapterService().getTechnologyContextManager(owlAdapter);
 		List<String> unknownProperties = new ArrayList<>();
 		for (String m : recorder.messages) {
 			if (m.contains("unkwown property")) {
@@ -117,8 +121,13 @@ public class TestStandardOntologyLoadingWarnings extends OpenflexoTestCase {
 			}
 		}
 		assertEquals("Standard ontologies bootstrap: " + unknownProperties, 0, unknownProperties.size());
-		owlAdapter = serviceManager.getTechnologyAdapterService().getTechnologyAdapter(OWLTechnologyAdapter.class);
-		ontologyLibrary = (OWLOntologyLibrary) serviceManager.getTechnologyAdapterService().getTechnologyContextManager(owlAdapter);
+		List<String> unmappedDataTypes = new ArrayList<>();
+		for (String m : recorder.messages) {
+			if (m.contains("Could not map a data type")) {
+				unmappedDataTypes.add(m);
+			}
+		}
+		assertEquals("Standard ontologies bootstrap: " + unmappedDataTypes, 0, unmappedDataTypes.size());
 		assertNotNull(ontologyLibrary.getRDFSOntology());
 	}
 
@@ -179,6 +188,34 @@ public class TestStandardOntologyLoadingWarnings extends OpenflexoTestCase {
 				for (OWLClass c : o.getClasses()) {
 					c.updateOntologyStatements();
 				}
+			}
+		} finally {
+			modelLogger.removeHandler(recorder);
+		}
+		assertEquals(recorder.messages.toString(), 0, recorder.messages.size());
+	}
+
+	@Test
+	@TestOrder(6)
+	public void testRdfsClassesAreNotDataTypes() {
+		for (OWLDataType dt : ontologyLibrary.getDataTypes()) {
+			assertFalse(dt.getURI() + " is not a data type", dt.getURI().startsWith("http://www.w3.org/2000/01/rdf-schema#"));
+		}
+	}
+
+	@Test
+	@TestOrder(7)
+	public void testXMLSchemaDataTypesAreMapped() {
+		Logger modelLogger = Logger.getLogger("org.openflexo.technologyadapter.owl.model");
+		Recorder recorder = new Recorder();
+		modelLogger.addHandler(recorder);
+		try {
+			String xsd = "http://www.w3.org/2001/XMLSchema#";
+			String[] names = { "nonNegativeInteger", "positiveInteger", "anyURI", "date", "dateTime" };
+			for (String name : names) {
+				OWLDataType dt = ontologyLibrary.getDataType(xsd + name);
+				assertNotNull(name, dt.getBuiltInDataType());
+				assertEquals(xsd + name, dt.getBuiltInDataType().getURI());
 			}
 		} finally {
 			modelLogger.removeHandler(recorder);
