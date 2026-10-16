@@ -63,7 +63,10 @@ public class RangeStatement extends OWLStatement {
 			range = getOntology().retrieveOntologyObject((Resource) s.getObject());
 			// System.out.println("RangeStatement, range=" + range);
 			// If range cannot be found, try to lookup a datatype
-			if (range == null && ((Resource) s.getObject()).getURI() != null) {
+			// (not while standard ontologies are loading: their classes are then not all available yet, and the statement is computed
+			// again afterwards)
+			if (range == null && ((Resource) s.getObject()).getURI() != null
+					&& !getTechnologyAdapter().getOntologyLibrary().isStandardTermBeingBootstrapped(((Resource) s.getObject()).getURI())) {
 				dataType = getTechnologyAdapter().getOntologyLibrary().getDataType(((Resource) s.getObject()).getURI());
 			}
 		}

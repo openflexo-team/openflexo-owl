@@ -89,6 +89,8 @@ public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectProper
 	public static final String OBJECT_KEY = "object";
 	@PropertyIdentifier(type = String.class)
 	public static final String OBJECT_PROPERTY_URI_KEY = "objectPropertyURI";
+	@PropertyIdentifier(type = OWLObjectProperty.class)
+	public static final String OBJECT_PROPERTY_KEY = "objectProperty";
 
 	@Override
 	@Getter(value = OBJECT_KEY)
@@ -112,6 +114,21 @@ public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectProper
 
 	@Override
 	public void setProperty(OWLObjectProperty aProperty);
+
+	/**
+	 * The object property being asserted. When this action is assigned to an
+	 * ObjectPropertyStatementRole the property is inherited from that role; declaring it here lets
+	 * a standalone statement (one the legacy serialization nested inside AddOWLIndividual as an
+	 * ObjectPropertyAssertion) name its own property in textual FML.
+	 */
+	@Override
+	@Getter(value = OBJECT_PROPERTY_KEY, ignoreType = true)
+	@FMLAttribute(value = OBJECT_PROPERTY_KEY, required = false, description = "<html>asserted object property</html>")
+	public OWLObjectProperty getObjectProperty();
+
+	@Override
+	@Setter(OBJECT_PROPERTY_KEY)
+	public void setObjectProperty(OWLObjectProperty aProperty);
 
 	public static abstract class AddObjectPropertyStatementImpl<T>
 			extends AddStatementImpl<ObjectPropertyStatement, OWLIndividual, OWLObjectProperty> implements AddObjectPropertyStatement<T> {

@@ -1038,6 +1038,24 @@ public class OWLOntology extends OWLObject implements IFlexoOntology<OWLTechnolo
 		}
 	}
 
+	/**
+	 * Return true if supplied resource designates an ontology: this ontology itself or any ontology known by the library. An ontology is
+	 * designated by its URI, with or without the trailing '#' (as in <code>rdfs:isDefinedBy</code> statements).
+	 * 
+	 * @param resource
+	 * @return
+	 */
+	public boolean isOntologyReference(org.apache.jena.rdf.model.Resource resource) {
+		String uri = resource.getURI();
+		if (StringUtils.isEmpty(uri)) {
+			return false;
+		}
+		if (uri.endsWith("#")) {
+			uri = uri.substring(0, uri.length() - 1);
+		}
+		return uri.equals(getOntologyURI()) || getOntologyLibrary().isKnownOntologyURI(uri);
+	}
+
 	protected OWLConcept<?> retrieveOntologyObject(org.apache.jena.rdf.model.Resource resource) {
 		// First try to lookup with resource URI
 		if (StringUtils.isNotEmpty(resource.getURI())) {

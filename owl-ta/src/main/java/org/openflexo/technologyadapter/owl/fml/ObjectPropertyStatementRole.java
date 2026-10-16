@@ -42,6 +42,7 @@ import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import org.openflexo.foundation.fml.annotations.FML;
+import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.pamela.annotations.DefineValidationRule;
@@ -72,6 +73,8 @@ public interface ObjectPropertyStatementRole extends StatementRole<ObjectPropert
 
 	@PropertyIdentifier(type = String.class)
 	public static final String OBJECT_PROPERTY_URI_KEY = "objectPropertyURI";
+	@PropertyIdentifier(type = OWLObjectProperty.class)
+	public static final String OBJECT_PROPERTY_KEY = "objectProperty";
 
 	@Getter(value = OBJECT_PROPERTY_URI_KEY)
 	@XMLAttribute(xmlTag = "objectProperty")
@@ -80,8 +83,16 @@ public interface ObjectPropertyStatementRole extends StatementRole<ObjectPropert
 	@Setter(OBJECT_PROPERTY_URI_KEY)
 	public void _setObjectPropertyURI(String objectPropertyURI);
 
+	/**
+	 * The object property this role asserts. Derived from {@link #_getObjectPropertyURI()}, and
+	 * exposed as an FML attribute so that the role can be declared in textual FML - the URI form
+	 * is only the XML serialization. Same arrangement as IndividualRole.getOntologicType().
+	 */
+	@Getter(value = OBJECT_PROPERTY_KEY, ignoreType = true)
+	@FMLAttribute(value = OBJECT_PROPERTY_KEY, required = false, description = "<html>asserted object property</html>")
 	public OWLObjectProperty getObjectProperty();
 
+	@Setter(OBJECT_PROPERTY_KEY)
 	public void setObjectProperty(OWLObjectProperty p);
 
 	public static abstract class ObjectPropertyStatementRoleImpl extends StatementRoleImpl<ObjectPropertyStatement>

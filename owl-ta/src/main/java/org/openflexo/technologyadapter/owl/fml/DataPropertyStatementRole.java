@@ -42,6 +42,7 @@ import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import org.openflexo.foundation.fml.annotations.FML;
+import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.pamela.annotations.DefineValidationRule;
@@ -69,6 +70,8 @@ public interface DataPropertyStatementRole extends StatementRole<DataPropertySta
 
 	@PropertyIdentifier(type = String.class)
 	public static final String DATA_PROPERTY_URI_KEY = "dataPropertyURI";
+	@PropertyIdentifier(type = OWLDataProperty.class)
+	public static final String DATA_PROPERTY_KEY = "dataProperty";
 
 	@Getter(value = DATA_PROPERTY_URI_KEY)
 	@XMLAttribute(xmlTag = "dataProperty")
@@ -77,8 +80,16 @@ public interface DataPropertyStatementRole extends StatementRole<DataPropertySta
 	@Setter(DATA_PROPERTY_URI_KEY)
 	public void _setDataPropertyURI(String dataPropertyURI);
 
+	/**
+	 * The data property this role asserts. Derived from {@link #_getDataPropertyURI()}, and exposed
+	 * as an FML attribute so that the role can be declared in textual FML - the URI form is only
+	 * the XML serialization. Same arrangement as IndividualRole.getOntologicType().
+	 */
+	@Getter(value = DATA_PROPERTY_KEY, ignoreType = true)
+	@FMLAttribute(value = DATA_PROPERTY_KEY, required = false, description = "<html>asserted data property</html>")
 	public OWLDataProperty getDataProperty();
 
+	@Setter(DATA_PROPERTY_KEY)
 	public void setDataProperty(OWLDataProperty p);
 
 	public static abstract class DataPropertyStatementRoleImpl extends StatementRoleImpl<DataPropertyStatement>

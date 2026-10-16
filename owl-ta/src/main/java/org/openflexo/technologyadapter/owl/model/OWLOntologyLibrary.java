@@ -233,6 +233,32 @@ public class OWLOntologyLibrary extends FlexoOntologyTechnologyContextManager<OW
 	 * getOntology(FLEXO_CONCEPT_ONTOLOGY_URI); }
 	 */
 
+	/**
+	 * Return true if an ontology with supplied URI is known by this library, without loading it nor logging anything
+	 * 
+	 * @param ontologyURI
+	 * @return
+	 */
+	/**
+	 * Return true if supplied URI is defined by one of the W3C standard ontologies (rdf, rdfs, owl) while those are still being
+	 * bootstrapped. As rdf and rdfs import each other, the terms of one may not exist yet when the other computes its statements; this is
+	 * harmless because {@link #init()} computes them again once all standard ontologies are loaded.
+	 * 
+	 * @param uri
+	 * @return
+	 */
+	public boolean isStandardTermBeingBootstrapped(String uri) {
+		if (defaultOntologiesLoaded || uri == null) {
+			return false;
+		}
+		return uri.startsWith(RDFURIDefinitions.RDF_ONTOLOGY_URI + "#") || uri.startsWith(RDFSURIDefinitions.RDFS_ONTOLOGY_URI + "#")
+				|| uri.startsWith(OWL2URIDefinitions.OWL_ONTOLOGY_URI + "#");
+	}
+
+	public boolean isKnownOntologyURI(String ontologyURI) {
+		return ontologyURI != null && ontologies.containsKey(ontologyURI);
+	}
+
 	public OWLOntology getRDFOntology() {
 		return getOntology(RDFURIDefinitions.RDF_ONTOLOGY_URI);
 	}

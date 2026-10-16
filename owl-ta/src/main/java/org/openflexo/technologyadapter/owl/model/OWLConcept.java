@@ -293,7 +293,14 @@ public abstract class OWLConcept<R extends OntResource> extends OWLObject implem
 						System.out.println("OWLOntology importedOntologies="
 								+ getOntology().getImportedOntologies().get(0).getImportedOntologies());
 						System.out.println("OWLOntology importedOntologies=" + owlOntologyLibrary.getOWLOntology().getImportedOntologies());*/
-						logger.warning("Inconsistant data: unkwown property " + predicate);
+						if (getOntologyLibrary().isStandardTermBeingBootstrapped(predicate.getURI())) {
+							// The property is defined by a standard ontology which is not completely loaded yet (rdf and rdfs import each
+							// other): statements are computed again once all of them are loaded
+							logger.fine("Property " + predicate + " not yet available while standard ontologies are loading");
+						}
+						else {
+							logger.warning("Inconsistant data: unkwown property " + predicate);
+						}
 					}
 				}
 			}
