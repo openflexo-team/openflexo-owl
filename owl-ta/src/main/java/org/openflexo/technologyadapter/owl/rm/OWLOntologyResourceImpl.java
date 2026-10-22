@@ -45,7 +45,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.jena.ontology.OntModel;
-import org.apache.jena.rdf.model.RDFWriter;
+import org.apache.jena.rdf.model.RDFWriterI;
 import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.FileWritingLock;
 import org.openflexo.foundation.resource.FlexoResourceImpl;
@@ -138,7 +138,7 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 			ontModel.setNsPrefix("base", ontology.getURI());
 			try (OutputStream out = getIODelegate().getSerializationArtefactAsResource().openOutputStream()) {
 				// out = new FileOutputStream(getFile());
-				RDFWriter writer = ontModel.getWriter("RDF/XML-ABBREV");
+				RDFWriterI writer = ontModel.getWriter("RDF/XML-ABBREV");
 				writer.setProperty("xmlbase", ontology.getURI());
 				writer.write(ontModel.getBaseModel(), out, ontology.getURI());
 				// getOntModel().setNsPrefix("base", getOntologyURI());

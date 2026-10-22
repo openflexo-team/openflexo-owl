@@ -52,13 +52,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import org.apache.jena.graph.GraphMaker;
-import org.apache.jena.graph.impl.SimpleGraphMaker;
+import org.apache.jena.ontology.models.GraphMaker;
+import org.apache.jena.ontology.models.SimpleGraphMaker;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.ModelMaker;
+import org.apache.jena.ontology.models.ModelMaker;
 import org.apache.jena.rdf.model.ModelReader;
 import org.apache.jena.rdf.model.impl.ModelCom;
 import org.apache.jena.shared.AlreadyExistsException;

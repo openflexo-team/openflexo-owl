@@ -3,7 +3,9 @@ dependencies {
   implementation flexoFoundation()
   api flexoOntology()
   // external dep
-  api 'org.apache.jena:jena-core:3.1.0'
+  api 'org.apache.jena:jena-core:5.6.0'
+  // The readers of N3 and Turtle (RIOT) are not in jena-core any more
+  implementation 'org.apache.jena:jena-arq:5.6.0'
 
   // testing dep
   //testImplementation flexoFoundationTest()
