@@ -29,8 +29,8 @@
     <Localized key="validate" lang="English" value="Validate" />
     <Localized key="class_name" lang="French" value="Classe" />
     <Localized key="validate" lang="French" value="Valider" />
-    <Localized key="class_name" lang="Dutch" value="Class name" />
-    <Localized key="validate" lang="Dutch" value="Validate" />
+    <Localized key="class_name" lang="Dutch" value="Naam van de klasse" />
+    <Localized key="validate" lang="Dutch" value="Valideren" />
     <Localized key="creates_new_ontologic_individual" lang="French" value="Créer un nouvel individu ontologique" />
     <Localized key="individual_uri" lang="French" value="URI de l'individu" />
     <Localized key="parent_class" lang="French" value="Classe ontologique parente" />

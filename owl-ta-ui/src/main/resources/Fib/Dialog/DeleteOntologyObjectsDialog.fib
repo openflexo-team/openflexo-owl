@@ -20,13 +20,13 @@
   <LocalizedDictionary>
     <Localized key="validate" lang="English" value="Validate" />
     <Localized key="validate" lang="French" value="Valider" />
-    <Localized key="validate" lang="Dutch" value="Validate" />
+    <Localized key="validate" lang="Dutch" value="Valideren" />
     <Localized key="type" lang="English" value="Type" />
     <Localized key="delete" lang="English" value="Delete" />
     <Localized key="type" lang="French" value="Type" />
     <Localized key="delete" lang="French" value="Supprimer" />
     <Localized key="type" lang="Dutch" value="Type" />
-    <Localized key="delete" lang="Dutch" value="Delete" />
+    <Localized key="delete" lang="Dutch" value="Verwijderen" />
     <Localized key="confirmation_text" lang="French" value="Voulez vous vraiment supprimer ces concepts ? (Cette opération est irréversible.)" />
     <Localized key="delete_ontology_objects" lang="French" value="Supprimer des concepts ontologiques" />
     <Localized key="confirmation_text" lang="English" value="Do you really want to delete those ontologic concepts ? (this operation cannot be undone)" />

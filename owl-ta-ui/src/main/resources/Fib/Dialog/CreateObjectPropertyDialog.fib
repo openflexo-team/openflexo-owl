@@ -35,13 +35,13 @@
   <LocalizedDictionary>
     <Localized key="validate" lang="English" value="Validate" />
     <Localized key="validate" lang="French" value="Valider" />
-    <Localized key="validate" lang="Dutch" value="Validate" />
+    <Localized key="validate" lang="Dutch" value="Valideren" />
     <Localized key="property_name" lang="English" value="Property name" />
     <Localized key="domain" lang="English" value="Domain" />
     <Localized key="property_name" lang="French" value="Nom de la propriété" />
     <Localized key="domain" lang="French" value="Domaine" />
-    <Localized key="property_name" lang="Dutch" value="Property name" />
-    <Localized key="domain" lang="Dutch" value="Domain" />
+    <Localized key="property_name" lang="Dutch" value="Naam van de eigenschap" />
+    <Localized key="domain" lang="Dutch" value="Domein" />
     <Localized key="range" lang="French" value="Plage de valeurs" />
     <Localized key="range" lang="English" value="Range" />
     <Localized key="property_uri" lang="French" value="URI de la propriété" />

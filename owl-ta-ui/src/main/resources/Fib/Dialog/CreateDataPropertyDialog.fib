@@ -76,7 +76,7 @@
 	<LocalizedDictionary>
 		<Localized key="validate" lang="English" value="Validate" />
 		<Localized key="validate" lang="French" value="Valider" />
-		<Localized key="validate" lang="Dutch" value="Validate" />
+		<Localized key="validate" lang="Dutch" value="Valideren" />
 		<Localized key="property_name" lang="English">Property name
 		</Localized>
 		<Localized key="domain" lang="English" value="Domain" />
@@ -85,7 +85,7 @@
 		<Localized key="domain" lang="French" value="Domaine" />
 		<Localized key="property_name" lang="Dutch">Property name
 		</Localized>
-		<Localized key="domain" lang="Dutch" value="Domain" />
+		<Localized key="domain" lang="Dutch" value="Domein" />
 		<Localized key="range" lang="French" value="Plage de valeurs" />
 		<Localized key="range" lang="English" value="Range" />
 		<Localized key="property_uri" lang="French">URI de la propriété
