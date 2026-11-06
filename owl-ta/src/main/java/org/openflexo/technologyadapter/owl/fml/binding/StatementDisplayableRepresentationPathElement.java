@@ -48,6 +48,7 @@ import org.openflexo.connie.binding.SimplePathElementImpl;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.localization.FlexoLocalization;
+import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.technologyadapter.owl.model.PropertyStatement;
 import org.openflexo.technologyadapter.owl.model.StatementWithProperty;
 
@@ -63,8 +64,19 @@ public class StatementDisplayableRepresentationPathElement extends SimplePathEle
 
 	public static final String DISPLAYABLE_REPRESENTATION = "displayableRepresentation";
 
+	private final LocalizedDelegate locales;
+
 	public StatementDisplayableRepresentationPathElement(IBindingPathElement parent, Bindable bindable) {
+		this(parent, bindable, FlexoLocalization.getMainLocalizer());
+	}
+
+	/**
+	 * @param locales
+	 *            the localizer of the technology adapter of the statements this path is applied to
+	 */
+	public StatementDisplayableRepresentationPathElement(IBindingPathElement parent, Bindable bindable, LocalizedDelegate locales) {
 		super(parent, DISPLAYABLE_REPRESENTATION, String.class, bindable); // Type is dynamically retrieved
+		this.locales = locales;
 	}
 
 	@Override
@@ -74,7 +86,7 @@ public class StatementDisplayableRepresentationPathElement extends SimplePathEle
 
 	@Override
 	public String getTooltipText(Type resultingType) {
-		return FlexoLocalization.getMainLocalizer().localizedForKey("displayable_representation");
+		return locales.localizedForKey("displayable_representation");
 	}
 
 	@Override

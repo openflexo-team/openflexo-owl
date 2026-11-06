@@ -48,14 +48,26 @@ import org.openflexo.connie.binding.SimplePathElementImpl;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.localization.FlexoLocalization;
+import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.technologyadapter.owl.model.OWLConcept;
 
 public class URINamePathElement extends SimplePathElementImpl {
 
 	private static final Logger logger = Logger.getLogger(URINamePathElement.class.getPackage().getName());
 
+	private final LocalizedDelegate locales;
+
 	public URINamePathElement(IBindingPathElement parent, Bindable bindable) {
+		this(parent, bindable, FlexoLocalization.getMainLocalizer());
+	}
+
+	/**
+	 * @param locales
+	 *            the localizer of the technology adapter of the elements this path is applied to
+	 */
+	public URINamePathElement(IBindingPathElement parent, Bindable bindable, LocalizedDelegate locales) {
 		super(parent, "uriName", String.class, bindable);
+		this.locales = locales;
 	}
 
 	@Override
@@ -65,7 +77,7 @@ public class URINamePathElement extends SimplePathElementImpl {
 
 	@Override
 	public String getTooltipText(Type resultingType) {
-		return FlexoLocalization.getMainLocalizer().localizedForKey("uri_name");
+		return locales.localizedForKey("uri_name");
 	}
 
 	@Override

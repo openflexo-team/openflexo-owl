@@ -58,6 +58,9 @@ import org.openflexo.technologyadapter.owl.model.OWLDataProperty;
 import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
 import org.openflexo.technologyadapter.owl.model.OWLProperty;
 import org.openflexo.technologyadapter.owl.model.StatementWithProperty;
+import org.openflexo.foundation.FlexoObject;
+import org.openflexo.localization.FlexoLocalization;
+import org.openflexo.localization.LocalizedDelegate;
 
 /**
  * Defines OWL-specific types binding path element strategy
@@ -101,6 +104,16 @@ public final class OWLBindingFactory extends TechnologyAdapterBindingFactory {
 		return false;
 	}
 
+	/**
+	 * The localizer of the technology adapter of supplied object, when it has one, else the one of the platform.
+	 */
+	private static LocalizedDelegate localesOf(Object object) {
+		if (object instanceof FlexoObject) {
+			return ((FlexoObject) object).getLocales();
+		}
+		return FlexoLocalization.getMainLocalizer();
+	}
+
 	@Override
 	public List<? extends SimplePathElement<?>> getAccessibleSimplePathElements(IBindingPathElement element, Bindable bindable) {
 
@@ -108,7 +121,7 @@ public final class OWLBindingFactory extends TechnologyAdapterBindingFactory {
 			OWLIndividualType parentType = (OWLIndividualType) element.getType();
 			List<SimplePathElement<?>> returned = new ArrayList<>();
 			returned.add(new URIPathElement(element, bindable));
-			returned.add(new URINamePathElement(element, bindable));
+			returned.add(new URINamePathElement(element, bindable, localesOf(parentType.getOntologyClass())));
 			if (parentType.getOntologyClass() instanceof OWLClass) {
 				for (OWLProperty p : searchProperties(parentType.getOntologyClass())) {
 					returned.add(getSimplePathElement(p, element, bindable));
@@ -130,7 +143,7 @@ public final class OWLBindingFactory extends TechnologyAdapterBindingFactory {
 			else if (property instanceof OWLDataProperty) {
 				returned.add(new StatementValuePathElement(element, bindable));
 			}
-			returned.add(new StatementDisplayableRepresentationPathElement(element, bindable));
+			returned.add(new StatementDisplayableRepresentationPathElement(element, bindable, localesOf(property)));
 			return returned;
 
 		}
