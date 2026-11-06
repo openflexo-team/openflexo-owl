@@ -39,7 +39,7 @@
   <LocalizedDictionary>
     <!--  <Localized key="Advanced" lang="French" value="Avancé" />
     <Localized key="all_ontologic_statements" lang="English" value="All ontologic statements" />
-    <Localized key="all_ontologic_statements" lang="French" value="All ontologic statements" />
+    <Localized key="all_ontologic_statements" lang="French" value="Toutes les déclarations ontologiques" />
     <Localized key="all_ontologic_statements" lang="Dutch" value="All ontologic statements" />
     <Localized key="is_read_only" lang="English" value="Is read only" />
     <Localized key="is_read_only" lang="French" value="Lecture seule" />

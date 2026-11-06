@@ -275,7 +275,7 @@
 	<LocalizedDictionary>
 		<Localized key="label" lang="English" value="Label" />
 		<Localized key="add_property" lang="English" value="Add property" />
-		<Localized key="label" lang="French" value="Label" />
+		<Localized key="label" lang="French" value="Libellé" />
 		<Localized key="Class name" lang="French" value="Nom de classe" />
 		<Localized key="Property" lang="French" value="Propriété" />
 		<Localized key="Language" lang="French" value="Langue" />
@@ -283,11 +283,11 @@
 		<Localized key="add_property" lang="French" value="Ajouter une property" />
 		<Localized key="label" lang="Dutch" value="Label" />
 		<Localized key="add_property" lang="Dutch" value="Add property" />
-		<Localized key="add_see_also" lang="French" value="add_see_also" />
-		<Localized key="add_is_defined_by" lang="French" value="add_is_defined_by" />
+		<Localized key="add_see_also" lang="French" value="Ajouter « voir aussi »" />
+		<Localized key="add_is_defined_by" lang="French" value="Ajouter « est défini par »" />
 		<Localized key="add_class" lang="French" value="Ajouter une classe" />
-		<Localized key="add_comment" lang="French" value="add_comment" />
-		<Localized key="add_label" lang="French" value="add_label" />
+		<Localized key="add_comment" lang="French" value="Ajouter un commentaire" />
+		<Localized key="add_label" lang="French" value="Ajouter un libellé" />
 		<Localized key="add_comment" lang="English" value="add_comment" />
 		<Localized key="add_individual" lang="French" value="Ajouter un individuel" />
 		<Localized key="add_individual" lang="English" value="Add individual" />
@@ -306,7 +306,7 @@
 		<Localized key="delete_individual" lang="English" value="Delete individual" />
 		<Localized key="delete_property" lang="English" value="Delete property" />
 		<Localized key="delete_action" lang="Dutch" value="Delete action" />
-		<Localized key="individual" lang="French" value="individual" />
+		<Localized key="individual" lang="French" value="Individu" />
 		<Localized key="individual" lang="English" value="individual" />
 		<Localized key="ontologic_class" lang="French" value="Classe ontologique" />
 		<Localized key="ontologic_class" lang="English" value="Ontologic class" />
@@ -331,13 +331,13 @@
 		<Localized key="domain" lang="French" value="Domaine" />
 		<Localized key="property" lang="Dutch" value="Property" />
 		<Localized key="domain" lang="Dutch" value="Domain" />
-		<Localized key="range" lang="French" value="range" />
+		<Localized key="range" lang="French" value="Étendue" />
 		<Localized key="range" lang="English" value="range" />
-		<Localized key="super_properties" lang="French" value="super_properties" />
-		<Localized key="Super classes" lang="French" value="Super classes" />
+		<Localized key="super_properties" lang="French" value="Super-propriétés" />
+		<Localized key="Super classes" lang="French" value="Super-classes" />
 		<Localized key="Super classes" lang="English" value="Super classes" />
 		<Localized key="super_properties" lang="English" value="super_properties" />
-		<Localized key="sub_properties" lang="French" value="sub_properties" />
+		<Localized key="sub_properties" lang="French" value="Sous-propriétés" />
 		<Localized key="sub_properties" lang="English" value="sub_properties" />
 		<Localized key="done" lang="English" value="Done" />
 		<Localized key="done" lang="French" value="Annuler" />
@@ -409,37 +409,37 @@
 		<Localized key="URI" lang="French" value="URI" />
 		<Localized key="URI" lang="Dutch" value="URI" />
 		<Localized key="Sub classes" lang="English" value="Sub classes" />
-		<Localized key="Sub classes" lang="French" value="Sub classes" />
+		<Localized key="Sub classes" lang="French" value="Sous-classes" />
 		<Localized key="Sub classes" lang="Dutch" value="Sub classes" />
 		<Localized key="Semantic statements" lang="English"
 			value="Semantic statements" />
 		<Localized key="Semantic statements" lang="French"
-			value="Semantic statements" />
+			value="Déclarations sémantiques" />
 		<Localized key="Semantic statements" lang="Dutch"
 			value="Semantic statements" />
 		<Localized key="Type" lang="English" value="Type" />
 		<Localized key="Type" lang="French" value="Type" />
 		<Localized key="Type" lang="Dutch" value="Type" />
 		<Localized key="Statement" lang="English" value="Statement" />
-		<Localized key="Statement" lang="French" value="Statement" />
+		<Localized key="Statement" lang="French" value="Déclaration" />
 		<Localized key="Statement" lang="Dutch" value="Statement" />
 		<Localized key="Annotation statements" lang="English"
 			value="Annotation statements" />
 		<Localized key="Annotation statements" lang="French"
-			value="Annotation statements" />
+			value="Déclarations d'annotation" />
 		<Localized key="Annotation statements" lang="Dutch"
 			value="Annotation statements" />
 		<Localized key="Property" lang="English" value="Property" />
 		<Localized key="Property" lang="Dutch" value="Property" />
 		<Localized key="Object" lang="English" value="Object" />
-		<Localized key="Object" lang="French" value="Object" />
+		<Localized key="Object" lang="French" value="Objet" />
 		<Localized key="Object" lang="Dutch" value="Object" />
 		<Localized key="Language" lang="English" value="Language" />
 		<Localized key="Language" lang="Dutch" value="Language" />
 		<Localized key="Value" lang="English" value="Value" />
 		<Localized key="Value" lang="Dutch" value="Value" />
 		<Localized key="Semantic" lang="English" value="Semantic" />
-		<Localized key="Semantic" lang="French" value="Semantic" />
+		<Localized key="Semantic" lang="French" value="Sémantique" />
 		<Localized key="Semantic" lang="Dutch" value="Semantic" />
 		<Localized key="Annotations" lang="English" value="Annotations" />
 		<Localized key="Annotations" lang="French" value="Annotations" />
@@ -450,7 +450,7 @@
 		<Localized key="Imported ontologies" lang="English"
 			value="Imported ontologies" />
 		<Localized key="Imported ontologies" lang="French"
-			value="Imported ontologies" />
+			value="Ontologies importées" />
 		<Localized key="Imported ontologies" lang="Dutch"
 			value="Imported ontologies" />
 		<Localized key="store_properties" lang="English" value="Store properties" />
@@ -479,7 +479,7 @@
 		<Localized key="annotation_properties" lang="Dutch"
 			value="Annotation properties" />
 		<Localized key="Display options" lang="English" value="Display options" />
-		<Localized key="Display options" lang="French" value="Display options" />
+		<Localized key="Display options" lang="French" value="Options d'affichage" />
 		<Localized key="Display options" lang="Dutch" value="Display options" />
 		<Localized key="Super classes" lang="Dutch" value="Super classes" />
 		<Localized key="properties_whose_domain_is_this" lang="Dutch"
