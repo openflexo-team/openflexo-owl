@@ -41,10 +41,6 @@
     <Localized key="all_ontologic_statements" lang="English" value="All ontologic statements" />
     <Localized key="all_ontologic_statements" lang="French" value="All ontologic statements" />
     <Localized key="all_ontologic_statements" lang="Dutch" value="All ontologic statements" />
-    <Localized key="Basic" lang="French" value="Basique" />
-    <Localized key="uri" lang="English" value="URI" />
-    <Localized key="uri" lang="French" value="URI" />
-    <Localized key="uri" lang="Dutch" value="URI" />
     <Localized key="is_read_only" lang="English" value="Is read only" />
     <Localized key="is_read_only" lang="French" value="Lecture seule" />
     <Localized key="is_read_only" lang="Dutch" value="Is read only" />

@@ -27,13 +27,10 @@
   <LocalizedDictionary>
     <Localized key="class_name" lang="English" value="Class name" />
     <Localized key="validate" lang="English" value="Validate" />
-    <Localized key="cancel" lang="English" value="Cancel" />
     <Localized key="class_name" lang="French" value="Classe" />
     <Localized key="validate" lang="French" value="Valider" />
-    <Localized key="cancel" lang="French" value="Annuler" />
     <Localized key="class_name" lang="Dutch" value="Class name" />
     <Localized key="validate" lang="Dutch" value="Validate" />
-    <Localized key="cancel" lang="Dutch" value="Cancel" />
     <Localized key="creates_new_ontologic_individual" lang="French" value="Créer un nouvel individu ontologique" />
     <Localized key="individual_uri" lang="French" value="URI de l'individu" />
     <Localized key="parent_class" lang="French" value="Classe ontologique parente" />

@@ -34,11 +34,8 @@
   </Panel>
   <LocalizedDictionary>
     <Localized key="validate" lang="English" value="Validate" />
-    <Localized key="cancel" lang="English" value="Cancel" />
     <Localized key="validate" lang="French" value="Valider" />
-    <Localized key="cancel" lang="French" value="Annuler" />
     <Localized key="validate" lang="Dutch" value="Validate" />
-    <Localized key="cancel" lang="Dutch" value="Cancel" />
     <Localized key="property_name" lang="English" value="Property name" />
     <Localized key="domain" lang="English" value="Domain" />
     <Localized key="property_name" lang="French" value="Nom de la propriété" />

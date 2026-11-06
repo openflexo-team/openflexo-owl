@@ -19,18 +19,12 @@
   </Panel>
   <LocalizedDictionary>
     <Localized key="validate" lang="English" value="Validate" />
-    <Localized key="cancel" lang="English" value="Cancel" />
     <Localized key="validate" lang="French" value="Valider" />
-    <Localized key="cancel" lang="French" value="Annuler" />
     <Localized key="validate" lang="Dutch" value="Validate" />
-    <Localized key="cancel" lang="Dutch" value="Cancel" />
-    <Localized key="name" lang="English" value="Name" />
     <Localized key="type" lang="English" value="Type" />
     <Localized key="delete" lang="English" value="Delete" />
-    <Localized key="name" lang="French" value="Nom" />
     <Localized key="type" lang="French" value="Type" />
     <Localized key="delete" lang="French" value="Supprimer" />
-    <Localized key="name" lang="Dutch" value="Name" />
     <Localized key="type" lang="Dutch" value="Type" />
     <Localized key="delete" lang="Dutch" value="Delete" />
     <Localized key="confirmation_text" lang="French" value="Voulez vous vraiment supprimer ces concepts ? (Cette opération est irréversible.)" />
