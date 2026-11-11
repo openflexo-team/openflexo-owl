@@ -51,8 +51,6 @@ import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.pamela.annotations.XMLAttribute;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.validation.ValidationError;
 import org.openflexo.pamela.validation.ValidationIssue;
 import org.openflexo.pamela.validation.ValidationRule;
@@ -64,7 +62,6 @@ import org.openflexo.technologyadapter.owl.nature.OWLOntologyVirtualModelNature;
 
 @ModelEntity
 @ImplementationClass(DataPropertyStatementRole.DataPropertyStatementRoleImpl.class)
-@XMLElement
 @FML("DataPropertyStatementRole")
 public interface DataPropertyStatementRole extends StatementRole<DataPropertyStatement> {
 
@@ -74,7 +71,6 @@ public interface DataPropertyStatementRole extends StatementRole<DataPropertySta
 	public static final String DATA_PROPERTY_KEY = "dataProperty";
 
 	@Getter(value = DATA_PROPERTY_URI_KEY)
-	@XMLAttribute(xmlTag = "dataProperty")
 	public String _getDataPropertyURI();
 
 	@Setter(DATA_PROPERTY_URI_KEY)

@@ -45,7 +45,6 @@ import org.openflexo.foundation.fml.editionaction.AbstractFetchRequest;
 import org.openflexo.foundation.fml.editionaction.FetchRequest;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLIndividual;
@@ -59,7 +58,6 @@ import org.openflexo.technologyadapter.owl.model.OWLOntology;
  */
 @ModelEntity
 @ImplementationClass(SelectOWLIndividual.SelectOWLIndividualImpl.class)
-@XMLElement
 @FML("SelectOWLIndividual")
 public interface SelectOWLIndividual
 		extends AbstractSelectOWLIndividual<List<OWLIndividual>>, FetchRequest<OWLModelSlot, OWLOntology, OWLIndividual> {

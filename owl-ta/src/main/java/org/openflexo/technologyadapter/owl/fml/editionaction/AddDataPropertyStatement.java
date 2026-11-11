@@ -60,8 +60,6 @@ import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.pamela.annotations.XMLAttribute;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.validation.FixProposal;
 import org.openflexo.pamela.validation.ValidationError;
 import org.openflexo.pamela.validation.ValidationIssue;
@@ -77,7 +75,6 @@ import org.openflexo.toolbox.StringUtils;
 
 @ModelEntity
 @ImplementationClass(AddDataPropertyStatement.AddDataPropertyStatementImpl.class)
-@XMLElement
 @FML("AddDataPropertyStatement")
 public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertyStatement, OWLIndividual, OWLDataProperty>,
 		SetDataPropertyValueAction<DataPropertyStatement, OWLIndividual, OWLDataProperty, T> {
@@ -93,7 +90,6 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 
 	@Override
 	@Getter(value = VALUE_KEY)
-	@XMLAttribute
 	@FMLAttribute(value = VALUE_KEY, required = true, description = "<html>asserted value</html>")
 	public DataBinding<T> getValue();
 
@@ -102,7 +98,6 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 	public void setValue(DataBinding<T> value);
 
 	@Getter(value = DATA_PROPERTY_URI_KEY)
-	@XMLAttribute
 	public String _getDataPropertyURI();
 
 	@Setter(DATA_PROPERTY_URI_KEY)

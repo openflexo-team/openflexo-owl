@@ -54,15 +54,12 @@ import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.pamela.annotations.XMLAttribute;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
 import org.openflexo.technologyadapter.owl.model.SubClassStatement;
 
 @ModelEntity
 @ImplementationClass(AddSubClassStatement.AddSubClassStatementImpl.class)
-@XMLElement(xmlTag = "AddIsAPropertyStatement")
 @FML("AddSubClassStatement")
 public interface AddSubClassStatement extends AddStatement<SubClassStatement, OWLClass, OWLObjectProperty> {
 
@@ -70,7 +67,6 @@ public interface AddSubClassStatement extends AddStatement<SubClassStatement, OW
 	public static final String FATHER_KEY = "father";
 
 	@Getter(value = FATHER_KEY)
-	@XMLAttribute
 	@FMLAttribute(value = FATHER_KEY, required = true)
 	public DataBinding<OWLClass> getFather();
 

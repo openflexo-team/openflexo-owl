@@ -45,13 +45,11 @@ import org.openflexo.foundation.ontology.fml.ObjectPropertyRole;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapter;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
 
 @ModelEntity
 @ImplementationClass(OWLObjectPropertyRole.OWLObjectPropertyRoleImpl.class)
-@XMLElement
 @FML("OWLObjectPropertyRole")
 public interface OWLObjectPropertyRole extends ObjectPropertyRole<OWLObjectProperty> {
 

@@ -46,13 +46,11 @@ import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLModelSlot.OWLModelSlotImpl;
 import org.openflexo.technologyadapter.owl.model.SubClassStatement;
 
 @ModelEntity
 @ImplementationClass(SubClassStatementRole.SubClassStatementRoleImpl.class)
-@XMLElement
 @FML("SubClassStatementRole")
 public interface SubClassStatementRole extends StatementRole<SubClassStatement> {
 

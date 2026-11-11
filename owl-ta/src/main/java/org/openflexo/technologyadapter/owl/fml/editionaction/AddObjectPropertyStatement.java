@@ -63,8 +63,6 @@ import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.pamela.annotations.XMLAttribute;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.validation.FixProposal;
 import org.openflexo.pamela.validation.ValidationIssue;
 import org.openflexo.pamela.validation.ValidationRule;
@@ -80,7 +78,6 @@ import org.openflexo.toolbox.StringUtils;
 
 @ModelEntity
 @ImplementationClass(AddObjectPropertyStatement.AddObjectPropertyStatementImpl.class)
-@XMLElement
 @FML("AddObjectPropertyStatement")
 public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectPropertyStatement, OWLIndividual, OWLObjectProperty>,
 		SetObjectPropertyValueAction<ObjectPropertyStatement, OWLIndividual, OWLObjectProperty, T> {
@@ -94,7 +91,6 @@ public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectProper
 
 	@Override
 	@Getter(value = OBJECT_KEY)
-	@XMLAttribute
 	@FMLAttribute(value = OBJECT_KEY, required = true, description = "<html>object</html>")
 	public DataBinding<T> getObject();
 
@@ -103,7 +99,6 @@ public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectProper
 	public void setObject(DataBinding<T> object);
 
 	@Getter(value = OBJECT_PROPERTY_URI_KEY)
-	@XMLAttribute
 	public String _getObjectPropertyURI();
 
 	@Setter(OBJECT_PROPERTY_URI_KEY)

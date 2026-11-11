@@ -56,7 +56,6 @@ import org.openflexo.foundation.ontology.fml.editionaction.ObjectPropertyAsserti
 import org.openflexo.pamela.annotations.DefineValidationRule;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
@@ -68,7 +67,6 @@ import org.openflexo.technologyadapter.owl.model.OWLProperty;
 
 @ModelEntity
 @ImplementationClass(AddOWLIndividual.AddOWLIndividualImpl.class)
-@XMLElement
 @FML("AddOWLIndividual")
 public interface AddOWLIndividual
 		extends AddIndividual<OWLModelSlot, OWLOntology, OWLIndividual, OWLTechnologyAdapter>, OWLAction<OWLIndividual> {

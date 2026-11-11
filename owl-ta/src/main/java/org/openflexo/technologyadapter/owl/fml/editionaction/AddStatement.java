@@ -56,7 +56,6 @@ import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.pamela.annotations.XMLAttribute;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
 import org.openflexo.technologyadapter.owl.model.OWLConcept;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
@@ -73,7 +72,6 @@ public abstract interface AddStatement<ST extends OWLStatement, S extends OWLCon
 
 	@Override
 	@Getter(value = SUBJECT_KEY)
-	@XMLAttribute
 	@FMLAttribute(value = SUBJECT_KEY, required = true)
 	public DataBinding<S> getSubject();
 

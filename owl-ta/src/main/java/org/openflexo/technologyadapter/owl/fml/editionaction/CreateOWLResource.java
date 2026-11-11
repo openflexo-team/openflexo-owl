@@ -53,7 +53,6 @@ import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
@@ -69,7 +68,6 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResourceFactory;
  */
 @ModelEntity
 @ImplementationClass(CreateOWLResource.CreateOWLResourceImpl.class)
-@XMLElement
 @FML("CreateOWLResource")
 public interface CreateOWLResource extends AbstractCreateResource<OWLModelSlot, OWLOntology, OWLTechnologyAdapter> {
 

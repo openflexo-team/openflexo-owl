@@ -68,7 +68,6 @@ import org.openflexo.pamela.annotations.Imports;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.technologyadapter.owl.fml.DataPropertyStatementActorReference;
 import org.openflexo.technologyadapter.owl.fml.DataPropertyStatementRole;
@@ -123,7 +122,6 @@ import org.openflexo.technologyadapter.owl.rm.OWLOntologyResource;
 @ModelEntity
 @ImplementationClass(OWLModelSlot.OWLModelSlotImpl.class)
 @Imports({ @Import(SelectIndividual.class) })
-@XMLElement
 @FML("OWLModelSlot")
 /*@FML(
 		value = "TypedDiagram",

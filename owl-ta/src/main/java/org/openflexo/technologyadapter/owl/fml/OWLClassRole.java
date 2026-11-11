@@ -45,13 +45,11 @@ import org.openflexo.foundation.ontology.fml.ClassRole;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapter;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 
 @ModelEntity
 @ImplementationClass(OWLClassRole.OWLClassRoleImpl.class)
-@XMLElement
 @FML("OWLClassRole")
 public interface OWLClassRole extends ClassRole<OWLClass> {
 

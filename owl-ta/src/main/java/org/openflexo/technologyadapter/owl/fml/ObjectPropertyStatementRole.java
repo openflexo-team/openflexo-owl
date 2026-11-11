@@ -53,8 +53,6 @@ import org.openflexo.pamela.annotations.Imports;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.pamela.annotations.XMLAttribute;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.validation.ValidationIssue;
 import org.openflexo.pamela.validation.ValidationRule;
 import org.openflexo.pamela.validation.ValidationWarning;
@@ -67,7 +65,6 @@ import org.openflexo.technologyadapter.owl.nature.OWLOntologyVirtualModelNature;
 @ModelEntity
 @Imports(@Import(ObjectPropertyStatementActorReference.class))
 @ImplementationClass(ObjectPropertyStatementRole.ObjectPropertyStatementRoleImpl.class)
-@XMLElement
 @FML("ObjectPropertyStatementRole")
 public interface ObjectPropertyStatementRole extends StatementRole<ObjectPropertyStatement> {
 
@@ -77,7 +74,6 @@ public interface ObjectPropertyStatementRole extends StatementRole<ObjectPropert
 	public static final String OBJECT_PROPERTY_KEY = "objectProperty";
 
 	@Getter(value = OBJECT_PROPERTY_URI_KEY)
-	@XMLAttribute(xmlTag = "objectProperty")
 	public String _getObjectPropertyURI();
 
 	@Setter(OBJECT_PROPERTY_URI_KEY)

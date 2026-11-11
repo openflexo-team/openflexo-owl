@@ -48,7 +48,6 @@ import org.openflexo.foundation.ontology.DuplicateURIException;
 import org.openflexo.foundation.ontology.fml.editionaction.AddDataProperty;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLDataProperty;
@@ -56,7 +55,6 @@ import org.openflexo.technologyadapter.owl.model.OWLOntology;
 
 @ModelEntity
 @ImplementationClass(AddOWLDataProperty.AddOWLDataPropertyImpl.class)
-@XMLElement
 @FML("AddOWLDataProperty")
 public interface AddOWLDataProperty extends AddDataProperty<OWLModelSlot, OWLOntology, OWLDataProperty>, OWLAction<OWLDataProperty> {
 

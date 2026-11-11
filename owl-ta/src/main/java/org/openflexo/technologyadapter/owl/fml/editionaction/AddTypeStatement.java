@@ -54,7 +54,6 @@ import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.pamela.annotations.XMLAttribute;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLIndividual;
 import org.openflexo.technologyadapter.owl.model.OWLObjectProperty;
@@ -69,7 +68,6 @@ public interface AddTypeStatement extends AddStatement<TypeStatement, OWLIndivid
 	public static final String TYPE_KEY = "type";
 
 	@Getter(value = TYPE_KEY)
-	@XMLAttribute
 	@FMLAttribute(value = TYPE_KEY, required = true)
 	public DataBinding<OWLClass> getType();
 

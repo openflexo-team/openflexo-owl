@@ -57,8 +57,6 @@ import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.pamela.annotations.XMLAttribute;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
 import org.openflexo.technologyadapter.owl.model.OWLConcept;
 import org.openflexo.technologyadapter.owl.model.OWLOntology;
@@ -72,7 +70,6 @@ import org.openflexo.toolbox.StringUtils;
 
 @ModelEntity
 @ImplementationClass(AddRestrictionStatement.AddRestrictionStatementImpl.class)
-@XMLElement
 @FML("AddRestrictionStatement")
 public interface AddRestrictionStatement extends AddStatement<OWLStatement, OWLConcept<?>, OWLProperty> {
 
@@ -86,28 +83,24 @@ public interface AddRestrictionStatement extends AddStatement<OWLStatement, OWLC
 	public static final String CARDINALITY_KEY = "cardinality";
 
 	@Getter(value = OBJECT_KEY)
-	@XMLAttribute
 	public DataBinding<?> getObject();
 
 	@Setter(OBJECT_KEY)
 	public void setObject(DataBinding<?> object);
 
 	@Getter(value = PROPERTY_URI_KEY)
-	@XMLAttribute
 	public String _getPropertyURI();
 
 	@Setter(PROPERTY_URI_KEY)
 	public void _setPropertyURI(String propertyURI);
 
 	@Getter(value = RESTRICTION_TYPE_KEY)
-	@XMLAttribute
 	public DataBinding<RestrictionType> getRestrictionType();
 
 	@Setter(RESTRICTION_TYPE_KEY)
 	public void setRestrictionType(DataBinding<RestrictionType> restrictionType);
 
 	@Getter(value = CARDINALITY_KEY)
-	@XMLAttribute
 	public DataBinding<Integer> getCardinality();
 
 	@Setter(CARDINALITY_KEY)

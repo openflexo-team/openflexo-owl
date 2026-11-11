@@ -49,7 +49,6 @@ import org.openflexo.foundation.ontology.DuplicateURIException;
 import org.openflexo.foundation.ontology.fml.editionaction.AddClass;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLModelSlot;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.model.OWLClass;
@@ -57,7 +56,6 @@ import org.openflexo.technologyadapter.owl.model.OWLOntology;
 
 @ModelEntity
 @ImplementationClass(AddOWLClass.AddOWLClassImpl.class)
-@XMLElement
 @FML("AddOWLClass")
 public interface AddOWLClass extends AddClass<OWLModelSlot, OWLOntology, OWLClass, OWLTechnologyAdapter>, OWLAction<OWLClass> {
 

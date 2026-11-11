@@ -46,14 +46,11 @@ import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.pamela.annotations.XMLAttribute;
-import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.owl.OWLTechnologyAdapter;
 import org.openflexo.technologyadapter.owl.model.OWLProperty;
 
 @ModelEntity
 @ImplementationClass(OWLPropertyRole.OWLPropertyRoleImpl.class)
-@XMLElement
 @FML("OWLPropertyRole")
 public interface OWLPropertyRole extends PropertyRole<OWLProperty> {
 
@@ -64,7 +61,6 @@ public interface OWLPropertyRole extends PropertyRole<OWLProperty> {
 
 	@Override
 	@Getter(value = PARENT_PROPERTY_URI_KEY)
-	@XMLAttribute(xmlTag = "parentProperty")
 	public String _getParentPropertyURI();
 
 	@Override
@@ -73,7 +69,6 @@ public interface OWLPropertyRole extends PropertyRole<OWLProperty> {
 
 	@Override
 	@Getter(value = DOMAIN_URI_KEY)
-	@XMLAttribute(xmlTag = "domain")
 	public String _getDomainURI();
 
 	@Override
