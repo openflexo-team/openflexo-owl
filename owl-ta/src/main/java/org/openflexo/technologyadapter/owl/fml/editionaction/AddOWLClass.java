@@ -38,6 +38,7 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
@@ -89,7 +90,7 @@ public interface AddOWLClass extends AddClass<OWLModelSlot, OWLOntology, OWLClas
 		}
 
 		@Override
-		public OWLClass execute(RunTimeEvaluationContext evaluationContext) {
+		public OWLClass execute(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
 
 			OWLClass father = getOntologyClass();
 			String newClassName = null;

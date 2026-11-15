@@ -38,6 +38,7 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +120,7 @@ public interface AbstractSelectOWLClass<AT> extends AbstractSelectClass<OWLModel
 		}
 
 		@Override
-		public List<OWLClass> performExecute(RunTimeEvaluationContext evaluationContext) {
+		public List<OWLClass> performExecute(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
 
 			// TODO: improve perfs !
 

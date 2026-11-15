@@ -38,6 +38,7 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.exception.NullReferenceException;
@@ -69,7 +70,7 @@ public interface AddOWLDataProperty extends AddDataProperty<OWLModelSlot, OWLOnt
 		}
 
 		@Override
-		public OWLDataProperty execute(RunTimeEvaluationContext evaluationContext) {
+		public OWLDataProperty execute(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
 
 			OWLClass domain = null;
 

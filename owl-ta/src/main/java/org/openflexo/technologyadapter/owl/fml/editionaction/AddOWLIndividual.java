@@ -38,6 +38,7 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
@@ -130,7 +131,7 @@ public interface AddOWLIndividual
 		}
 
 		@Override
-		public OWLIndividual execute(RunTimeEvaluationContext evaluationContext) {
+		public OWLIndividual execute(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
 
 			OWLClass father = null;
 
