@@ -38,6 +38,8 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLNullReferenceError;
+import org.openflexo.foundation.fml.rt.error.FMLEvaluation;
 import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -46,8 +48,6 @@ import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.fml.editionaction.AbstractFetchRequest;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
@@ -125,23 +125,16 @@ public interface AbstractSelectOWLClass<AT> extends AbstractSelectClass<OWLModel
 			// TODO: improve perfs !
 
 			OWLOntology ontology = getReceiver(evaluationContext);
+			if (ontology == null) {
+				// A null source (CORE-F-11)
+				throw new FMLNullReferenceError(getStringRepresentation() + ": nothing to select from");
+			}
 
 			// System.err.println("On cherche tous les sousclasses de " + getParentClass() + " dans " + ontology);
 
 			boolean restrictToDeclared = false;
 			if (getDeclared().isSet() && getDeclared().isValid()) {
-				try {
-					restrictToDeclared = getDeclared().getBindingValue(evaluationContext);
-				} catch (TypeMismatchException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NullReferenceException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ReflectiveOperationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				restrictToDeclared = FMLEvaluation.evaluate(getDeclared(), evaluationContext, this);
 			}
 
 			// System.err.println("Restrict to declared: " + restrictToDeclared);

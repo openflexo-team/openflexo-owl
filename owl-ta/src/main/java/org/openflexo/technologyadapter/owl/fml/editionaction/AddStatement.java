@@ -38,13 +38,14 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLEvaluation;
+import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
+
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.fml.editionaction.TechnologySpecificActionDefiningReceiver;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
@@ -86,17 +87,8 @@ public abstract interface AddStatement<ST extends OWLStatement, S extends OWLCon
 
 		private static final Logger logger = Logger.getLogger(AddStatement.class.getPackage().getName());
 
-		public S getPropertySubject(RunTimeEvaluationContext evaluationContext) {
-			try {
-				return getSubject().getBindingValue(evaluationContext);
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
-			return null;
+		public S getPropertySubject(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
+			return FMLEvaluation.evaluate(getSubject(), evaluationContext, this);
 		}
 
 		@Override

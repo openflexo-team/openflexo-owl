@@ -38,11 +38,12 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLTechnologyError;
+import org.openflexo.foundation.fml.rt.error.FMLNullReferenceError;
+import org.openflexo.foundation.fml.rt.error.FMLEvaluation;
 import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
 import java.util.logging.Logger;
 
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.ontology.DuplicateURIException;
@@ -75,30 +76,17 @@ public interface AddOWLDataProperty extends AddDataProperty<OWLModelSlot, OWLOnt
 			OWLClass domain = null;
 
 			if (getDynamicDomain().isValid()) {
-				try {
-					domain = (OWLClass) getDynamicDomain().getBindingValue(evaluationContext);
-				} catch (TypeMismatchException e) {
-					e.printStackTrace();
-				} catch (NullReferenceException e) {
-					e.printStackTrace();
-				} catch (ReflectiveOperationException e) {
-					e.printStackTrace();
-				}
+				domain = (OWLClass) FMLEvaluation.evaluate(getDynamicDomain(), evaluationContext, this);
 			}
 
 			String propertyName = null;
-			try {
-				propertyName = getPropertyName().getBindingValue(evaluationContext);
-			} catch (TypeMismatchException e1) {
-				e1.printStackTrace();
-			} catch (NullReferenceException e1) {
-				e1.printStackTrace();
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
+			propertyName = FMLEvaluation.evaluate(getPropertyName(), evaluationContext, this);
 			// System.out.println("individualName="+individualName);
 
 			OWLOntology receiver = getReceiver(evaluationContext);
+			if (receiver == null) {
+				throw new FMLNullReferenceError("No ontology to create the data property in");
+			}
 
 			if (domain == null) {
 				domain = receiver.getRootClass();
@@ -107,19 +95,15 @@ public interface AddOWLDataProperty extends AddDataProperty<OWLModelSlot, OWLOnt
 			OWLDataProperty newDataProperty = null;
 			try {
 				if (receiver != null) {
-					logger.info("Adding OWLDataProperty name=" + propertyName + " domain =" + domain + " dataType=" + getDataType());
-					logger.info("Adding individual individualName=" + propertyName + " father =" + domain);
+					logger.fine("Adding OWLDataProperty name=" + propertyName + " domain =" + domain + " dataType=" + getDataType());
+					logger.fine("Adding individual individualName=" + propertyName + " father =" + domain);
 					newDataProperty = receiver.createDataProperty(propertyName, null, domain, null/*getDataType()*/);
-					logger.info("********* Added OWLDataProperty " + newDataProperty.getName() + " domain " + newDataProperty.getDomain());
+					logger.fine("********* Added OWLDataProperty " + newDataProperty.getName() + " domain " + newDataProperty.getDomain());
 				}
-				else {
-					logger.warning("No receiver defined " + getReceiver());
-				}
-				logger.info("Return " + newDataProperty);
+				logger.fine("Return " + newDataProperty);
 				return newDataProperty;
 			} catch (DuplicateURIException e) {
-				e.printStackTrace();
-				return null;
+				throw new FMLTechnologyError("Duplicate URI for the new data property: " + e.getMessage(), e);
 			}
 
 		}

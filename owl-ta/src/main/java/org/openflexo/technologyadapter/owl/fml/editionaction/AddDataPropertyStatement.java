@@ -38,14 +38,17 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLResolutionError;
+import org.openflexo.foundation.fml.rt.error.FMLNullReferenceError;
+import org.openflexo.foundation.fml.rt.error.FMLEvaluation;
+import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
+
 import java.lang.reflect.Type;
 import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.FlexoProperty;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.annotations.FMLAttribute;
@@ -230,17 +233,8 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 			this.dataPropertyURI = dataPropertyURI;
 		}
 
-		public Object getValue(RunTimeEvaluationContext evaluationContext) {
-			try {
-				return getValue().getBindingValue(evaluationContext);
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
-			return null;
+		public Object getValue(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
+			return FMLEvaluation.evaluate(getValue(), evaluationContext, this);
 		}
 
 		public Type getType() {
@@ -317,18 +311,18 @@ public interface AddDataPropertyStatement<T> extends AddStatement<DataPropertySt
 		}
 
 		@Override
-		public DataPropertyStatement execute(RunTimeEvaluationContext evaluationContext) {
+		public DataPropertyStatement execute(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
 			OWLDataProperty property = getDataProperty();
 			OWLConcept<?> subject = getPropertySubject(evaluationContext);
 			Object value = getValue(evaluationContext);
 			if (property == null) {
-				return null;
+				throw new FMLResolutionError("No data property for the statement");
 			}
 			if (subject == null) {
-				return null;
+				throw new FMLNullReferenceError("The subject of the statement is null");
 			}
 			if (value == null) {
-				return null;
+				throw new FMLNullReferenceError("The value of the statement is null");
 			}
 			return subject.addDataPropertyStatement(property, value);
 		}

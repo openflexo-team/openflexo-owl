@@ -38,12 +38,13 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLTechnologyError;
+import org.openflexo.foundation.fml.rt.error.FMLNullReferenceError;
+import org.openflexo.foundation.fml.rt.error.FMLEvaluation;
 import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.ontology.DuplicateURIException;
@@ -94,30 +95,22 @@ public interface AddOWLClass extends AddClass<OWLModelSlot, OWLOntology, OWLClas
 
 			OWLClass father = getOntologyClass();
 			String newClassName = null;
-			try {
-				newClassName = getClassName().getBindingValue(evaluationContext);
-			} catch (TypeMismatchException e1) {
-				e1.printStackTrace();
-			} catch (NullReferenceException e1) {
-				e1.printStackTrace();
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
+			newClassName = FMLEvaluation.evaluate(getClassName(), evaluationContext, this);
 			OWLClass newClass = null;
 			try {
 				OWLOntology ontology = getReceiver(evaluationContext);
-				logger.info("Adding class " + newClassName + " as " + father);
-				logger.info("ontology=" + ontology);
+				logger.fine("Adding class " + newClassName + " as " + father);
+				logger.fine("ontology=" + ontology);
 
 				if (ontology != null) {
 					newClass = ontology.createOntologyClass(newClassName, father);
-					logger.info("Added class " + newClass.getName() + " as " + father);
+					logger.fine("Added class " + newClass.getName() + " as " + father);
 				}
 				else {
-					logger.warning("Could not access ontology " + getReceiver());
+					throw new FMLNullReferenceError("No ontology to create the class " + newClassName + " in");
 				}
 			} catch (DuplicateURIException e) {
-				e.printStackTrace();
+				throw new FMLTechnologyError("Duplicate URI for the new class " + newClassName + ": " + e.getMessage(), e);
 			}
 			return newClass;
 

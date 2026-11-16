@@ -38,14 +38,15 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLTypeError;
+import org.openflexo.foundation.fml.rt.error.FMLNullReferenceError;
+import org.openflexo.foundation.fml.rt.error.FMLEvaluation;
 import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.ontology.IFlexoOntologyClass;
@@ -149,17 +150,8 @@ public interface AddRestrictionStatement extends AddStatement<OWLStatement, OWLC
 			_setPropertyURI(p != null ? p.getURI() : null);
 		}
 
-		public OWLConcept<?> getPropertyObject(RunTimeEvaluationContext evaluationContext) {
-			try {
-				return (OWLConcept<?>) getObject().getBindingValue(evaluationContext);
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
-			return null;
+		public OWLConcept<?> getPropertyObject(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
+			return (OWLConcept<?>) FMLEvaluation.evaluate(getObject(), evaluationContext, this);
 		}
 
 		private DataBinding<?> object;
@@ -215,17 +207,8 @@ public interface AddRestrictionStatement extends AddStatement<OWLStatement, OWLC
 			this.restrictionType = restrictionType;
 		}
 
-		public RestrictionType getRestrictionType(RunTimeEvaluationContext evaluationContext) {
-			RestrictionType restrictionType = null;
-			try {
-				restrictionType = getRestrictionType().getBindingValue(evaluationContext);
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
+		public RestrictionType getRestrictionType(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
+			RestrictionType restrictionType = FMLEvaluation.evaluate(getRestrictionType(), evaluationContext, this);
 			if (restrictionType == null) {
 				restrictionType = RestrictionType.Some;
 			}
@@ -254,17 +237,10 @@ public interface AddRestrictionStatement extends AddStatement<OWLStatement, OWLC
 			this.cardinality = cardinality;
 		}
 
-		public int getCardinality(RunTimeEvaluationContext evaluationContext) {
-			try {
-				return getCardinality().getBindingValue(evaluationContext);
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
-			return 1;
+		public int getCardinality(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
+			// An unset cardinality is 1, as before
+			Integer cardinality = FMLEvaluation.evaluate(getCardinality(), evaluationContext, this);
+			return cardinality != null ? cardinality : 1;
 		}
 
 		@Override
@@ -289,6 +265,9 @@ public interface AddRestrictionStatement extends AddStatement<OWLStatement, OWLC
 				RestrictionType restrictionType = getRestrictionType(evaluationContext);
 				int cardinality = getCardinality(evaluationContext);
 				OWLOntology ontology = getReceiver(evaluationContext);
+				if (ontology == null) {
+					throw new FMLNullReferenceError("No ontology to create the restriction in");
+				}
 				OWLRestriction restriction = ontology.createRestriction((OWLClass) subject, property, restrictionType, cardinality,
 						(OWLClass) object);
 
@@ -302,7 +281,9 @@ public interface AddRestrictionStatement extends AddStatement<OWLStatement, OWLC
 
 			}
 
-			return null;
+			// A restriction links two classes through a property
+			throw new FMLTypeError("A restriction requires a class subject, a class object and a property (subject=" + subject + ", object=" + object
+					+ ", property=" + property + ")");
 
 		}
 

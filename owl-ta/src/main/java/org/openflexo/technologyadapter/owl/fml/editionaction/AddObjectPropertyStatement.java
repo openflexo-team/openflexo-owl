@@ -38,14 +38,17 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLResolutionError;
+import org.openflexo.foundation.fml.rt.error.FMLNullReferenceError;
+import org.openflexo.foundation.fml.rt.error.FMLEvaluation;
+import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
+
 import java.lang.reflect.Type;
 import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.FlexoProperty;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.annotations.FMLAttribute;
@@ -215,17 +218,8 @@ public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectProper
 			this.objectPropertyURI = objectPropertyURI;
 		}
 
-		public OWLConcept<?> getPropertyObject(RunTimeEvaluationContext evaluationContext) {
-			try {
-				return (OWLConcept<?>) getObject().getBindingValue(evaluationContext);
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
-			return null;
+		public OWLConcept<?> getPropertyObject(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
+			return (OWLConcept<?>) FMLEvaluation.evaluate(getObject(), evaluationContext, this);
 		}
 
 		public Type getObjectType() {
@@ -280,18 +274,18 @@ public interface AddObjectPropertyStatement<T> extends AddStatement<ObjectProper
 		}
 
 		@Override
-		public ObjectPropertyStatement execute(RunTimeEvaluationContext evaluationContext) {
+		public ObjectPropertyStatement execute(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
 			OWLObjectProperty property = getObjectProperty();
 			OWLConcept<?> subject = getPropertySubject(evaluationContext);
 			OWLConcept<?> object = getPropertyObject(evaluationContext);
 			if (property == null) {
-				return null;
+				throw new FMLResolutionError("No object property for the statement");
 			}
 			if (subject == null) {
-				return null;
+				throw new FMLNullReferenceError("The subject of the statement is null");
 			}
 			if (object == null) {
-				return null;
+				throw new FMLNullReferenceError("The object of the statement is null");
 			}
 			return subject.addPropertyStatement(property, object);
 		}

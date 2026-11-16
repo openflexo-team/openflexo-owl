@@ -38,13 +38,14 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLTechnologyError;
+import org.openflexo.foundation.fml.rt.error.FMLNullReferenceError;
+import org.openflexo.foundation.fml.rt.error.FMLEvaluation;
 import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.foundation.fml.validation.BindingIsRequiredAndMustBeValid;
@@ -136,33 +137,20 @@ public interface AddOWLIndividual
 			OWLClass father = null;
 
 			if (getDynamicType().isValid()) {
-				try {
-					father = (OWLClass) getDynamicType().getBindingValue(evaluationContext);
-				} catch (TypeMismatchException e) {
-					e.printStackTrace();
-				} catch (NullReferenceException e) {
-					e.printStackTrace();
-				} catch (ReflectiveOperationException e) {
-					e.printStackTrace();
-				}
+				father = (OWLClass) FMLEvaluation.evaluate(getDynamicType(), evaluationContext, this);
 			}
 			else {
 				father = getOntologyClass();
 			}
 
 			String individualName = null;
-			try {
-				individualName = getIndividualName().getBindingValue(evaluationContext);
-			} catch (TypeMismatchException e1) {
-				e1.printStackTrace();
-			} catch (NullReferenceException e1) {
-				e1.printStackTrace();
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
+			individualName = FMLEvaluation.evaluate(getIndividualName(), evaluationContext, this);
 			// System.out.println("individualName="+individualName);
 
 			OWLOntology receiver = getReceiver(evaluationContext);
+			if (receiver == null) {
+				throw new FMLNullReferenceError("No ontology to create the individual in");
+			}
 
 			if (father == null) {
 				father = receiver.getRootClass();
@@ -171,16 +159,16 @@ public interface AddOWLIndividual
 			OWLIndividual newIndividual = null;
 			try {
 				if (receiver != null) {
-					logger.info("Adding individual individualName=" + getIndividualName() + " father =" + getOntologyClass());
-					logger.info("Adding individual individualName=" + individualName + " father =" + father);
+					logger.fine("Adding individual individualName=" + getIndividualName() + " father =" + getOntologyClass());
+					logger.fine("Adding individual individualName=" + individualName + " father =" + father);
 					newIndividual = receiver.createOntologyIndividual(individualName, father);
-					logger.info("********* Added individual " + newIndividual.getName() + " as " + father);
+					logger.fine("********* Added individual " + newIndividual.getName() + " as " + father);
 
 					for (DataPropertyAssertion dataPropertyAssertion : getDataAssertions()) {
 						if (dataPropertyAssertion.evaluateCondition(evaluationContext)) {
-							logger.info("DataPropertyAssertion=" + dataPropertyAssertion);
+							logger.fine("DataPropertyAssertion=" + dataPropertyAssertion);
 							OWLProperty property = (OWLProperty) dataPropertyAssertion.getOntologyProperty();
-							logger.info("Property=" + property);
+							logger.fine("Property=" + property);
 							Object value = dataPropertyAssertion.getValue(evaluationContext);
 							if (value != null) {
 								newIndividual.addPropertyStatement(property, value);
@@ -222,14 +210,10 @@ public interface AddOWLIndividual
 					}
 					newIndividual.updateOntologyStatements();
 				}
-				else {
-					logger.warning("No receiver defined " + getReceiver());
-				}
-				logger.info("Return " + newIndividual);
+				logger.fine("Return " + newIndividual);
 				return newIndividual;
 			} catch (DuplicateURIException e) {
-				e.printStackTrace();
-				return null;
+				throw new FMLTechnologyError("Duplicate URI for the new individual: " + e.getMessage(), e);
 			}
 
 		}

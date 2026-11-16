@@ -38,6 +38,7 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLNullReferenceError;
 import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -77,6 +78,10 @@ public interface AbstractSelectOWLObjectProperty<AT> extends AbstractFetchReques
 			// TODO: improve perfs !
 
 			OWLOntology ontology = getReceiver(evaluationContext);
+			if (ontology == null) {
+				// A null source (CORE-F-11)
+				throw new FMLNullReferenceError(getStringRepresentation() + ": nothing to select from");
+			}
 
 			List<OWLObjectProperty> selectedProperties = new ArrayList<>();
 			for (OWLObjectProperty i : ontology.getAccessibleObjectProperties()) {

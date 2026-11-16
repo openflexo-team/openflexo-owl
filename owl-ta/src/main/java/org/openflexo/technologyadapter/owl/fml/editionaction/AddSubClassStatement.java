@@ -38,13 +38,15 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLNullReferenceError;
+import org.openflexo.foundation.fml.rt.error.FMLEvaluation;
+import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
+
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
@@ -88,17 +90,8 @@ public interface AddSubClassStatement extends AddStatement<SubClassStatement, OW
 		public void setProperty(OWLObjectProperty aProperty) {
 		}
 
-		public OWLClass getPropertyFather(RunTimeEvaluationContext evaluationContext) {
-			try {
-				return getFather().getBindingValue(evaluationContext);
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
-			return null;
+		public OWLClass getPropertyFather(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
+			return FMLEvaluation.evaluate(getFather(), evaluationContext, this);
 		}
 
 		private DataBinding<OWLClass> father;
@@ -129,9 +122,15 @@ public interface AddSubClassStatement extends AddStatement<SubClassStatement, OW
 		}
 
 		@Override
-		public SubClassStatement execute(RunTimeEvaluationContext evaluationContext) {
+		public SubClassStatement execute(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
 			OWLClass subject = getPropertySubject(evaluationContext);
+			if (subject == null) {
+				throw new FMLNullReferenceError("The subject of the subclass statement is null");
+			}
 			OWLClass father = getPropertyFather(evaluationContext);
+			if (father == null) {
+				throw new FMLNullReferenceError("The father of the subclass statement is null");
+			}
 			if (father instanceof OWLClass) {
 				if (subject instanceof OWLClass) {
 					return subject.addToSuperClasses(father);

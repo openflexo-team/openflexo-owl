@@ -38,13 +38,15 @@
 
 package org.openflexo.technologyadapter.owl.fml.editionaction;
 
+import org.openflexo.foundation.fml.rt.error.FMLNullReferenceError;
+import org.openflexo.foundation.fml.rt.error.FMLEvaluation;
+import org.openflexo.foundation.fml.rt.error.FMLExecutionException;
+
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.fml.annotations.FMLAttribute;
 import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
@@ -89,17 +91,8 @@ public interface AddTypeStatement extends AddStatement<TypeStatement, OWLIndivid
 		public void setProperty(OWLObjectProperty aProperty) {
 		}
 
-		public OWLClass getPropertyType(RunTimeEvaluationContext evaluationContext) {
-			try {
-				return getType().getBindingValue(evaluationContext);
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
-			return null;
+		public OWLClass getPropertyType(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
+			return FMLEvaluation.evaluate(getType(), evaluationContext, this);
 		}
 
 		private DataBinding<OWLClass> type;
@@ -130,9 +123,15 @@ public interface AddTypeStatement extends AddStatement<TypeStatement, OWLIndivid
 		}
 
 		@Override
-		public TypeStatement execute(RunTimeEvaluationContext evaluationContext) {
+		public TypeStatement execute(RunTimeEvaluationContext evaluationContext) throws FMLExecutionException {
 			OWLIndividual subject = getPropertySubject(evaluationContext);
+			if (subject == null) {
+				throw new FMLNullReferenceError("The subject of the type statement is null");
+			}
 			OWLClass type = getPropertyType(evaluationContext);
+			if (type == null) {
+				throw new FMLNullReferenceError("The type of the type statement is null");
+			}
 			return subject.addToTypes(type);
 		}
 
