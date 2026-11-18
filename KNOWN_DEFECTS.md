@@ -15,6 +15,8 @@ Fixed defects are moved to [`FIXED_DEFECTS.md`](./FIXED_DEFECTS.md) once their s
 
 ### OWL-D-2 — `TestFIBOWLClassSelector.selectRootClass` fails when a display is available  ·  `TODO`
 
+**GitHub:** [openflexo-team/openflexo-owl#3](https://github.com/openflexo-team/openflexo-owl/issues/3)
+
 **Symptom.** In `owl-ta-ui`, once the UI tests really run (with a display), 47 of the 48 tests of the module pass and
 `TestFIBOWLClassSelector.selectRootClass` fails on its second assertion (line 193):
 `assertEquals(obm.getRoots().get(0), collection)`. After `selector.setRootClass(collection)` the browser model holds one root (line 192

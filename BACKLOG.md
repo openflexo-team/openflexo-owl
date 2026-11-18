@@ -12,6 +12,8 @@ Status legend: `TODO` · `IN PROGRESS` · `BLOCKED` · `DONE` · `DEFERRED`.
 
 ### OWL-F-1 — The owl adapter raises typed FML errors instead of returning null after a warning or a printed stack  ·  `DONE`
 
+**GitHub:** [openflexo-team/openflexo-owl#5](https://github.com/openflexo-team/openflexo-owl/issues/5)
+
 **Problem.** Part of `CORE-F-11` phase 6 (`openflexo-core/BACKLOG.md`), done with the other remaining adapters in one batch (asked by the user, 2026-11-16), with the rules settled on the first adapters (xlsx, xml, jdbc, rest, formod, docx): the edition actions caught the failures of their evaluations (four catches printing the stack, or a log), and went on with null after a warning.
 
 **Rules applied (decided with the user on the first adapters).** Evaluations through `FMLEvaluation`; every `execute` / `performExecute` declares `throws FMLExecutionException`; a null receiver, model, document, name or required input is an `FMLNullReferenceError`; a select from a null source is an `FMLNullReferenceError` naming the select; a foreseen failure of the technology an `FMLTechnologyError` with a message of its own; a `ModelDefinitionException` an `FMLInternalError`; a cancelled loading an `FMLCancellation`; a typed failure of `AbstractCreateResource` rethrown unchanged; a log just before a throw removed (the failure is reported once, by the editor); the `System.out` traces of the actions removed. Scope: the paths that FML execution goes through; loading and conversion code left.
@@ -33,3 +35,21 @@ Chosen without an explicit decision: a statement whose value or object is null, 
 are errors (they returned null).
 
 **Verified (2026-11-16).** owl-ta-test 40 green through the openflexo-dev composite; ECJ compiles owl-ta. No new test (owl has no fml-cli test infrastructure).
+
+## OWL edition actions
+
+### OWL-F-2 — No edition action creates an OWL object property  ·  `TODO`
+
+**GitHub:** [openflexo-team/openflexo-owl#2](https://github.com/openflexo-team/openflexo-owl/issues/2)
+
+**Problem.** `AddObjectProperty` is not implemented for the OWL technology adapter.
+
+**Verified (2026-11-17, reading the code).** `OWLModelSlot` declares `AddOWLClass`, `AddOWLDataProperty`, `AddObjectPropertyStatement` (an assertion between
+two individuals) and the select actions for object properties, but no action that CREATES an object property in an ontology (there is an
+`AddOWLDataProperty`, no `AddOWLObjectProperty`). The dialog `CreateObjectPropertyDialog.fib` exists in `owl-ta-ui`.
+
+**Acceptance.** An FML action creating an `OWLObjectProperty` (name, domain, range, super property) and a test.
+
+**Original report** by `hibahnaini`, 2024-11-15 (issue openflexo-owl#2):
+
+> AddObjectProperty not implemented for OWL technology.

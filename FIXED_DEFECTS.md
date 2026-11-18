@@ -9,6 +9,8 @@ with what was verified, the cause and the fix. Identifiers are those of `KNOWN_D
 
 ### OWL-D-1 — Warnings logged while the standard ontologies (rdf, rdfs, owl) are loaded  ·  `DONE`
 
+**GitHub:** [openflexo-team/openflexo-owl#4](https://github.com/openflexo-team/openflexo-owl/issues/4)
+
 **Symptom.** Activating the OWL technology adapter logs hundreds of warnings, whatever the module that activates it (about 205 of the
 583 warnings of a formod-app start). Three families, all coming from the loading of rdf / rdfs / owl:
 
