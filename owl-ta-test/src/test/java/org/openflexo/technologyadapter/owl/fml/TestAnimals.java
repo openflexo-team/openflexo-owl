@@ -53,7 +53,7 @@ import org.openflexo.connie.exception.InvalidBindingException;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.foundation.FlexoEditor;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.FlexoProject;
 import org.openflexo.foundation.fml.CreationScheme;
 import org.openflexo.foundation.fml.VirtualModel;
@@ -95,14 +95,14 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	/**
 	 * Retrieve the ViewPoint
 	 * 
-	 * @throws FlexoException
+	 * @throws OpenflexoRuntimeException
 	 * @throws ResourceLoadingCancelledException
 	 * @throws FileNotFoundException
 	 */
 	@Test
 	@TestOrder(1)
 	@Category(UITest.class)
-	public void testLoadViewPoint() throws FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+	public void testLoadViewPoint() throws FileNotFoundException, ResourceLoadingCancelledException, OpenflexoRuntimeException {
 		instanciateTestServiceManager(OWLTechnologyAdapter.class);
 
 		OWLTechnologyAdapter owlTA = serviceManager.getTechnologyAdapterService().getTechnologyAdapter(OWLTechnologyAdapter.class);
@@ -181,7 +181,7 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@TestOrder(4)
 	@Category(UITest.class)
 	public void testListAllOWLClasses() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
-			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, OpenflexoRuntimeException {
 		System.err.println("testListAllOWLClasses()");
 		List<OWLClass> allClasses = vmi.execute("this.listAllOWLClasses()");
 		assertEquals(30, allClasses.size());
@@ -191,7 +191,7 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@TestOrder(5)
 	@Category(UITest.class)
 	public void testListDeclaredOWLClasses() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
-			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, OpenflexoRuntimeException {
 		System.err.println("listDeclaredOWLClasses()");
 		List<OWLClass> allClasses = vmi.execute("this.listDeclaredOWLClasses()");
 		assertEquals(4, allClasses.size());
@@ -201,7 +201,7 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@TestOrder(6)
 	@Category(UITest.class)
 	public void testListDeclaredOWLClasses2() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
-			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, OpenflexoRuntimeException {
 		System.err.println("listDeclaredOWLClasses2()");
 		List<OWLClass> allClasses = vmi.execute("this.listDeclaredOWLClasses2()");
 		assertEquals(4, allClasses.size());
@@ -211,7 +211,7 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@TestOrder(7)
 	@Category(UITest.class)
 	public void testSelectUniqueOWLClass() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
-			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, OpenflexoRuntimeException {
 		System.err.println("selectUniqueOWLClass()");
 		OWLClass theCat = vmi.execute("this.selectUniqueOWLClass()");
 		System.err.println("theCat=" + theCat);
@@ -222,7 +222,7 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@TestOrder(8)
 	@Category(UITest.class)
 	public void testListAllOWLIndividuals() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
-			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, OpenflexoRuntimeException {
 		System.err.println("listAllOWLIndividuals()");
 		List<OWLIndividual> allIndividuals = vmi.execute("this.listAllOWLIndividuals()");
 		assertEquals(3, allIndividuals.size());
@@ -232,7 +232,7 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@TestOrder(9)
 	@Category(UITest.class)
 	public void testListAllOWLIndividuals2() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
-			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, OpenflexoRuntimeException {
 		System.err.println("listAllOWLIndividuals2()");
 		List<OWLIndividual> allIndividuals = vmi.execute("this.listAllOWLIndividuals2()");
 		assertEquals(3, allIndividuals.size());
@@ -242,7 +242,7 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@TestOrder(10)
 	@Category(UITest.class)
 	public void testSelectUniqueOWLIndividual() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
-			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, OpenflexoRuntimeException {
 		System.err.println("selectUniqueOWLIndividual()");
 		OWLIndividual jerry = vmi.execute("this.selectUniqueOWLIndividual()");
 		System.err.println("jerry=" + jerry);
@@ -253,7 +253,7 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@TestOrder(11)
 	@Category(UITest.class)
 	public void testListAllCats() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
-			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, OpenflexoRuntimeException {
 		System.err.println("listAllCats()");
 		List<OWLIndividual> allCats = vmi.execute("this.listAllCats()");
 		assertEquals(2, allCats.size());
@@ -263,7 +263,7 @@ public class TestAnimals extends OpenflexoProjectAtRunTimeTestCase {
 	@TestOrder(12)
 	@Category(UITest.class)
 	public void testListAllCats2() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException,
-			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, FlexoException {
+			InvalidBindingException, FileNotFoundException, ResourceLoadingCancelledException, OpenflexoRuntimeException {
 		System.err.println("listAllCats2()");
 		List<OWLIndividual> allCats = vmi.execute("this.listAllCats2()");
 		assertEquals(2, allCats.size());

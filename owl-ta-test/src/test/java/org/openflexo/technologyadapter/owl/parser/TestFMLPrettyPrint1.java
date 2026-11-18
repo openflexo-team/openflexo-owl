@@ -48,7 +48,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openflexo.foundation.DefaultFlexoEditor;
 import org.openflexo.foundation.FlexoEditor;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.fml.ActionScheme;
 import org.openflexo.foundation.fml.ElementImportDeclaration;
 import org.openflexo.foundation.fml.FMLCompilationUnit;
@@ -126,7 +126,7 @@ public class TestFMLPrettyPrint1 extends FMLParserTestCase {
 	@Test
 	@TestOrder(2)
 	public void loadInitialVersion()
-			throws ParseException, ModelDefinitionException, IOException, ResourceLoadingCancelledException, FlexoException {
+			throws ParseException, ModelDefinitionException, IOException, ResourceLoadingCancelledException, OpenflexoRuntimeException {
 		instanciateTestServiceManager(OWLTechnologyAdapter.class);
 
 		// We force the loading of the resource because we bypass here resource management

@@ -46,7 +46,7 @@ import java.util.logging.Logger;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.RDFWriterI;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.resource.FileWritingLock;
 import org.openflexo.foundation.resource.FlexoResourceImpl;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
@@ -80,10 +80,10 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 	 * @throws ResourceLoadingCancelledException
 	 * @throws ResourceDependencyLoopException
 	 * @throws FileNotFoundException
-	 * @throws FlexoException
+	 * @throws OpenflexoRuntimeException
 	 */
 	@Override
-	public OWLOntology loadResourceData() throws ResourceLoadingCancelledException, FileNotFoundException, FlexoException {
+	public OWLOntology loadResourceData() throws ResourceLoadingCancelledException, FileNotFoundException, OpenflexoRuntimeException {
 		OWLOntology returned = new OWLOntology(getURI(), getIODelegate().getSerializationArtefactAsResource(), getOntologyLibrary(),
 				getTechnologyAdapter());
 		returned.setResource(this);
@@ -107,7 +107,7 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 		} catch (ResourceLoadingCancelledException e) {
 			e.printStackTrace();
 			throw new SaveResourceException(getIODelegate());
-		} catch (FlexoException e) {
+		} catch (OpenflexoRuntimeException e) {
 			e.printStackTrace();
 			throw new SaveResourceException(getIODelegate());
 		}
@@ -151,7 +151,7 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 		} catch (ResourceLoadingCancelledException e) {
 			e.printStackTrace();
 			throw new SaveResourceException(getIODelegate());
-		} catch (FlexoException e) {
+		} catch (OpenflexoRuntimeException e) {
 			e.printStackTrace();
 			throw new SaveResourceException(getIODelegate());
 		} catch (FileNotFoundException e) {
@@ -184,7 +184,7 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return null;
-		} catch (FlexoException e) {
+		} catch (OpenflexoRuntimeException e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -243,7 +243,7 @@ public abstract class OWLOntologyResourceImpl extends FlexoResourceImpl<OWLOntol
 		} catch (ResourceLoadingCancelledException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (FlexoException e) {
+		} catch (OpenflexoRuntimeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

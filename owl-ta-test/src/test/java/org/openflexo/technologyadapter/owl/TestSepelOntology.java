@@ -52,7 +52,7 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.resource.ResourceRepository;
 import org.openflexo.foundation.test.OpenflexoTestCase;
@@ -130,7 +130,7 @@ public class TestSepelOntology extends OpenflexoTestCase {
 		} catch (ResourceLoadingCancelledException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
-		} catch (FlexoException e) {
+		} catch (OpenflexoRuntimeException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
@@ -151,7 +151,7 @@ public class TestSepelOntology extends OpenflexoTestCase {
 		} catch (ResourceLoadingCancelledException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
-		} catch (FlexoException e) {
+		} catch (OpenflexoRuntimeException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
